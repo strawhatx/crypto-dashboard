@@ -1,5 +1,3 @@
-/** server/index */
-
 import "express";
 import express from "express";
 import morgan from "morgan";
@@ -12,6 +10,9 @@ export class Server {
     public app: express.Application;
     public connect: Connection;
 
+    /** 
+   * Constructor 
+   */
     constructor() {
         this.app = express();
         this.config();
@@ -19,10 +20,16 @@ export class Server {
         this.connect = new Connection();
     }
 
+    /** 
+    * Controller routes
+    */
     public routes(): void {
 
     }
 
+    /** 
+    * App Configuration
+    */
     public config(): void {
         const corsOptions = {
             origin: "http://localhost:3000",
@@ -37,7 +44,7 @@ export class Server {
         /** API */
         this.app.use(cors(corsOptions));
 
-        this.app.use((req, res, next) => {
+        this.app.use((req: any, res: any, next: any) => {
             /** Sites we will allow to connect */
             res.setHeader("Access-Control-Allow-Origin", "*")
 
@@ -56,6 +63,9 @@ export class Server {
         })
     }
 
+    /** 
+    * Start server
+    */
     public start(): void {
         this.app.listen(this.app.get("port"), () => {
             console.log("ApI is running @ http://localhost:%d", this.app.get("port"));
