@@ -5,7 +5,7 @@ import path from "path";
 import cors from "cors"
 import { PORT } from "./"
 import { Connection } from "./connect"
-
+import { UserRoutes } from "../routes/user-routes";
 export class Server {
     public app: express.Application;
     public connect: Connection;
@@ -24,6 +24,7 @@ export class Server {
     * Controller routes
     */
     public routes(): void {
+        this.app.use("api/users", UserRoutes);
 
     }
 
