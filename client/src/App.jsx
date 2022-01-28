@@ -10,13 +10,39 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Layout>
-          <Route path="/" element={<Home />} />
-          <Route path="/currencies" element={<Home />} />
-          <Route path="/exchanges" element={<Home />} />
-        </Layout>
-
-        <Route path="/portfolios" element={<Portfolio />} />
+        <Route
+          exact
+          path="/"
+          element={
+            <Layout>
+              <Home />
+            </Layout>
+          }
+        />
+        <Route
+          path="/currencies"
+          element={
+            <Layout>
+              <Home />
+            </Layout>
+          }
+        />
+        <Route
+          path="/exchanges"
+          element={
+            <Layout>
+              <Home />
+            </Layout>
+          }
+        />
+        <Route
+          path="/portfolios"
+          element={
+            <Layout>
+              <Portfolio />
+            </Layout>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

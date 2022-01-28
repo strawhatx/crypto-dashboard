@@ -1,3 +1,5 @@
+import logo from "../../logo.svg";
+
 const Portfolio = () => {
   return (
     <div className="App">

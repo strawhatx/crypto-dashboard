@@ -1,3 +1,5 @@
+import logo from "../../logo.svg";
+
 const Home = () => {
   return (
     <div className="App">

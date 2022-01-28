@@ -5,13 +5,13 @@ const NavMenu = () => {
   return (
     <Menu mode="horizontal">
       <Menu.Item key="currencies">
-        <a href="">Cryptocurrencies</a>
+        <a href="/currencies">Cryptocurrencies</a>
       </Menu.Item>
       <Menu.Item key="exchanges">
-        <a href="">Exchanges</a>
+        <a href="exchanges">Exchanges</a>
       </Menu.Item>
       <Menu.Item key="portfolio">
-        <a href="">Portfolio</a>
+        <a href="portfolios">Portfolio</a>
       </Menu.Item>
     </Menu>
   );

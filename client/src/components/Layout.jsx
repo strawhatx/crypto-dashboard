@@ -1,17 +1,23 @@
-// shared/layout.js
-
+import React from "react";
 import Navbar from "./Navbar";
-import Footer from "./Footer";
 import PropTypes from "prop-types";
+import { Layout } from "antd";
 
-const Layout = ({ children }) => {
+const { Header, Content, Footer } = Layout;
+
+const MainLayout = ({ children }) => {
   return (
-    <>
-      <Navbar />
-      <main className="container">{children}</main>
+    <Layout>
+      <Header>
+        <Navbar />
+      </Header>
 
-      <Footer />
-    </>
+      <Content>{children}</Content>
+
+      <Footer style={{ textAlign: "center" }}>
+        Crypto Design Created by ME!
+      </Footer>
+    </Layout>
   );
 };
 
@@ -19,4 +25,4 @@ Layout.propTypes = {
   children: PropTypes.any.isRequired,
 };
 
-export default Layout;
+export default MainLayout;
