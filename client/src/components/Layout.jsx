@@ -1,23 +1,18 @@
 import React from "react";
 import Navbar from "./Navbar";
 import PropTypes from "prop-types";
-import { Layout } from "antd";
 
-const { Header, Content, Footer } = Layout;
-
-const MainLayout = ({ children }) => {
+const Layout = ({ children }) => {
   return (
-    <Layout>
-      <Header>
-        <Navbar />
-      </Header>
+    <>
+      <Navbar />
 
-      <Content>{children}</Content>
+      <main>{children}</main>
 
-      <Footer style={{ textAlign: "center" }}>
+      <footer style={{ textAlign: "center" }}>
         Crypto Design Created by ME!
-      </Footer>
-    </Layout>
+      </footer>
+    </>
   );
 };
 
@@ -25,4 +20,4 @@ Layout.propTypes = {
   children: PropTypes.any.isRequired,
 };
 
-export default MainLayout;
+export default Layout;

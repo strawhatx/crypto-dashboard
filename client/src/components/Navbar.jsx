@@ -1,48 +1,37 @@
-import { useState } from "react";
-import { Drawer, Button } from "antd";
-import NavMenu from "./menus/NavMenu";
-import LoginMenu from "./menus/LoginMenu";
+import React from "react";
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Button,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const Navbar = () => {
-  const [visible, setVisible] = useState(false);
-
   return (
-    <nav className="menuBar">
-      <div className="logo">
-        <a href="/">LOGO</a>
-      </div>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
 
-      <div className="menuCon">
-        <div className="leftMenu">
-          <NavMenu />
-        </div>
+          <Typography variant="h6" component="div" sx={{ flexBox: 1 }}>
+            LOGO
+          </Typography>
 
-        <div className="rightMenu">
-          <LoginMenu />
-        </div>
-
-        <Button
-          className="barsMenu"
-          type="primary"
-          onClick={() => setVisible(true)}
-        >
-          <span className="barsBtn"></span>
-        </Button>
-
-        <Drawer
-          title="Basic Drawer"
-          placement="right"
-          closable={false}
-          onClose={() => setVisible(false)}
-          visible={visible}
-        >
-          <NavMenu />
-          <hr />
-
-          <LoginMenu />
-        </Drawer>
-      </div>
-    </nav>
+          <Button color="inherit">SignIn</Button>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 };
 
