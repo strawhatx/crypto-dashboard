@@ -26,7 +26,7 @@ class UserSchema {
     static get schema() {
         var schema: Schema<IUser> = new Schema(
             {
-                _id: { type: String, trim: true, required: [true, "id is required"], unique: true, },
+                _id: { type: String, trim: true },
                 firstName: { type: String, trim: true },
                 lastName: { type: String, trim: true },
                 displayName: {

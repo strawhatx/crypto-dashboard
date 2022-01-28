@@ -1,4 +1,4 @@
-/** server/index */
+import 'dotenv/config'
 
 import { Server } from "./config/server";
 

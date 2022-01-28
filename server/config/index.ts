@@ -1,4 +1,3 @@
-import "reflect-metadata"
 import { createTransport, Transporter } from "nodemailer"
 
 const smtp = {
