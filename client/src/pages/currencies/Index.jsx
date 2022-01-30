@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
+import CardSlider from "../../components/CardSlider";
 
 const Currencies = () => {
   const [currencies, setCurrencies] = useState([]);
@@ -25,7 +26,9 @@ const Currencies = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "left",
-          py: "140px",
+          pt: `${1.25}rem`,
+          pb: `${7.3}rem`,
+          mb: `${-3.75}rem`,
           bgcolor: "primary.dark",
         }}
       >
@@ -34,10 +37,12 @@ const Currencies = () => {
             variant="h4"
             color="inherit"
             component="div"
-            sx={{ my: "30px" }}
+            sx={{ color: "#FFFFFF", mb: `${0.52}rem`, pt: `${5}rem` }}
           >
             Currencies
           </Typography>
+
+          <CardSlider children={[1, 2, 3, 4, 5, 6, 7]} />
         </Container>
       </Box>
     </>
