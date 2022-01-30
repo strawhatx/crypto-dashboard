@@ -1,23 +1,24 @@
-import logo from "../../logo.svg";
+import logo from "../../assets/images/logo.svg";
+import { Box, Link, Typography } from "@mui/material";
 
 const Home = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
+    <Box>
+      <header className="logo">
+        <img src={logo} className="app-logo" alt="logo" />
+        <Typography paragraph={true}>
           Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
+        </Typography>
+        <Link
           className="App-link"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
         >
           Learn React
-        </a>
+        </Link>
       </header>
-    </div>
+    </Box>
   );
 };
 
