@@ -34,8 +34,10 @@ const Trending = () => {
 
   return (
     <Card>
-      <CardHeader title="Trending" />
       <CardContent>
+        <Typography sx={{ fontSize: `${21}px`, fontWeight: 500 }}>
+          Trending
+        </Typography>
         <TableContainer>
           <Table>
             <TableBody>
@@ -45,7 +47,7 @@ const Trending = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>
-                    <img src={coin.item.thumb} height={30} />
+                    <img src={coin.item.thumb} alt="currency-tag" height={30} />
                   </TableCell>
                   <TableCell>
                     <Typography variant="p" xs={{ fontSize: `${6}px` }}>

@@ -11,7 +11,7 @@ export const colors = {
     dark: "#8202b3",
   },
   background: {
-    default: "#ffffff",
+    default: "#F9FAFB",
   },
   success: {
     main: "#38ec8e",
@@ -37,6 +37,8 @@ export const colors = {
   },
   black: {
     main: "#353535",
+    light: "#434343",
+    dark: "#000000",
     contrastText: "#ffffff",
   },
   divider: "rgba(0,0,0,0.12)",

@@ -35,8 +35,10 @@ const Movers = () => {
 
   return (
     <Card sx={{ width: "100%" }}>
-      <CardHeader title="Biggest Movers" />
       <CardContent>
+        <Typography sx={{ fontSize: `${21}px`, fontWeight: 500 }}>
+          Biggest Movers
+        </Typography>
         <TableContainer>
           <Table>
             <TableBody>
@@ -46,7 +48,7 @@ const Movers = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>
-                    <img src={coin.item.thumb} height={30} />
+                    <img src={coin.item.thumb} alt="currency-tag" height={30} />
                   </TableCell>
                   <TableCell>
                     <Typography variant="p" xs={{ fontSize: `${6}px` }}>

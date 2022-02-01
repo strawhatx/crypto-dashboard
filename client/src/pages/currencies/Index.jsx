@@ -3,6 +3,9 @@ import axios from "axios";
 import { useState } from "react";
 import {
   Box,
+  Card,
+  CardHeader,
+  CardContent,
   Grid,
   Container,
   Typography,
@@ -27,8 +30,8 @@ const Currencies = () => {
           "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=1&sparkline=false"
         )
         .then((response) => {
-          console.log(response.data.coins);
-          setCurrencies(response.data.coins);
+          console.log(response.data);
+          setCurrencies(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -48,8 +51,7 @@ const Currencies = () => {
           justifyContent: "left",
           pt: `${1.25}rem`,
           pb: `${7.3}rem`,
-          mb: `${-3.75}rem`,
-          bgcolor: "primary.dark",
+          bgcolor: "black.dark",
         }}
       >
         <Container maxWidth="md">
@@ -59,8 +61,9 @@ const Currencies = () => {
             component="div"
             sx={{
               color: "#FFFFFF",
-              mb: `${0.52}rem`,
+              mb: `${0.6}rem`,
               pt: `${5}rem`,
+              pb: `${5}rem`,
               fontWeight: "bold",
               textAlign: { xs: "center", md: "left" },
             }}
@@ -71,7 +74,7 @@ const Currencies = () => {
       </Box>
 
       {/** Information */}
-      <Box>
+      <Box sx={{ mt: `${-8.75}rem`, pb: `${1}rem` }}>
         <Container
           maxWidth="md"
           sx={{ display: "flex", justifyContent: "space-between" }}
@@ -106,7 +109,7 @@ const Currencies = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {currencies.map((index, coin) => (
+                    {currencies.map((coin, index) => (
                       <TableRow
                         key={coin.id}
                         sx={{
@@ -115,7 +118,11 @@ const Currencies = () => {
                       >
                         <TableCell>{index + 1}</TableCell>
                         <TableCell>
-                          <img src={coin.thumb} height={30} />
+                          <img
+                            src={coin.image}
+                            alt="currency-tag"
+                            height={30}
+                          />
                           <Box>
                             <Typography variant="p" xs={{ fontSize: `${6}px` }}>
                               {coin.name}

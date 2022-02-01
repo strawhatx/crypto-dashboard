@@ -4,6 +4,7 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 import theme from "./assets/theme";
 import Home from "./pages/home/Index";
 import Currencies from "./pages/currencies/Index";
+import Exchanges from "./pages/exchanges/Index";
 import Portfolio from "./pages/portfolio/Index";
 import Layout from "./components/Layout";
 
@@ -19,7 +20,10 @@ const App = () => {
             path="/currencies"
             element={<Layout children={<Currencies />} />}
           />
-          <Route path="/exchanges" element={<Layout children={<Home />} />} />
+          <Route
+            path="/exchanges"
+            element={<Layout children={<Exchanges />} />}
+          />
           <Route
             path="/portfolios"
             element={<Layout children={<Portfolio />} />}
