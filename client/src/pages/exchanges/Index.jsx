@@ -1,13 +1,11 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
-import { Waypoint } from "react-waypoint";
 import {
   Box,
   Card,
   CardHeader,
   CardContent,
-  Grid,
   Container,
   Typography,
   TableContainer,
@@ -90,64 +88,52 @@ const Exchanges = () => {
                   </TableHead>
                   <TableBody>
                     {exchanges.map((coin, index) => (
-                      <Fragment key={coin.id}>
-                        <TableRow
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell>{index + 1}</TableCell>
-                          <TableCell>
-                            <img
-                              src={coin.image}
-                              alt="currency-tag"
-                              height={30}
-                            />
-                            <Box>
-                              <Typography
-                                variant="p"
-                                xs={{ fontSize: `${6}px` }}
-                              >
-                                {coin.name}
-                              </Typography>
-                              {"  "}
-                              <Typography
-                                variant="p"
-                                xs={{ fontSize: `${8}px` }}
-                              >
-                                {coin.symbol}
-                              </Typography>
-                            </Box>
-                          </TableCell>
-                          <TableCell>
+                      <TableRow
+                        key={coin.id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell>
+                          <img
+                            src={coin.image}
+                            alt="currency-tag"
+                            height={30}
+                          />
+                          <Box>
                             <Typography variant="p" xs={{ fontSize: `${6}px` }}>
-                              {parseFloat(coin.current_price).toFixed(6)}
+                              {coin.name}
                             </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography variant="p" xs={{ fontSize: `${6}px` }}>
-                              {parseFloat(
-                                coin.price_change_percentage_24h
-                              ).toFixed(6)}
+                            {"  "}
+                            <Typography variant="p" xs={{ fontSize: `${8}px` }}>
+                              {coin.symbol}
                             </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography variant="p" xs={{ fontSize: `${6}px` }}>
-                              {coin.total_volume}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography variant="p" xs={{ fontSize: `${6}px` }}>
-                              {coin.market_cap}
-                            </Typography>
-                          </TableCell>
-                        </TableRow>
-                        <Waypoint
-                          onEnter={() => {
-                            console.log(index);
-                          }}
-                        ></Waypoint>
-                      </Fragment>
+                          </Box>
+                        </TableCell>
+                        <TableCell>
+                          <Typography variant="p" xs={{ fontSize: `${6}px` }}>
+                            {parseFloat(coin.current_price).toFixed(6)}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography variant="p" xs={{ fontSize: `${6}px` }}>
+                            {parseFloat(
+                              coin.price_change_percentage_24h
+                            ).toFixed(6)}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography variant="p" xs={{ fontSize: `${6}px` }}>
+                            {coin.total_volume}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography variant="p" xs={{ fontSize: `${6}px` }}>
+                            {coin.market_cap}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
                     ))}
                   </TableBody>
                 </Table>
