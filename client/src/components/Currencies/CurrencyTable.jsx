@@ -16,25 +16,38 @@ import {
 } from "@mui/material";
 import { allCoins } from "../../endpoints/coingecko";
 import { numberWithCommas } from "../../util/coins-util";
+import { useRef } from "react";
+import { useCallback } from "react";
 
 const CurrencyTable = () => {
+  const [error, setError] = useState("");
   const [currencies, setCurrencies] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+
   const currency = "usd";
 
-  useEffect(() => {
+  const fetchCoins = () => {
     const interval = setInterval(async () => {
-      //TODO: add paging if we can
       try {
-        const { data } = await axios.get(allCoins(currency));
+        setLoading(true);
+
+        const { data } = await axios.get(allCoins(currency, pageNumber, 20));
 
         setCurrencies(data);
       } catch (error) {
         console.log(error);
+        setError(true);
       }
     }, 4000);
 
     return () => clearInterval(interval);
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchCoins();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageNumber]);
 
   return (
     <Card>
@@ -55,7 +68,6 @@ const CurrencyTable = () => {
             <TableBody>
               {currencies.map((coin, index) => {
                 const profit = coin?.price_change_percentage_24h >= 0;
-
                 return (
                   <TableRow
                     key={coin.id}
@@ -78,7 +90,7 @@ const CurrencyTable = () => {
                     </TableCell>
                     <TableCell align="right">
                       <Typography variant="p" xs={{ fontSize: `${6}px` }}>
-                        ${numberWithCommas(coin.current_price).toFixed(2)}
+                        $ {numberWithCommas(coin?.current_price?.toFixed(2))}
                       </Typography>
                     </TableCell>
                     <TableCell
@@ -90,17 +102,17 @@ const CurrencyTable = () => {
                     >
                       <Typography variant="p" xs={{ fontSize: `${6}px` }}>
                         {profit && "+"}{" "}
-                        {coin.price_change_percentage_24h.toFixed(2)}%
+                        {coin?.price_change_percentage_24h?.toFixed(2)}%
                       </Typography>
                     </TableCell>
                     <TableCell align="right">
                       <Typography variant="p" xs={{ fontSize: `${6}px` }}>
-                        {coin.total_volume}
+                        {coin?.total_volume}
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <Typography variant="p" xs={{ fontSize: `${6}px` }}>
-                        {coin.market_cap}
+                        {coin?.market_cap}
                       </Typography>
                     </TableCell>
                   </TableRow>

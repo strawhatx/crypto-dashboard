@@ -12,7 +12,7 @@ const TrendingCarousel = () => {
   const [trending, setTrending] = useState([]);
   const currency = "usd";
 
-  useEffect(async () => {
+  const fetchCoins = async () => {
     try {
       const { data } = await axios.get(trendingCoins(currency));
 
@@ -20,7 +20,9 @@ const TrendingCarousel = () => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  };
+
+  useEffect(() => fetchCoins(), []);
 
   const items = trending.map((coin) => {
     const profit = coin.price_change_percentage_24h >= 0;
