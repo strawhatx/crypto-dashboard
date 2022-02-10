@@ -3,20 +3,18 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import AliceCarousel from "react-alice-carousel";
 import { Link } from "@mui/material";
-import { trendingCoins } from "../../endpoints/coingecko";
-import { numberWithCommas } from "../../util/coins-util";
+import { getTickers } from "../../endpoints/coingecko";
 
 import "react-alice-carousel/lib/alice-carousel.css";
 
 const TrendingCarousel = () => {
   const [trending, setTrending] = useState([]);
-  const currency = "usd";
 
   const fetchCoins = async () => {
     try {
-      const { data } = await axios.get(trendingCoins(currency));
+      const { data } = await axios.get(getTickers());
 
-      setTrending(data);
+      setTrending(data.sort((a, b) => a.rank - b.rank).slice(0, 7));
     } catch (error) {
       console.log(error);
     }
@@ -25,7 +23,7 @@ const TrendingCarousel = () => {
   useEffect(() => fetchCoins(), []);
 
   const items = trending.map((coin) => {
-    const profit = coin.price_change_percentage_24h >= 0;
+    const profit = coin?.quotes.USD.percent_change_24h >= 0;
     return (
       <Link
         sx={{
@@ -38,18 +36,22 @@ const TrendingCarousel = () => {
         }}
         to={`/coins/${coin.id}`}
       >
-        <img src={coin.image} alt={coin.name} height="80" />
+        <img
+          src={`https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.0/svg/color/${coin.symbol.toLowerCase()}.svg`}
+          alt={coin.name}
+          height="80"
+        />
         <span>
           {coin?.symbol}
           &nbsp;
           <span
             style={{ color: profit > 0 ? "green" : "red", fontWeight: 400 }}
           >
-            {profit && "+"} {coin?.price_change_percentage_24h?.toFixed(2)}%
+            {profit && "+"} {coin?.quotes.USD.percent_change_24h?.toFixed(2)}%
           </span>
         </span>
         <span sx={{ fontSize: 22, fontWeight: 500 }}>
-          $ {numberWithCommas(coin?.current_price.toFixed(2))}
+          $ {coin?.quotes.USD.price.toFixed(2)}
         </span>
       </Link>
     );
