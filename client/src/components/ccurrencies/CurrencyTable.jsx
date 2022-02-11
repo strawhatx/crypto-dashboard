@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useState } from "react";
+import NumberFormat from "react-number-format";
 import {
   Box,
   Card,
@@ -16,13 +16,15 @@ import {
   TextField,
   Pagination,
 } from "@mui/material";
-import { getTickers } from "../../endpoints/coingecko";
+import { getTickers } from "../../endpoints/coinpaprika";
+import { useNavigate } from "react-router-dom";
 
 const CurrencyTable = () => {
-  const [error, setError] = useState("");
   const [currencies, setCurrencies] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     return currencies.filter(
@@ -40,7 +42,6 @@ const CurrencyTable = () => {
         setCurrencies(data);
       } catch (error) {
         console.log(error);
-        setError(true);
       }
     }, 4000);
 
@@ -55,24 +56,58 @@ const CurrencyTable = () => {
 
   return (
     <Card>
-      <CardHeader title="Cryptocurrency Prices by Rank" />
+      <CardHeader
+        title={
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              justifyContent: "space-between",
+            }}
+          >
+            {" "}
+            <Typography
+              variant="p"
+              component="span"
+              sx={{
+                fontSize: `large`,
+                fontWeight: 500,
+                textAlign: { xs: "center", sm: "left" },
+                px: `${8.5}px`,
+                py: `${7}px`,
+              }}
+            >
+              Cryptocurrency Prices by Rank
+            </Typography>
+            <TextField
+              label="Search"
+              size="small"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </Box>
+        }
+      />
       <CardContent>
-        <TextField
-          label="Search For a Crypto Currency.."
-          variant="outlined"
-          style={{ fontSize: `${6}px`, marginBottom: 20, width: `${100}%` }}
-          onChange={(e) => setSearch(e.target.value)}
-        />
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell>NAME</TableCell>
-                <TableCell>PRICE</TableCell>
-                <TableCell>CHANGE</TableCell>
-                <TableCell>VOLUME</TableCell>
-                <TableCell>MARKET CAP</TableCell>
+                {["Name", "Price", "Volume", "Market Cap"].map(
+                  (item, index) => (
+                    <TableCell
+                      key={index}
+                      sx={{
+                        fontSize: ".95rem",
+                        fontWeight: 500,
+                        textAlign: index > 0 ? "right" : "left",
+                        color: "rgba(0, 0, 0, 0.45)",
+                        py: 0,
+                      }}
+                    >
+                      {item}
+                    </TableCell>
+                  )
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -83,53 +118,92 @@ const CurrencyTable = () => {
                   return (
                     <TableRow
                       key={coin.id}
+                      hover
+                      onClick={() => navigate(`/currencies/${coin.symbol}`)}
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
+                        borderRadius: 5,
                       }}
                     >
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell>
+                      <TableCell sx={{ display: "flex" }}>
                         <img
                           src={`https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.0/svg/color/${coin.symbol.toLowerCase()}.svg`}
                           alt="currency-tag"
-                          height={30}
+                          width={40}
+                          height={40}
+                          style={{ marginRight: "1rem" }}
                         />
                         <Box>
-                          <Typography variant="p" xs={{ fontSize: `${6}px` }}>
-                            {coin.name}
+                          <Box>
+                            <Typography variant="p">{coin.name}</Typography>
+                          </Box>
+
+                          <Box>
+                            <Typography variant="p">{coin.symbol}</Typography>
+                          </Box>
+                        </Box>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Box>
+                          <Typography variant="p">
+                            <NumberFormat
+                              value={coin?.quotes.USD.price?.toFixed(2)}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              prefix={"$"}
+                            />
                           </Typography>
-                          {"  "}
-                          <Typography variant="p" xs={{ fontSize: `${8}px` }}>
-                            {coin.symbol}
+                        </Box>
+
+                        <Box
+                          align="right"
+                          style={{
+                            color: profit > 0 ? "green" : "red",
+                            fontWeight: 400,
+                          }}
+                        >
+                          <Typography variant="p">
+                            <NumberFormat
+                              value={`${
+                                profit && "+"
+                              } ${coin?.quotes.USD.percent_change_24h?.toFixed(
+                                2
+                              )}%`}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                            />
                           </Typography>
                         </Box>
                       </TableCell>
                       <TableCell align="right">
-                        <Typography variant="p" xs={{ fontSize: `${6}px` }}>
-                          $ {coin?.quotes.USD.price?.toFixed(2)}
-                        </Typography>
-                      </TableCell>
-                      <TableCell
-                        align="right"
-                        style={{
-                          color: profit > 0 ? "green" : "red",
-                          fontWeight: 400,
-                        }}
-                      >
-                        <Typography variant="p" xs={{ fontSize: `${6}px` }}>
-                          {profit && "+"}{" "}
-                          {coin?.quotes.USD.percent_change_24h?.toFixed(2)}%
-                        </Typography>
+                        <Box>
+                          <Typography variant="p">
+                            <NumberFormat
+                              value={coin?.quotes.USD.volume_24h?.toFixed(2)}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              prefix={"$"}
+                            />
+                          </Typography>
+                        </Box>
+                        <Box align="right">
+                          <Typography variant="p">-</Typography>
+                        </Box>
                       </TableCell>
                       <TableCell align="right">
-                        <Typography variant="p" xs={{ fontSize: `${6}px` }}>
-                          {coin?.quotes.USD.volume_24h}
-                        </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography variant="p" xs={{ fontSize: `${6}px` }}>
-                          {coin?.quotes.USD.market_cap}
-                        </Typography>
+                        <Box>
+                          <Typography variant="p">
+                            <NumberFormat
+                              value={coin?.quotes.USD.market_cap?.toFixed(2)}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              prefix={"$"}
+                            />
+                          </Typography>
+                        </Box>
+                        <Box align="right">
+                          <Typography variant="p">-</Typography>
+                        </Box>
                       </TableCell>
                     </TableRow>
                   );
@@ -143,6 +217,7 @@ const CurrencyTable = () => {
           count={parseInt((handleSearch()?.length / 10).toFixed(0))}
           sx={{
             padding: 2,
+            pt: 10,
             width: "100%",
             display: "flex",
             justifyContent: "center",

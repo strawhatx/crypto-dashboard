@@ -3,7 +3,8 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import AliceCarousel from "react-alice-carousel";
 import { Link } from "@mui/material";
-import { getTickers } from "../../endpoints/coingecko";
+import { getTickers } from "../../endpoints/coinpaprika";
+import NumberFormat from "react-number-format";
 
 import "react-alice-carousel/lib/alice-carousel.css";
 
@@ -47,11 +48,22 @@ const TrendingCarousel = () => {
           <span
             style={{ color: profit > 0 ? "green" : "red", fontWeight: 400 }}
           >
-            {profit && "+"} {coin?.quotes.USD.percent_change_24h?.toFixed(2)}%
+            <NumberFormat
+              value={`${
+                profit && "+"
+              } ${coin?.quotes.USD.percent_change_24h?.toFixed(2)}%`}
+              displayType={"text"}
+              thousandSeparator={true}
+            />
           </span>
         </span>
         <span sx={{ fontSize: 22, fontWeight: 500 }}>
-          $ {coin?.quotes.USD.price.toFixed(2)}
+          <NumberFormat
+            value={coin?.quotes.USD.price?.toFixed(2)}
+            displayType={"text"}
+            thousandSeparator={true}
+            prefix={"$"}
+          />
         </span>
       </Link>
     );

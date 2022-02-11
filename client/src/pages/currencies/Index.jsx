@@ -19,7 +19,7 @@ const Currencies = () => {
       >
         <Container maxWidth="md">
           <Typography
-            variant="h4"
+            variant="h5"
             color="inherit"
             component="div"
             sx={{
@@ -28,7 +28,7 @@ const Currencies = () => {
               pt: `${5}rem`,
               pb: `${5}rem`,
               fontWeight: "bold",
-              textAlign: { xs: "center", md: "left" },
+              textAlign: { xs: "center", sm: "left" },
             }}
           >
             Currencies

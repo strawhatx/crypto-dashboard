@@ -1,8 +1,8 @@
 import React from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import CurrencyBreadcrumbs from "../../components/currency-details/CurrencyBreadcrumbs";
 
-const Currencies = () => {
+const CurrencyDetail = () => {
   return (
     <>
       {/** Hero */}
@@ -24,4 +24,4 @@ const Currencies = () => {
   );
 };
 
-export default Currencies;
+export default CurrencyDetail;
