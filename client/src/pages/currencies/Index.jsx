@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Container, Typography } from "@mui/material";
-import TrendingCarousel from "../../components/Currencies/TrendingCarousel";
-import CurrencyTable from "../../components/Currencies/CurrencyTable";
+import TrendingCarousel from "../../components/ccurrencies/TrendingCarousel";
+import CurrencyTable from "../../components/ccurrencies/CurrencyTable";
 
 const Currencies = () => {
   return (
