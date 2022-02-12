@@ -1,55 +1,70 @@
 import React from "react";
 import { StarOutline } from "@mui/icons-material";
 import PropTypes from "prop-types";
-import { Box, Button, Typography } from "@mui/material";
+import { Avatar, Box, Button, Typography } from "@mui/material";
 
 const CurrencyTitleToolbar = ({ currency }) => {
   return (
     <Box
       sx={{
         display: "flex",
+        mb: 4,
+        flexDirection: { xs: "column", sm: "row" },
         justifyContent: "space-between",
         alignItems: "baseline",
       }}
     >
       {/** Toolbar */}
-      <Box sx={{ display: "flex" }}>
-        <img
+      <Box sx={{ display: "flex", mx: { xs: "auto", sm: 0 } }}>
+        <Avatar
           src={`https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.0/svg/color/${currency?.symbol?.toLowerCase()}.svg`}
           alt="currency-tag"
-          width={40}
-          height={40}
-          style={{ marginRight: "1rem", marginBottom: ".4rem" }}
+          sx={{
+            width: { xs: 30, sm: 40 },
+            height: { xs: 30, sm: 40 },
+            marginRight: "1rem",
+            marginBottom: ".4rem",
+          }}
         />
-        <Box sx={{ display: "flex", alignItems: "baseline" }}>
-          <Typography
-            variant="h4"
-            component="div"
-            sx={{ fontWeight: "medium", mr: 2 }}
+        <Box
+          sx={{
+            display: "flex",
+
+            alignItems: "baseline",
+          }}
+        >
+          <Box
+            sx={{
+              typography: { xs: "h5", sm: "h4" },
+              fontWeight: "medium",
+              mr: 2,
+            }}
           >
             {currency?.name}
-          </Typography>
-          <Typography
-            variant="h5"
-            component="div"
-            sx={{ fontWeight: "medium", color: "text.secondary" }}
+          </Box>
+
+          <Box
+            sx={{
+              typography: { xs: "h6", sm: "h5" },
+              fontWeight: "medium",
+              color: "text.secondary",
+            }}
           >
             {currency?.symbol}
-          </Typography>
+          </Box>
         </Box>
       </Box>
 
       {/* Watch list */}
-      <Box>
+      <Box sx={{ mx: { xs: "auto", sm: 0 } }}>
         <Button
           color="inherit"
+          size="medium"
           startIcon={<StarOutline fontSize="medium" htmlColor="inherit" />}
           aria-label="watchlist"
           variant="text"
         >
-          <Typography sx={{ display: { xs: "none", sm: "flex" }, padding: 1 }}>
-            Add to Watchlist
-          </Typography>
+          <Typography sx={{ padding: 1 }}>Add to Watchlist</Typography>
         </Button>
       </Box>
     </Box>
