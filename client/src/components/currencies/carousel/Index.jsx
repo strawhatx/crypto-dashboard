@@ -1,28 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Box } from "@mui/system";
-import axios from "axios";
 import AliceCarousel from "react-alice-carousel";
 import { Link } from "@mui/material";
-import { getTickers } from "../../endpoints/coinpaprika";
 import NumberFormat from "react-number-format";
+import PropTypes from "prop-types";
 
 import "react-alice-carousel/lib/alice-carousel.css";
 
-const TrendingCarousel = () => {
-  const [trending, setTrending] = useState([]);
-
-  const fetchCoins = async () => {
-    try {
-      const { data } = await axios.get(getTickers());
-
-      setTrending(data.sort((a, b) => a.rank - b.rank).slice(0, 7));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => fetchCoins(), []);
-
+const TrendingCarousel = ({ trending }) => {
   const items = trending.map((coin) => {
     const profit = coin?.quotes.USD.percent_change_24h >= 0;
     return (
@@ -33,7 +18,7 @@ const TrendingCarousel = () => {
           alignItems: "center",
           cursor: "pointer",
           textTransform: "uppercase",
-          color: "white",
+          color: "inherit",
         }}
         to={`/coins/${coin.id}`}
       >
@@ -84,6 +69,10 @@ const TrendingCarousel = () => {
       />
     </Box>
   );
+};
+
+TrendingCarousel.propType = {
+  trending: PropTypes.array.isRequired,
 };
 
 export default TrendingCarousel;

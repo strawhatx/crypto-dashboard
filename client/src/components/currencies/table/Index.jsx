@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NumberFormat from "react-number-format";
+import PropTypes from "prop-types";
 import {
   Box,
   Card,
@@ -16,11 +17,8 @@ import {
   TextField,
   Pagination,
 } from "@mui/material";
-import { getTickers } from "../../endpoints/coinpaprika";
-import { useNavigate } from "react-router-dom";
 
-const CurrencyTable = () => {
-  const [currencies, setCurrencies] = useState([]);
+const CurrenciesTable = ({ currencies }) => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
@@ -33,26 +31,6 @@ const CurrencyTable = () => {
         coin.symbol.toLowerCase().includes(search.toLowerCase())
     );
   };
-
-  const fetchCoins = () => {
-    const interval = setInterval(async () => {
-      try {
-        const { data } = await axios.get(getTickers());
-
-        setCurrencies(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }, 4000);
-
-    return () => clearInterval(interval);
-  };
-
-  useEffect(() => {
-    fetchCoins();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
 
   return (
     <Card>
@@ -119,7 +97,7 @@ const CurrencyTable = () => {
                     <TableRow
                       key={coin.id}
                       hover
-                      onClick={() => navigate(`/currencies/${coin.symbol}`)}
+                      onClick={() => navigate(`/currencies/${coin.id}`)}
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
                         borderRadius: 5,
@@ -232,4 +210,8 @@ const CurrencyTable = () => {
   );
 };
 
-export default CurrencyTable;
+CurrenciesTable.propType = {
+  currencies: PropTypes.array.isRequired,
+};
+
+export default CurrenciesTable;

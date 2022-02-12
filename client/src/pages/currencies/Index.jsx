@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
-import TrendingCarousel from "../../components/ccurrencies/TrendingCarousel";
-import CurrencyTable from "../../components/ccurrencies/CurrencyTable";
+import TrendingCarousel from "../../components/currencies/carousel/Index";
+import CurrencyTable from "../../components/currencies/table/Index";
+import axios from "axios";
+import { getTickers } from "../../endpoints/coinpaprika";
 
 const Currencies = () => {
+  const [trending, setTrending] = useState([]);
+  const [currencies, setCurrencies] = useState([]);
+
+  const fetchCoins = async () => {
+    try {
+      const { data } = await axios.get(getTickers());
+      setCurrencies(data);
+      setTrending(data.sort((a, b) => a.rank - b.rank).slice(0, 7));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => fetchCoins(), []);
   return (
     <>
       {/** Hero */}
@@ -14,16 +30,15 @@ const Currencies = () => {
           justifyContent: "left",
           pt: `${1.25}rem`,
           pb: `${7.3}rem`,
-          bgcolor: "black.dark",
+          bgcolor: "primary.main",
+          color: "primary.contrastText",
         }}
       >
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Typography
             variant="h5"
-            color="inherit"
             component="div"
             sx={{
-              color: "#FFFFFF",
               mb: `${0.6}rem`,
               pt: `${5}rem`,
               pb: `${5}rem`,
@@ -36,16 +51,16 @@ const Currencies = () => {
         </Container>
 
         <Box>
-          <Container maxWidth="md">
-            <TrendingCarousel />
+          <Container maxWidth="lg">
+            <TrendingCarousel trending={trending} />
           </Container>
         </Box>
       </Box>
 
       {/**Currencies */}
       <Box sx={{ mt: `${-5}rem`, pb: `${1}rem` }}>
-        <Container maxWidth="md">
-          <CurrencyTable />
+        <Container maxWidth="lg">
+          <CurrencyTable currencies={currencies} />
         </Container>
       </Box>
     </>

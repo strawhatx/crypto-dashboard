@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Container } from "@mui/material";
-import CurrencyBreadcrumbs from "../../components/currency-details/CurrencyBreadcrumbs";
+import CurrencyBreadcrumbs from "../../components/currency/breadcrumbs/Index";
+import CurrencyChart from "../../components/currency/chart/Index";
 
 const CurrencyDetail = () => {
   return (
@@ -11,13 +12,15 @@ const CurrencyDetail = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "left",
-          pt: `${1.25}rem`,
+          pt: `${5.25}rem`,
           pb: `${5.3}rem`,
-          bgcolor: "black.dark",
+          bgcolor: "primary.main",
+          color: "primary.contrastText",
         }}
       >
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <CurrencyBreadcrumbs />
+          <CurrencyChart />
         </Container>
       </Box>
     </>

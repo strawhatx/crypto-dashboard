@@ -40,22 +40,22 @@ const Exchanges = () => {
     <>
       {/** Hero */}
       <Box
+        bgcolor="primary.main"
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "left",
           pt: `${1.25}rem`,
           pb: `${7.3}rem`,
-          bgcolor: "black.dark",
         }}
       >
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Typography
-            variant="h4"
-            color="inherit"
+            variant="h5"
+            contrast="primary"
             component="div"
+            color="primary.contrastText"
             sx={{
-              color: "#FFFFFF",
               mb: `${0.6}rem`,
               pt: `${5}rem`,
               pb: `${5}rem`,
@@ -70,7 +70,7 @@ const Exchanges = () => {
 
       {/**exchanges */}
       <Box sx={{ mt: `${-8.75}rem`, pb: `${1}rem` }}>
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Card>
             <CardHeader title="Currency" />
             <CardContent>
