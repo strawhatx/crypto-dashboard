@@ -1,56 +1,105 @@
 import React from "react";
-import { Box } from "@mui/system";
+import { Box, useTheme, alpha } from "@mui/system";
 import AliceCarousel from "react-alice-carousel";
-import { Link } from "@mui/material";
+import { Avatar, Card, Link, Typography, Grid } from "@mui/material";
 import NumberFormat from "react-number-format";
 import PropTypes from "prop-types";
 
 import "react-alice-carousel/lib/alice-carousel.css";
 
 const TrendingCarousel = ({ trending }) => {
+  const theme = useTheme();
+
   const items = trending.map((coin) => {
     const profit = coin?.quotes.USD.percent_change_24h >= 0;
     return (
-      <Link
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          cursor: "pointer",
-          textTransform: "uppercase",
-          color: "inherit",
-        }}
-        to={`/coins/${coin.id}`}
-      >
-        <img
-          src={`https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.0/svg/color/${coin.symbol.toLowerCase()}.svg`}
-          alt={coin.name}
-          height="80"
-        />
-        <span>
-          {coin?.symbol}
-          &nbsp;
-          <span
-            style={{ color: profit > 0 ? "green" : "red", fontWeight: 400 }}
+      <Grid item xs={10}>
+        <Link sx={{ textDecoration: "none" }} to={`/coins/${coin.id}`}>
+          <Card
+            sx={{
+              boxShadow: "none",
+              textAlign: "center",
+              padding: theme.spacing(3, 5),
+              color:
+                profit > 0
+                  ? theme.palette.success.darker
+                  : theme.palette.error.darker,
+              backgroundColor:
+                profit > 0
+                  ? theme.palette.success.lighter
+                  : theme.palette.error.lighter,
+            }}
           >
-            <NumberFormat
-              value={`${
-                profit && "+"
-              } ${coin?.quotes.USD.percent_change_24h?.toFixed(2)}%`}
-              displayType={"text"}
-              thousandSeparator={true}
-            />
-          </span>
-        </span>
-        <span sx={{ fontSize: 22, fontWeight: 500 }}>
-          <NumberFormat
-            value={coin?.quotes.USD.price?.toFixed(2)}
-            displayType={"text"}
-            thousandSeparator={true}
-            prefix={"$"}
-          />
-        </span>
-      </Link>
+            <Box
+              sx={{
+                margin: "auto",
+                display: "flex",
+                borderRadius: "50%",
+                alignItems: "center",
+                width: theme.spacing(8),
+                height: theme.spacing(8),
+                justifyContent: "center",
+                marginBottom: theme.spacing(3),
+                color:
+                  profit > 0
+                    ? theme.palette.success.dark
+                    : theme.palette.error.dark,
+                backgroundImage: `linear-gradient(135deg, ${alpha(
+                  profit > 0
+                    ? theme.palette.success.dark
+                    : theme.palette.error.dark,
+                  0
+                )} 0%, ${alpha(
+                  profit > 0
+                    ? theme.palette.success.dark
+                    : theme.palette.error.dark,
+                  0.24
+                )} 100%)`,
+              }}
+            >
+              <Avatar
+                src={`https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.0/svg/color/${coin.symbol.toLowerCase()}.svg`}
+                alt={coin.name}
+                width={24}
+                height={24}
+              />
+            </Box>
+            <Box>
+              <Typography variant="h4" sx={{ mr: 1 }}>
+                <NumberFormat
+                  value={coin?.quotes.USD.price?.toFixed(2)}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"$"}
+                />
+              </Typography>
+              <Typography
+                variant="p"
+                sx={{
+                  color:
+                    profit > 0
+                      ? theme.palette.success.dark
+                      : theme.palette.error.dark,
+                  fontWeight: 400,
+                }}
+              >
+                <NumberFormat
+                  value={`${
+                    profit && "+"
+                  } ${coin?.quotes.USD.percent_change_24h?.toFixed(2)}`}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                />
+                %
+              </Typography>
+            </Box>
+
+            <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
+              {coin?.name}
+            </Typography>
+          </Card>
+        </Link>
+      </Grid>
     );
   });
 
@@ -63,7 +112,12 @@ const TrendingCarousel = ({ trending }) => {
         animationDuration={1500}
         disableDotsControls
         disableButtonsControls
-        responsive={{ 0: { items: 2 }, 512: { items: 4 } }}
+        responsive={{
+          0: { items: 1 },
+          400: { items: 2 },
+          650: { items: 3 },
+          800: { items: 4 },
+        }}
         autoPlay
         items={items}
       />
