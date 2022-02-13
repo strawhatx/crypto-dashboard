@@ -4,10 +4,22 @@
 import { createTheme } from "@mui/material/styles";
 
 /* Typography */
-import { inter } from "./base/typography";
-import { colors } from "./base/colors";
+import { typography } from "./base/typography";
+import { palette } from "./base/palette";
+import { shape } from "./base/shape";
+import { customShadows, shadow } from "./base/shadows";
+import { ComponentsOverrides } from "./overrides";
+import { breakpoints } from "@mui/system";
 
-export default createTheme({
-  palette: { ...colors },
-  typography: { ...inter },
+const theme = createTheme({
+  palette: { ...palette },
+  typography: { ...typography },
+  shape: { ...shape },
+  breakpoints: { ...breakpoints },
+  shadows: [...shadow],
+  shade: { ...customShadows },
 });
+
+theme.components = ComponentsOverrides(theme);
+
+export default theme;

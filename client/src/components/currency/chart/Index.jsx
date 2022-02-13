@@ -1,17 +1,18 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { StarOutline } from "@mui/icons-material";
 import axios from "axios";
-import { getTicker } from "../../../endpoints/coinpaprika";
-import { useEffect } from "react";
+import { getTicker, getHistoricals } from "../../../endpoints/coinpaprika";
 import CurrencyTitleToolbar from "./components/CurrencyTitleToolbar";
 import NumberFormat from "react-number-format";
 import { Box, Button, Card, CardHeader, Typography } from "@mui/material";
 
 const CurrencyChart = () => {
   const [currency, setCurrency] = useState({});
-
+  const [historical, setHistorical] = useState([]);
+  const [days, setDays] = useState(1);
+  const [options, setOptions] = useState({});
+  const [series, setSeries] = useState([]);
   const { id } = useParams();
 
   const fetchCoin = async () => {
@@ -24,8 +25,19 @@ const CurrencyChart = () => {
     }
   };
 
+  const fetchChart = async () => {
+    try {
+      const { data } = await axios.get(getHistoricals(id));
+
+      setHistorical(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchCoin();
+    fetchChart();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -44,15 +56,13 @@ const CurrencyChart = () => {
               }}
             >
               <Box>
-                <Typography variant="h2" component="div">
-                  <Typography variant="p">
-                    <NumberFormat
-                      value={currency?.quotes?.USD?.price?.toFixed(2)}
-                      displayType={"text"}
-                      thousandSeparator={true}
-                      prefix={"$"}
-                    />
-                  </Typography>
+                <Typography variant="h4" component="div">
+                  <NumberFormat
+                    value={currency?.quotes?.USD?.price?.toFixed(2)}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"$"}
+                  />
                 </Typography>
               </Box>
               <Box>
