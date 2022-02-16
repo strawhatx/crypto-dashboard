@@ -1,20 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, useTheme, alpha } from "@mui/system";
 import AliceCarousel from "react-alice-carousel";
 import { Avatar, Card, Link, Typography, Grid } from "@mui/material";
 import NumberFormat from "react-number-format";
-import PropTypes from "prop-types";
 
 import "react-alice-carousel/lib/alice-carousel.css";
+import axios from "../../../config/axios";
 
-const TrendingCarousel = ({ trending }) => {
+const TrendingCarousel = () => {
+  const [trending, setTrending] = useState([]);
+
   const theme = useTheme();
 
+  const fetchCoins = async () => {
+    try {
+      const { data } = await axios.get(`coins/trending/`);
+
+      setTrending(data.data.coins);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => fetchCoins(), []);
+
   const items = trending.map((coin) => {
-    const profit = coin?.quotes.USD.percent_change_24h >= 0;
+    const profit = parseInt(coin.change) >= 0;
     return (
       <Grid item xs={10}>
-        <Link sx={{ textDecoration: "none" }} to={`/coins/${coin.id}`}>
+        <Link
+          sx={{ textDecoration: "none" }}
+          to={`/coins/${coin.id}`}
+          state={{ uuid: coin.uuid, name: coin.name }}
+        >
           <Card
             sx={{
               boxShadow: "none",
@@ -58,7 +76,7 @@ const TrendingCarousel = ({ trending }) => {
               }}
             >
               <Avatar
-                src={`https://cdn.coinranking.com/Sy33Krudb/${coin.symbol.toLowerCase()}.svg`}
+                src={coin.iconUrl}
                 alt={coin.name}
                 width={24}
                 height={24}
@@ -67,7 +85,7 @@ const TrendingCarousel = ({ trending }) => {
             <Box>
               <Typography variant="h4" sx={{ mr: 1 }}>
                 <NumberFormat
-                  value={coin?.quotes.USD.price?.toFixed(2)}
+                  value={coin.price?.toFixed(2)}
                   displayType={"text"}
                   thousandSeparator={true}
                   prefix={"$"}
@@ -84,9 +102,9 @@ const TrendingCarousel = ({ trending }) => {
                 }}
               >
                 <NumberFormat
-                  value={`${
-                    profit && "+"
-                  } ${coin?.quotes.USD.percent_change_24h?.toFixed(2)}`}
+                  value={`${profit && "+"} ${parseInt(coin.change_24h)?.toFixed(
+                    2
+                  )}`}
                   displayType={"text"}
                   thousandSeparator={true}
                 />
@@ -95,7 +113,7 @@ const TrendingCarousel = ({ trending }) => {
             </Box>
 
             <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-              {coin?.name}
+              {coin.name}
             </Typography>
           </Card>
         </Link>
@@ -123,10 +141,6 @@ const TrendingCarousel = ({ trending }) => {
       />
     </Box>
   );
-};
-
-TrendingCarousel.propType = {
-  trending: PropTypes.array.isRequired,
 };
 
 export default TrendingCarousel;

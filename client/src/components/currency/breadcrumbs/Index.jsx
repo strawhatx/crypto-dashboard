@@ -1,10 +1,10 @@
 import { Breadcrumbs, Typography } from "@mui/material";
 import { NavigateNext } from "@mui/icons-material";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const CurrencyBreadcrumbs = () => {
-  const { id } = useParams();
+  const { state } = useLocation();
 
   const breadcrumbs = [
     <Typography
@@ -15,7 +15,7 @@ const CurrencyBreadcrumbs = () => {
       Cryptocurrencies
     </Typography>,
     <Typography key="2" color="inherit">
-      {id}
+      {state.name}
     </Typography>,
   ];
 

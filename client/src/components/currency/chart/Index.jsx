@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { StarOutline } from "@mui/icons-material";
 import axios from "../../../config/axios";
-import { getCoin, getCoins } from "../../../endpoints/coins";
 import CurrencyTitleToolbar from "./components/CurrencyTitleToolbar";
 import NumberFormat from "react-number-format";
 import Chart from "react-apexcharts";
@@ -21,11 +20,11 @@ const CurrencyChart = () => {
   const [days, setDays] = useState(7);
   const [prices, setPrices] = useState([]);
   const [dates, setDates] = useState([]);
-  const { id } = useParams();
+  const { state } = useLocation();
 
   const fetchCoin = async () => {
     try {
-      const { data } = await axios.get(getCoin(id));
+      const { data } = await axios.get(`coin/history/${state.uuid}`);
 
       setCurrency(data);
     } catch (error) {
@@ -40,7 +39,7 @@ const CurrencyChart = () => {
       const start = current;
       const end = current.setDate(current.getDate() + days);
 
-      const { data } = await axios.get(getCoins);
+      const { data } = await axios.get(`/coins/${state.uuid}`);
 
       setPrices(data.map((item) => item.price));
       setDates(data.map((item) => item.date));

@@ -1,4 +1,5 @@
 import User, { IUser } from "../models/user";
+import { Request, Response, NextFunction } from "express";
 
 
 
@@ -14,29 +15,27 @@ export class UserController {
      * @returns  an array of users
      */
 
-    async getUsers() {
+    async getUsers(req: Request, res: Response, next: NextFunction) {
         try {
-            return {
-                data: await User.find({}),
-            }
+            const users = await User.find({});
+
+            res.status(200).json({ users: users })
         }
         catch (error: any) {
             throw new Error(error);
         }
     }
 
-
-
     /**
      * Gets specified user by id
      * @param id 
      * @returns  User object
      */
-    async getUserById(id: string) {
+    async getUserById(req: Request, res: Response, next: NextFunction) {
         try {
-            return {
-                data: await User.findById(id),
-            }
+            const user = await User.findById(req.params.id);
+
+            res.status(200).json({ user: user })
         }
         catch (error: any) {
             throw new Error(error);
@@ -48,19 +47,24 @@ export class UserController {
      * @param user 
      * @returns response message 
      */
-    async createUser(user: IUser) {
+    async createUser(req: Request, res: Response, next: NextFunction) {
         try {
+            let user = {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                displayName: req.body.displayName,
+                phoneNumber: req.body.phoneNumber,
+                bio: req.body.bio,
+                profileImage: req.body.profileImage,
+            }
+
             const created = await User.create(user);
 
-            let result: boolean = false;
+            if (!created) throw new Error("Create failed");
 
-            if (created !== null) result = true;
-
-            if (!result) throw new Error("Create failed");
-
-            return {
+            res.status(201).json({
                 message: "Create successful",
-            };
+            });
         }
         catch (error: any) {
             throw new Error(error);
@@ -73,19 +77,26 @@ export class UserController {
      * @param User 
      * @returns  response message
      */
-    async updateUser(user: IUser) {
+    async updateUser(req: Request, res: Response, next: NextFunction) {
         try {
+            let user = {
+                _id: req.params.id,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                displayName: req.body.displayName,
+                phoneNumber: req.body.phoneNumber,
+                bio: req.body.bio,
+                profileImage: req.body.profileImage,
+            }
+
             const updated = await User.findByIdAndUpdate(user._id, user);
 
-            let result: boolean = false;
 
-            if (updated !== null) result = true;
+            if (!updated) throw new Error("Update failed");
 
-            if (!result) throw new Error("Update failed");
-
-            return {
+            res.status(204).json({
                 message: "Update successful",
-            };
+            });
         } catch (error: any) {
             throw new Error(error);
         }
@@ -96,19 +107,15 @@ export class UserController {
      * @param id 
      * @returns  response message
      */
-    async deleteUser(id: string) {
+    async deleteUser(req: Request, res: Response, next: NextFunction) {
         try {
-            let deleted = await User.findByIdAndDelete({ _id: id });
+            let deleted = await User.findByIdAndDelete({ _id: req.params.id });
 
-            let result: boolean = false;
+            if (!deleted) throw new Error("Delete failed");
 
-            if (deleted !== null) result = true;
-
-            if (!result) throw new Error("Delete failed");
-
-            return {
+            res.status(200).json({
                 message: "Delete successful",
-            };
+            });
         } catch (error: any) {
             throw new Error(error);
         }

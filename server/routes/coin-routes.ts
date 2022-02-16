@@ -6,8 +6,9 @@ const router = Router();
 const routes = new CoinController();
 
 //router.get("/", CheckAuth, routes.getUsers);
-router.get("/", routes.getCoins);
+router.get("/trending", routes.getTrendingCoins);
 router.get("/:id", routes.getCoinById);
+router.post("/", routes.searchCoins);
 
 export const CoinRoutes = router;
 

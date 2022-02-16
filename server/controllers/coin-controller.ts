@@ -1,4 +1,5 @@
-import { coins_api } from "../config/axios"
+import { coins_api } from "../config/axios";
+import { Request, Response, NextFunction, response } from "express";
 
 /**
 * Coin Controller
@@ -8,13 +9,17 @@ export class CoinController {
     constructor() { }
 
     /**
-     * Gets coins
-     * @returns  an array of coins
+     * Gets top performing coins top 10
+     * @param req 
+     * @param res 
+     * @param next 
      */
 
-    async getCoins() {
+    async getTrendingCoins(req: Request, res: Response, next: NextFunction) {
         try {
-            return await coins_api.get("/coins");
+            const response = await coins_api.get("/coins?limit=10&orderBy=change");
+
+            res.status(200).json(response.data)
         }
 
         catch (error) {
@@ -22,16 +27,39 @@ export class CoinController {
         }
     }
 
-
-
     /**
      * Gets specified coin by uuid
-     * @param id 
-     * @returns  User object
+     * @param req 
+     * @param res 
+     * @param next 
      */
-    async getCoinById(uuid: string) {
+    async getCoinById(req: Request, res: Response, next: NextFunction) {
         try {
-            return await coins_api.get(`/coins/${uuid}`);
+            const response = await coins_api.get(`/coins/${req.params.uuid}`);
+
+            res.status(200).json(response.data)
+        }
+
+        catch (error) {
+            console.log(error)
+        }
+    }
+
+    /**
+     * get 50 coins pe page based on pagination and search
+     * @param req 
+     * @param res 
+     * @param next 
+     */
+
+    async searchCoins(req: Request, res: Response, next: NextFunction) {
+        try {
+
+            let page = req.body.page, size = req.body.size, search = req.body.search?.trim();
+            let offset = (page - 1) * size;
+            const response = await coins_api.get(`/coins?search=${search}&limit=${size}&offset=${offset}`);
+
+            res.status(200).json(response.data)
         }
 
         catch (error) {
