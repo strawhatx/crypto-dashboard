@@ -27,4 +27,4 @@ axios.interceptors.response.use((res) => {
   return res;
 });
 
-export { axios };
+export default axios;

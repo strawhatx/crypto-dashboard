@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { StarOutline } from "@mui/icons-material";
-import axios from "axios";
-import { getTicker, getHistoricals } from "../../../endpoints/coinpaprika";
+import axios from "../../../config/axios";
+import { getCoin, getCoins } from "../../../endpoints/coins";
 import CurrencyTitleToolbar from "./components/CurrencyTitleToolbar";
 import NumberFormat from "react-number-format";
-import { Box, Button, Card, CardHeader, Typography } from "@mui/material";
+import Chart from "react-apexcharts";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Typography,
+} from "@mui/material";
 
 const CurrencyChart = () => {
   const [currency, setCurrency] = useState({});
-  const [historical, setHistorical] = useState([]);
-  const [days, setDays] = useState(1);
-  const [options, setOptions] = useState({});
-  const [series, setSeries] = useState([]);
+  const [interval, setInterval] = useState("1h");
+  const [days, setDays] = useState(7);
+  const [prices, setPrices] = useState([]);
+  const [dates, setDates] = useState([]);
   const { id } = useParams();
 
   const fetchCoin = async () => {
     try {
-      const { data } = await axios.get(getTicker(id));
+      const { data } = await axios.get(getCoin(id));
 
       setCurrency(data);
     } catch (error) {
@@ -27,9 +35,15 @@ const CurrencyChart = () => {
 
   const fetchChart = async () => {
     try {
-      const { data } = await axios.get(getHistoricals(id));
+      const current = new Date();
 
-      setHistorical(data);
+      const start = current;
+      const end = current.setDate(current.getDate() + days);
+
+      const { data } = await axios.get(getCoins);
+
+      setPrices(data.map((item) => item.price));
+      setDates(data.map((item) => item.date));
     } catch (error) {
       console.log(error);
     }
@@ -41,6 +55,47 @@ const CurrencyChart = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  var options = {
+    series: [
+      {
+        name: "STOCK ABC",
+        data: prices,
+      },
+    ],
+    chart: {
+      type: "area",
+      height: 350,
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "straight",
+    },
+
+    title: {
+      text: "Fundamental Analysis of Stocks",
+      align: "left",
+    },
+    subtitle: {
+      text: "Price Movements",
+      align: "left",
+    },
+    labels: dates,
+    xaxis: {
+      type: "datetime",
+    },
+    yaxis: {
+      opposite: true,
+    },
+    legend: {
+      horizontalAlign: "left",
+    },
+  };
 
   return (
     <>
@@ -78,6 +133,9 @@ const CurrencyChart = () => {
             </Box>
           }
         ></CardHeader>
+        <CardContent>
+          <Chart options={options} width="500" />
+        </CardContent>
       </Card>
     </>
   );

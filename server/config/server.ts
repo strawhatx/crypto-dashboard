@@ -6,6 +6,7 @@ import cors from "cors"
 import { PORT } from "./"
 import { Connection } from "./connect"
 import { UserRoutes } from "../routes/user-routes";
+import { CoinRoutes } from "../routes/coin-routes";
 export class Server {
     public app: express.Application;
     public connect: Connection;
@@ -24,7 +25,8 @@ export class Server {
     * Controller routes
     */
     public routes(): void {
-        this.app.use("api/users", UserRoutes);
+        this.app.use("/api/users", UserRoutes);
+        this.app.use("/api/coins", CoinRoutes);
 
     }
 
@@ -33,7 +35,7 @@ export class Server {
     */
     public config(): void {
         const corsOptions = {
-            origin: "http://localhost:3000",
+            origin: "*",
             credentials: true,
         }
 

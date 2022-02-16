@@ -105,7 +105,7 @@ const CurrenciesTable = ({ currencies }) => {
                     >
                       <TableCell sx={{ display: "flex" }}>
                         <img
-                          src={`https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.0/svg/color/${coin.symbol.toLowerCase()}.svg`}
+                          src={`https://cdn.coinranking.com/Sy33Krudb/${coin.symbol.toLowerCase()}.svg`}
                           alt="currency-tag"
                           width={40}
                           height={40}

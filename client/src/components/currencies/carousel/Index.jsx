@@ -58,7 +58,7 @@ const TrendingCarousel = ({ trending }) => {
               }}
             >
               <Avatar
-                src={`https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.0/svg/color/${coin.symbol.toLowerCase()}.svg`}
+                src={`https://cdn.coinranking.com/Sy33Krudb/${coin.symbol.toLowerCase()}.svg`}
                 alt={coin.name}
                 width={24}
                 height={24}
@@ -104,7 +104,7 @@ const TrendingCarousel = ({ trending }) => {
   });
 
   return (
-    <Box sx={{ height: `${50}%`, display: "flex", alignItems: "center" }}>
+    <Box sx={{ display: "flex" }}>
       <AliceCarousel
         mouseTracking
         infinite
