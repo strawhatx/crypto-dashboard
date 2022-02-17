@@ -2,8 +2,11 @@ import React from "react";
 import { StarOutline } from "@mui/icons-material";
 import PropTypes from "prop-types";
 import { Avatar, Box, Button, Typography } from "@mui/material";
+import { useTheme } from "@mui/system";
 
 const CurrencyTitleToolbar = ({ currency }) => {
+  const theme = useTheme();
+
   return (
     <Box
       sx={{
@@ -17,11 +20,11 @@ const CurrencyTitleToolbar = ({ currency }) => {
       {/** Toolbar */}
       <Box sx={{ display: "flex", mx: { xs: "auto", sm: 0 } }}>
         <Avatar
-          src={`https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.0/svg/color/${currency?.symbol?.toLowerCase()}.svg`}
+          src={currency.iconUrl}
           alt="currency-tag"
           sx={{
-            width: { xs: 30, sm: 40 },
-            height: { xs: 30, sm: 40 },
+            width: { xs: theme.spacing(30), sm: theme.spacing(40) },
+            height: { xs: theme.spacing(30), sm: theme.spacing(40) },
             marginRight: "1rem",
             marginBottom: ".4rem",
           }}
@@ -29,15 +32,14 @@ const CurrencyTitleToolbar = ({ currency }) => {
         <Box
           sx={{
             display: "flex",
-
             alignItems: "baseline",
           }}
         >
           <Box
             sx={{
-              typography: { xs: "h5", sm: "h4" },
-              fontWeight: "medium",
-              mr: 2,
+              typography: { xs: theme.typography.h5, sm: theme.typography.h4 },
+              fontWeight: theme.typography.fontWeightMedium,
+              mr: theme.spacing(2),
             }}
           >
             {currency?.name}
@@ -45,8 +47,8 @@ const CurrencyTitleToolbar = ({ currency }) => {
 
           <Box
             sx={{
-              typography: { xs: "h6", sm: "h5" },
-              fontWeight: "medium",
+              typography: { xs: theme.typography.h6, sm: theme.typography.h5 },
+              fontWeight: theme.typography.fontWeightMedium,
               color: "text.secondary",
             }}
           >

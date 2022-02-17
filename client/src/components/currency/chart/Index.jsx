@@ -15,18 +15,17 @@ import {
 } from "@mui/material";
 
 const CurrencyChart = () => {
-  const [currency, setCurrency] = useState({});
-  const [interval, setInterval] = useState("1h");
-  const [days, setDays] = useState(7);
+  const [coin, setCoin] = useState({});
+  const [interval, setInterval] = useState("24h");
   const [prices, setPrices] = useState([]);
-  const [dates, setDates] = useState([]);
+  const [timestamps, setTimestamps] = useState([]);
   const { state } = useLocation();
 
   const fetchCoin = async () => {
     try {
-      const { data } = await axios.get(`coin/history/${state.uuid}`);
+      const { data } = await axios.get(`coins/${state.uuid}`);
 
-      setCurrency(data);
+      setCoin(data.data.coin);
     } catch (error) {
       console.log(error);
     }
@@ -34,15 +33,15 @@ const CurrencyChart = () => {
 
   const fetchChart = async () => {
     try {
-      const current = new Date();
+      const { data } = await axios.post(`/coins/history/`, {
+        id: state.uuid,
+        period: interval,
+      });
+      const history = data.data?.history;
 
-      const start = current;
-      const end = current.setDate(current.getDate() + days);
+      setTimestamps(history.map((item) => parseInt(item.timestamp)));
 
-      const { data } = await axios.get(`/coins/${state.uuid}`);
-
-      setPrices(data.map((item) => item.price));
-      setDates(data.map((item) => item.date));
+      setPrices(history.map((item) => parseInt(item.price)));
     } catch (error) {
       console.log(error);
     }
@@ -55,50 +54,61 @@ const CurrencyChart = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  var options = {
+  const chart = {
     series: [
       {
         name: "STOCK ABC",
         data: prices,
       },
     ],
-    chart: {
-      type: "area",
-      height: 350,
-      zoom: {
+    options: {
+      chart: {
+        type: "area",
+        height: 350,
+        zoom: {
+          enabled: false,
+        },
+      },
+      dataLabels: {
         enabled: false,
       },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "straight",
-    },
+      stroke: {
+        curve: "straight",
+      },
 
-    title: {
-      text: "Fundamental Analysis of Stocks",
-      align: "left",
-    },
-    subtitle: {
-      text: "Price Movements",
-      align: "left",
-    },
-    labels: dates,
-    xaxis: {
-      type: "datetime",
-    },
-    yaxis: {
-      opposite: true,
-    },
-    legend: {
-      horizontalAlign: "left",
+      title: {
+        text: "Fundamental Analysis of Stocks",
+        align: "left",
+      },
+      subtitle: {
+        text: "Price Movements",
+        align: "left",
+      },
+      xaxis: {
+        type: "datetime",
+        tickAmount: 8,
+        min: new Date("01/01/2014").getTime(),
+        max: new Date("01/20/2014").getTime(),
+        labels: {
+          rotate: -15,
+          rotateAlways: true,
+          formatter: function (val, timestamp) {
+            return moment(new Date(timestamp)).format("DD MMM YYYY");
+          },
+        },
+      },
+      yaxis: {
+        opposite: true,
+      },
+      legend: {
+        horizontalAlign: "left",
+      },
     },
   };
 
   return (
     <>
-      <CurrencyTitleToolbar currency={currency} />
+      <CurrencyTitleToolbar currency={coin} />
       <Card>
         <CardHeader
           title={
@@ -112,9 +122,16 @@ const CurrencyChart = () => {
               <Box>
                 <Typography variant="h4" component="div">
                   <NumberFormat
-                    value={currency?.quotes?.USD?.price?.toFixed(2)}
+                    value={coin.price?.toString()}
                     displayType={"text"}
                     thousandSeparator={true}
+                    decimalScale={
+                      coin.price >= 1
+                        ? 2
+                        : coin.price
+                            ?.split("")
+                            .findIndex((e) => parseInt(e) > 0) + 2
+                    }
                     prefix={"$"}
                   />
                 </Typography>
@@ -133,7 +150,7 @@ const CurrencyChart = () => {
           }
         ></CardHeader>
         <CardContent>
-          <Chart options={options} width="500" />
+          <Chart options={chart.options} series={chart.series} width="100%" />
         </CardContent>
       </Card>
     </>

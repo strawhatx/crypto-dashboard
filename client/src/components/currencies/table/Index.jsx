@@ -32,15 +32,19 @@ const CurrenciesTable = () => {
 
   const handleSearch = async () => {
     try {
-      const { data } = await axios.post("coins/", { page, size, search });
-      setTotal(data.data.stats.totalCoins);
-      setCoins(data.data.coins);
+      const { data } = await axios.post("coins/search", { page, size, search });
+      setTotal(data.data.stats.total);
+      setCoins(data.data.coins?.filter((e) => e.price > 0));
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => handleSearch(), []);
+  useEffect(() => {
+    handleSearch();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, search]);
 
   return (
     <Card>
@@ -59,10 +63,10 @@ const CurrenciesTable = () => {
               component="span"
               sx={{
                 fontSize: `large`,
-                fontWeight: 500,
+                fontWeight: theme.typography.fontWeightMedium,
                 textAlign: { xs: "center", sm: "left" },
-                px: `${8.5}px`,
-                py: `${7}px`,
+                px: theme.spacing(8.5),
+                py: theme.spacing(7),
               }}
             >
               Cryptocurrency Prices by Rank
@@ -86,7 +90,7 @@ const CurrenciesTable = () => {
                       key={index}
                       sx={{
                         fontSize: ".95rem",
-                        fontWeight: 500,
+                        fontWeight: theme.typography.fontWeightMedium,
                         textAlign: index > 0 ? "right" : "left",
                         color: "rgba(0, 0, 0, 0.45)",
                         py: 0,
@@ -100,19 +104,19 @@ const CurrenciesTable = () => {
             </TableHead>
             <TableBody>
               {coins.map((coin, index) => {
-                const profit = parseInt(coin.change) >= 0;
+                const profit = coin.change?.toString() >= 0;
                 return (
                   <TableRow
                     key={coin.uuid}
                     hover
                     onClick={() =>
-                      navigate(`/currencies/${coin.name}`, {
-                        state: { uuid: coin.uuid, name: coin.name },
+                      navigate(`/currencies/${coin.name?.toLowerCase()}`, {
+                        state: { id: coin.uuid, name: coin.name },
                       })
                     }
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
-                      borderRadius: 5,
+                      borderRadius: theme.spacing(5),
                     }}
                   >
                     <TableCell sx={{ display: "flex" }}>
@@ -137,9 +141,16 @@ const CurrenciesTable = () => {
                       <Box>
                         <Typography variant="p">
                           <NumberFormat
-                            value={coin.price?.toFixed(2)}
+                            value={coin.price?.toString()}
                             displayType={"text"}
                             thousandSeparator={true}
+                            decimalScale={
+                              coin.price >= 1
+                                ? 2
+                                : coin.price
+                                    ?.split("")
+                                    .findIndex((e) => parseInt(e) > 0) + 2
+                            }
                             prefix={"$"}
                           />
                         </Typography>
@@ -148,16 +159,15 @@ const CurrenciesTable = () => {
                       <Box
                         align="right"
                         style={{
-                          color: profit > 0 ? "green" : "red",
+                          color: profit ? "#229A16" : "red",
                           fontWeight: 400,
                         }}
                       >
                         <Typography variant="p">
                           <NumberFormat
-                            value={`${profit && "+"} ${parseInt(
-                              coin.change
-                            )?.toFixed(2)}%`}
+                            value={`${profit && "+"} ${coin.change}%`}
                             displayType={"text"}
+                            decimalScale={2}
                             thousandSeparator={true}
                           />
                         </Typography>
@@ -166,12 +176,16 @@ const CurrenciesTable = () => {
                     <TableCell align="right">
                       <Box>
                         <Typography variant="p">
-                          <NumberFormat
-                            value={coin["24hVolume"]?.toFixed(2)}
-                            displayType={"text"}
-                            thousandSeparator={true}
-                            prefix={"$"}
-                          />
+                          {coin["24hVolume"] && (
+                            <NumberFormat
+                              value={coin["24hVolume"]?.toString()}
+                              displayType={"text"}
+                              defaultValue={"N/A"}
+                              thousandSeparator={true}
+                              prefix={"$"}
+                            />
+                          )}
+                          {!coin["24hVolume"] && <span>N/A</span>}
                         </Typography>
                       </Box>
                       <Box align="right">
@@ -181,12 +195,15 @@ const CurrenciesTable = () => {
                     <TableCell align="right">
                       <Box>
                         <Typography variant="p">
-                          <NumberFormat
-                            value={coin.marketCap?.toFixed(2)}
-                            displayType={"text"}
-                            thousandSeparator={true}
-                            prefix={"$"}
-                          />
+                          {coin.marketCap && (
+                            <NumberFormat
+                              value={coin.marketCap?.toString()}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              prefix={"$"}
+                            />
+                          )}
+                          {!coin.marketCap && <span>N/A</span>}
                         </Typography>
                       </Box>
                       <Box align="right">
@@ -213,7 +230,6 @@ const CurrenciesTable = () => {
           onChange={(_, value) => {
             setPage(value);
             window.scroll(0, 450);
-            handleSearch();
           }}
         />
       </CardContent>

@@ -3,7 +3,7 @@ import { Box, Container } from "@mui/material";
 import CurrencyBreadcrumbs from "../../components/currency/breadcrumbs/Index";
 import CurrencyChart from "../../components/currency/chart/Index";
 
-const CurrencyDetail = (props) => {
+const CurrencyDetail = () => {
   return (
     <>
       {/** Hero */}

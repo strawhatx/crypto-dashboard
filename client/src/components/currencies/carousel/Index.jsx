@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Box, useTheme, alpha } from "@mui/system";
 import AliceCarousel from "react-alice-carousel";
-import { Avatar, Card, Link, Typography, Grid } from "@mui/material";
+import { Avatar, Card, Typography, Grid } from "@mui/material";
 import NumberFormat from "react-number-format";
-
-import "react-alice-carousel/lib/alice-carousel.css";
 import axios from "../../../config/axios";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 const TrendingCarousel = () => {
   const [trending, setTrending] = useState([]);
@@ -25,12 +25,12 @@ const TrendingCarousel = () => {
   useEffect(() => fetchCoins(), []);
 
   const items = trending.map((coin) => {
-    const profit = parseInt(coin.change) >= 0;
+    const profit = coin.change >= 0;
     return (
       <Grid item xs={10}>
         <Link
           sx={{ textDecoration: "none" }}
-          to={`/coins/${coin.id}`}
+          to={`/currencies/${coin.name?.toLowerCase()}}`}
           state={{ uuid: coin.uuid, name: coin.name }}
         >
           <Card
@@ -38,14 +38,12 @@ const TrendingCarousel = () => {
               boxShadow: "none",
               textAlign: "center",
               padding: theme.spacing(3, 5),
-              color:
-                profit > 0
-                  ? theme.palette.success.darker
-                  : theme.palette.error.darker,
-              backgroundColor:
-                profit > 0
-                  ? theme.palette.success.lighter
-                  : theme.palette.error.lighter,
+              color: profit
+                ? theme.palette.success.darker
+                : theme.palette.error.darker,
+              backgroundColor: profit
+                ? theme.palette.success.lighter
+                : theme.palette.error.lighter,
             }}
           >
             <Box
@@ -58,17 +56,16 @@ const TrendingCarousel = () => {
                 height: theme.spacing(8),
                 justifyContent: "center",
                 marginBottom: theme.spacing(3),
-                color:
-                  profit > 0
-                    ? theme.palette.success.dark
-                    : theme.palette.error.dark,
+                color: profit
+                  ? theme.palette.success.dark
+                  : theme.palette.error.dark,
                 backgroundImage: `linear-gradient(135deg, ${alpha(
-                  profit > 0
+                  profit
                     ? theme.palette.success.dark
                     : theme.palette.error.dark,
                   0
                 )} 0%, ${alpha(
-                  profit > 0
+                  profit
                     ? theme.palette.success.dark
                     : theme.palette.error.dark,
                   0.24
@@ -85,27 +82,32 @@ const TrendingCarousel = () => {
             <Box>
               <Typography variant="h4" sx={{ mr: 1 }}>
                 <NumberFormat
-                  value={coin.price?.toFixed(2)}
+                  value={coin.price?.toString()}
                   displayType={"text"}
                   thousandSeparator={true}
+                  decimalScale={
+                    coin.price >= 1
+                      ? 2
+                      : coin.price
+                          ?.split("")
+                          .findIndex((e) => parseInt(e) > 0) + 2
+                  }
                   prefix={"$"}
                 />
               </Typography>
               <Typography
                 variant="p"
                 sx={{
-                  color:
-                    profit > 0
-                      ? theme.palette.success.dark
-                      : theme.palette.error.dark,
+                  color: profit
+                    ? theme.palette.success.dark
+                    : theme.palette.error.dark,
                   fontWeight: 400,
                 }}
               >
                 <NumberFormat
-                  value={`${profit && "+"} ${parseInt(coin.change_24h)?.toFixed(
-                    2
-                  )}`}
+                  value={`${profit && "+"} ${coin.change}%`}
                   displayType={"text"}
+                  decimalScale={2}
                   thousandSeparator={true}
                 />
                 %
