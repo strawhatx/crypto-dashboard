@@ -5,6 +5,7 @@ import axios from "../../../config/axios";
 import CurrencyTitleToolbar from "./components/CurrencyTitleToolbar";
 import NumberFormat from "react-number-format";
 import Chart from "react-apexcharts";
+import moment from "moment";
 import {
   Box,
   Button,
@@ -13,12 +14,14 @@ import {
   CardHeader,
   Typography,
 } from "@mui/material";
+import { yAxisDateFormat } from "../../../util/coins-util";
 
 const CurrencyChart = () => {
   const [coin, setCoin] = useState({});
   const [interval, setInterval] = useState("24h");
   const [prices, setPrices] = useState([]);
-  const [timestamps, setTimestamps] = useState([]);
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(0);
   const { state } = useLocation();
 
   const fetchCoin = async () => {
@@ -39,7 +42,9 @@ const CurrencyChart = () => {
       });
       const history = data.data?.history;
 
-      setTimestamps(history.map((item) => parseInt(item.timestamp)));
+      setMin(history[0]?.timestamp);
+
+      setMin(history[history?.length]?.timestamp);
 
       setPrices(history.map((item) => parseInt(item.price)));
     } catch (error) {
@@ -77,7 +82,7 @@ const CurrencyChart = () => {
       },
 
       title: {
-        text: "Fundamental Analysis of Stocks",
+        text: "Fundamental Analysis of Coins",
         align: "left",
       },
       subtitle: {
@@ -86,14 +91,14 @@ const CurrencyChart = () => {
       },
       xaxis: {
         type: "datetime",
-        tickAmount: 8,
-        min: new Date("01/01/2014").getTime(),
-        max: new Date("01/20/2014").getTime(),
+        tickAmount: 6,
+        min: min,
+        max: max,
         labels: {
-          rotate: -15,
-          rotateAlways: true,
           formatter: function (val, timestamp) {
-            return moment(new Date(timestamp)).format("DD MMM YYYY");
+            return moment(new Date(timestamp)).format(
+              yAxisDateFormat(interval)
+            );
           },
         },
       },
