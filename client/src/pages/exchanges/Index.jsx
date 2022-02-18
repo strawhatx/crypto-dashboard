@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import { useTheme } from "@mui/system";
 import {
   Box,
   Card,
@@ -18,6 +19,7 @@ import {
 
 const Exchanges = () => {
   const [exchanges, setExchanges] = useState([]);
+  const theme = useTheme();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,8 +47,8 @@ const Exchanges = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "left",
-          pt: `${1.25}rem`,
-          pb: `${7.3}rem`,
+          pt: theme.spacing(1.25),
+          pb: theme.spacing(7.3),
         }}
       >
         <Container maxWidth="lg">
@@ -56,10 +58,10 @@ const Exchanges = () => {
             component="div"
             color="primary.contrastText"
             sx={{
-              mb: `${0.6}rem`,
-              pt: `${5}rem`,
-              pb: `${5}rem`,
-              fontWeight: "bold",
+              mb: theme.spacing(0.6),
+              pt: theme.spacing(5),
+              pb: theme.spacing(5),
+              fontWeight: theme.typography.fontWeightMedium,
               textAlign: { xs: "center", md: "left" },
             }}
           >
@@ -69,7 +71,7 @@ const Exchanges = () => {
       </Box>
 
       {/**exchanges */}
-      <Box sx={{ mt: `${-8.75}rem`, pb: `${1}rem` }}>
+      <Box sx={{ mt: theme.spacing(-8.75), pb: theme.spacing(1) }}>
         <Container maxWidth="lg">
           <Card>
             <CardHeader title="Currency" />
