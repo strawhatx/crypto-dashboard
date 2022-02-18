@@ -1,28 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { StarOutline } from "@mui/icons-material";
 import axios from "../../../config/axios";
 import CurrencyTitleToolbar from "./components/CurrencyTitleToolbar";
-import NumberFormat from "react-number-format";
 import Chart from "react-apexcharts";
-import moment from "moment";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@mui/material";
-import { yAxisDateFormat } from "../../../util/coins-util";
+import { Card, CardContent } from "@mui/material";
+import { getDatetime, numberWithCommas } from "../../../util/coins-util";
 
 const CurrencyChart = () => {
   const [coin, setCoin] = useState({});
   const [interval, setInterval] = useState("24h");
-  const [prices, setPrices] = useState([]);
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(0);
+  const [series, setSeries] = useState([]);
   const { state } = useLocation();
+
+  const decimalPlaces = () =>
+    coin?.price >= 1
+      ? 2
+      : coin?.price?.split("").findIndex((e) => parseInt(e) > 0) + 2;
 
   const fetchCoin = async () => {
     try {
@@ -42,11 +35,11 @@ const CurrencyChart = () => {
       });
       const history = data.data?.history;
 
-      setMin(history[0]?.timestamp);
-
-      setMin(history[history?.length]?.timestamp);
-
-      setPrices(history.map((item) => parseInt(item.price)));
+      setSeries(
+        history.map((item) => {
+          return { x: getDatetime(item.timestamp), y: parseInt(item.price) };
+        })
+      );
     } catch (error) {
       console.log(error);
     }
@@ -62,51 +55,74 @@ const CurrencyChart = () => {
   const chart = {
     series: [
       {
-        name: "STOCK ABC",
-        data: prices,
+        name: coin.name,
+        data: series,
       },
     ],
     options: {
       chart: {
         type: "area",
+        stacked: false,
         height: 350,
         zoom: {
           enabled: false,
+        },
+        toolbar: {
+          show: false,
         },
       },
       dataLabels: {
         enabled: false,
       },
-      stroke: {
-        curve: "straight",
+      markers: {
+        size: 0,
       },
-
       title: {
-        text: "Fundamental Analysis of Coins",
+        text: `${numberWithCommas(
+          parseInt(coin.price).toFixed(decimalPlaces())
+        )}`,
         align: "left",
+        style: {
+          fontSize: "45px",
+          fontWeight: "medium",
+        },
       },
-      subtitle: {
-        text: "Price Movements",
-        align: "left",
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 1,
+          inverseColors: false,
+          opacityFrom: 0.5,
+          opacityTo: 0,
+          stops: [0, 90, 100],
+        },
       },
-      xaxis: {
-        type: "datetime",
-        tickAmount: 6,
-        min: min,
-        max: max,
-        labels: {
-          formatter: function (val, timestamp) {
-            return moment(new Date(timestamp)).format(
-              yAxisDateFormat(interval)
-            );
+      grid: {
+        show: true,
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: false,
           },
         },
       },
       yaxis: {
-        opposite: true,
+        show: false,
       },
-      legend: {
-        horizontalAlign: "left",
+      xaxis: {
+        type: "datetime",
+      },
+      tooltip: {
+        shared: false,
+        y: {
+          formatter: function (val) {
+            // return (val / 1000000).toFixed(0);
+          },
+        },
       },
     },
   };
@@ -115,47 +131,14 @@ const CurrencyChart = () => {
     <>
       <CurrencyTitleToolbar currency={coin} />
       <Card>
-        <CardHeader
-          title={
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: { xs: "column", sm: "row" },
-                justifyContent: "space-between",
-              }}
-            >
-              <Box>
-                <Typography variant="h4" component="div">
-                  <NumberFormat
-                    value={coin.price?.toString()}
-                    displayType={"text"}
-                    thousandSeparator={true}
-                    decimalScale={
-                      coin.price >= 1
-                        ? 2
-                        : coin.price
-                            ?.split("")
-                            .findIndex((e) => parseInt(e) > 0) + 2
-                    }
-                    prefix={"$"}
-                  />
-                </Typography>
-              </Box>
-              <Box>
-                <Button
-                  startIcon={
-                    <StarOutline fontSize="small" htmlColor="inherit" />
-                  }
-                  aria-label="wathchlist"
-                >
-                  Add to Watchlist
-                </Button>
-              </Box>
-            </Box>
-          }
-        ></CardHeader>
         <CardContent>
-          <Chart options={chart.options} series={chart.series} width="100%" />
+          <Chart
+            options={chart.options}
+            series={chart.series}
+            type="area"
+            height={350}
+            width="100%"
+          />
         </CardContent>
       </Card>
     </>

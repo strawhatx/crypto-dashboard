@@ -1,7 +1,35 @@
+import moment from "moment";
+
+//Numbers
+
 export const numberWithCommas = (x) => {
-  x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
+//dates
+export const getDatetimeWithInterval = (timestamp, interval) => {
+  let format = yAxisDateFormat(interval);
+
+  let milliseconds = timestamp * 1000;
+
+  let dateLocale = new Date(milliseconds).toLocaleString();
+
+  let datetime = moment(new Date(dateLocale)).format(format);
+
+  return datetime;
+};
+
+export const getDatetime = (timestamp) => {
+  let milliseconds = timestamp * 1000;
+
+  let dateLocale = new Date(milliseconds).toLocaleString();
+
+  let datetime = moment(new Date(dateLocale));
+
+  return datetime;
+};
+
+//charts
 export const chartDays = ["3h", "24h", "7d", "30d", "3m", "1y", "3y", "5y"];
 
 export const yAxisDateFormat = (x) => {
@@ -11,7 +39,7 @@ export const yAxisDateFormat = (x) => {
   switch (x) {
     case "3h":
     case "24h":
-      result = "HH:mm A";
+      result = "H:mm A";
       break;
     case "7d":
     case "30d":

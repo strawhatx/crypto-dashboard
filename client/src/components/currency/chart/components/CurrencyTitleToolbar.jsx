@@ -23,8 +23,8 @@ const CurrencyTitleToolbar = ({ currency }) => {
           src={currency.iconUrl}
           alt="currency-tag"
           sx={{
-            width: { xs: theme.spacing(30), sm: theme.spacing(40) },
-            height: { xs: theme.spacing(30), sm: theme.spacing(40) },
+            width: { xs: theme.spacing(2.5), sm: theme.spacing(5) },
+            height: { xs: theme.spacing(2.5), sm: theme.spacing(5) },
             marginRight: "1rem",
             marginBottom: ".4rem",
           }}
