@@ -37,25 +37,32 @@ const CurrencyDetail = () => {
           flexDirection: "column",
           justifyContent: "left",
           pt: theme.spacing(5.25),
-          pb: theme.spacing(5.3),
+          pb: theme.spacing(7.3),
           bgcolor: theme.palette.primary.main,
           color: theme.palette.primary.contrastText,
         }}
       >
         <Container maxWidth="lg">
-          <CurrencyBreadcrumbs />
+          {/**<CurrencyBreadcrumbs />*/}
           <CurrencyToolbar
             coinName={coin.name}
             coinSymbol={coin.symbol}
             coinIconUrl={coin.iconUrl}
           />
+
+          <CurrencyChart coinName={coin.name} coinPrice={coin.price} />
+        </Container>
+      </Box>
+
+      {/**Currencies */}
+      <Box sx={{ mt: -8, pb: 1 }}>
+        <Container maxWidth="lg">
           <CurrencyInfobar
             coinMarketcap={coin.marketCap}
             coin24hVolume={coin["24hVolume"]}
             coinCirculatingSupply={coin.supply?.circulating}
             coinMaxSupply={coin.supply?.total}
           />
-          <CurrencyChart coinName={coin.name} coinPrice={coin.price} />
         </Container>
       </Box>
     </>

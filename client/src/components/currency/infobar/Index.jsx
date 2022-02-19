@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, CardContent, Grid, Box, Typography } from "@mui/material";
+import { Card, Stack, Grid, Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/system";
+import NumberFormat from "react-number-format";
 
 const CurrencyInfobar = ({
   coinMarketcap,
@@ -10,43 +11,97 @@ const CurrencyInfobar = ({
   coinMaxSupply,
 }) => {
   const theme = useTheme();
+  const items = [
+    { label: "Circulating Supply", value: coinCirculatingSupply },
+    { label: "Max Supply", value: coinMaxSupply },
+    { label: "Marketcap", value: coinMarketcap },
+    { label: "24h Volume", value: coin24hVolume },
+  ];
+
+  const stack = items.map((e, i) => {
+    return (
+      <Stack
+        direction="column"
+        alignItems="left"
+        spacing={2}
+        sx={{
+          justifyContent: "space-between",
+          borderBottom: i < items.length - 1 ? 1 : 0,
+          borderColor: theme.palette.grey[300],
+          padding: theme.spacing(1.5625, 1.75),
+        }}
+      >
+        <Typography
+          variant="subtitle2"
+          noWrap
+          sx={{ fontSize: 16, color: theme.palette.grey[500] }}
+        >
+          {e.label}
+        </Typography>
+
+        <Typography
+          variant="h4"
+          sx={{
+            pr: 3,
+            flexShrink: 0,
+            color: theme.palette.grey[700],
+          }}
+        >
+          <NumberFormat
+            value={e.value?.toString()}
+            displayType={"text"}
+            thousandSeparator={true}
+            prefix={"$"}
+          />
+        </Typography>
+      </Stack>
+    );
+  });
 
   const card = (label, value) => {
     return (
       <Card
         sx={{
-          bgcolor: theme.palette.primary.light,
-          color: theme.palette.grey[600],
-          boxShadow: 0,
+          boxShadow: "none",
+          textAlign: "center",
+          padding: theme.spacing(3, 5),
+          backgroundColor: "#f5f5f5e3",
         }}
       >
-        +
-        <CardContent sx={{ display: "flex", flex: "1 1 0%" }}>
-          <Box>
-            <Typography variant="h3">{value}</Typography>
-            <Typography variant="p">{label}</Typography>
-          </Box>
-        </CardContent>
+        <Box>
+          <Typography variant="h4" sx={{ mr: 1 }}>
+            <NumberFormat
+              value={value?.toString()}
+              displayType={"text"}
+              thousandSeparator={true}
+              prefix={"$"}
+            />
+          </Typography>
+        </Box>
+
+        <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
+          {label}
+        </Typography>
       </Card>
     );
   };
   return (
-    <>
+    <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
-          {card("Marketcap", coinMarketcap)}
-        </Grid>
-        <Grid item xs={6}>
-          {card("24h Volume", coin24hVolume)}
-        </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={3}>
           {card("Circulating Supply", coinCirculatingSupply)}
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={3}>
           {card("Max Supply", coinMaxSupply)}
         </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          {card("Marketcap", coinMarketcap)}
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          {card("24h Volume", coin24hVolume)}
+        </Grid>
       </Grid>
-    </>
+    </Box>
   );
 };
 

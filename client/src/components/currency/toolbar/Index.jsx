@@ -15,33 +15,25 @@ const CurrencyToolbar = ({ coinName, coinSymbol, coinIconUrl }) => {
   const theme = useTheme();
 
   return (
-    <Card
-      sx={{
-        bgcolor: "transparent",
-        color: theme.palette.primary.contrastText,
-        boxShadow: 0,
-      }}
-    >
-      <CardContent
+    <>
+      <Box
         sx={{
           display: "flex",
-          mb: 4,
-          flexDirection: { xs: "column", sm: "row" },
-          justifyContent: "space-between",
-          alignItems: "baseline",
+          mx: { xs: "auto", sm: 0 },
+          pb: 4,
         }}
       >
-        <Box sx={{ display: "flex", mx: { xs: "auto", sm: 0 } }}>
-          <Avatar
-            src={coinIconUrl}
-            alt="coin-tag"
-            sx={{
-              width: { xs: theme.spacing(2.5), sm: theme.spacing(5) },
-              height: { xs: theme.spacing(2.5), sm: theme.spacing(5) },
-              marginRight: "1rem",
-              marginBottom: ".4rem",
-            }}
-          />
+        <Avatar
+          src={coinIconUrl}
+          alt="coin-tag"
+          sx={{
+            width: { xs: theme.spacing(2.5), sm: theme.spacing(5) },
+            height: { xs: theme.spacing(2.5), sm: theme.spacing(5) },
+            marginRight: "1rem",
+            marginBottom: ".4rem",
+          }}
+        />
+        <Box sx={{ display: "flex", alignItems: "baseline" }}>
           <Box
             sx={{
               display: "flex",
@@ -74,23 +66,17 @@ const CurrencyToolbar = ({ coinName, coinSymbol, coinIconUrl }) => {
               {coinSymbol}
             </Box>
           </Box>
-        </Box>
 
-        {/* Watch list */}
-        <Box sx={{ mx: { xs: "auto", sm: 0 } }}>
           <Button
             color="inherit"
             size="medium"
-            startIcon={<StarOutline fontSize="medium" htmlColor="inherit" />}
+            startIcon={<StarOutline fontSize="large" htmlColor="inherit" />}
             aria-label="watchlist"
             variant="text"
-          >
-            <Typography sx={{ padding: 1 }}>Add to Watchlist</Typography>
-          </Button>
+          ></Button>
         </Box>
-      </CardContent>
-      {/** Toolbar */}
-    </Card>
+      </Box>
+    </>
   );
 };
 

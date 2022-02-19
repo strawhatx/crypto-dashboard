@@ -80,6 +80,7 @@ const CurrencyChart = ({ coinName, coinPrice }) => {
           stops: [0, 90, 100],
         },
       },
+
       grid: {
         show: true,
         xaxis: {
@@ -132,46 +133,43 @@ const CurrencyChart = ({ coinName, coinPrice }) => {
 
   return (
     <>
-      <Card
+      <Box
         sx={{
           bgcolor: "transparent",
           color: theme.palette.grey[600],
           boxShadow: 0,
         }}
       >
-        <CardHeader
-          title={
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: { xs: "column", sm: "row" },
-                justifyContent: "space-between",
-                alignItems: "baseline",
-              }}
-            >
-              <Box>
-                <Typography variant="h4" component="div">
-                  <NumberFormat
-                    value={coinPrice?.toString()}
-                    displayType={"text"}
-                    thousandSeparator={true}
-                    decimalScale={
-                      coinPrice >= 1
-                        ? 2
-                        : coinPrice
-                            ?.split("")
-                            .findIndex((e) => parseInt(e) > 0) + 2
-                    }
-                    prefix={"$"}
-                  />
-                </Typography>
-              </Box>
-
-              <Box>{intervals}</Box>
+        <Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              justifyContent: "space-between",
+              alignItems: "baseline",
+            }}
+          >
+            <Box>
+              <Typography variant="h4" component="div">
+                <NumberFormat
+                  value={coinPrice?.toString()}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  decimalScale={
+                    coinPrice >= 1
+                      ? 2
+                      : coinPrice?.split("").findIndex((e) => parseInt(e) > 0) +
+                        2
+                  }
+                  prefix={"$"}
+                />
+              </Typography>
             </Box>
-          }
-        ></CardHeader>
-        <CardContent>
+
+            <Box>{intervals}</Box>
+          </Box>
+        </Box>
+        <Box>
           <Chart
             options={chart.options}
             series={chart.series}
@@ -179,8 +177,8 @@ const CurrencyChart = ({ coinName, coinPrice }) => {
             height={350}
             width="100%"
           />
-        </CardContent>
-      </Card>
+        </Box>
+      </Box>
     </>
   );
 };
