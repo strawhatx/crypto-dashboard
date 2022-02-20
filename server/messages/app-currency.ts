@@ -1,0 +1,1 @@
+export const GET_APP_CURRENCIES_EXCEPTION_MESSAGE = "ERROR: unable to retrieve reference currencies."

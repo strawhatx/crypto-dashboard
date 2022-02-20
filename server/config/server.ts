@@ -7,6 +7,7 @@ import { PORT } from "./"
 import { Connection } from "./connect"
 import { UserRoutes } from "../routes/user-routes";
 import { CoinRoutes } from "../routes/coin-routes";
+import { AppCurrencyRoutes } from "../routes/app-currency-routes";
 export class Server {
     public app: express.Application;
     public connect: Connection;
@@ -27,6 +28,7 @@ export class Server {
     public routes(): void {
         this.app.use("/api/users", UserRoutes);
         this.app.use("/api/coins", CoinRoutes);
+        this.app.use("/api/app-currency", AppCurrencyRoutes)
 
     }
 
