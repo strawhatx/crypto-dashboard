@@ -4,14 +4,7 @@ import axios from "../../../config/axios";
 import Chart from "react-apexcharts";
 import NumberFormat from "react-number-format";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Card,
-  CardHeader,
-  CardContent,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { chartIntervals, getDatetime } from "../../../util/coins-util";
 import { useTheme } from "@mui/system";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, Stack, Grid, Box, Typography } from "@mui/material";
+import { Card, Grid, Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
 import NumberFormat from "react-number-format";

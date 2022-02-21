@@ -1,18 +1,13 @@
-import {
-  Box,
-  Breadcrumbs,
-  Card,
-  CardContent,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { NavigateNext } from "@mui/icons-material";
+import { Box, TextField, Typography, Avatar } from "@mui/material";
 import React from "react";
-import { useLocation } from "react-router-dom";
 import { useTheme } from "@mui/system";
 
-const CurrencyPriceConverter = ({ coinName, cionIconUrl, coinPrice }) => {
-  const { state } = useLocation();
+const CurrencyPriceConverter = ({
+  coinName,
+  coinSymbol,
+  coinIconUrl,
+  coinPrice,
+}) => {
   const theme = useTheme();
 
   return (
@@ -35,17 +30,17 @@ const CurrencyPriceConverter = ({ coinName, cionIconUrl, coinPrice }) => {
           />
           <Box>
             <Box>
-              <Typography variant="p">{coin.name}</Typography>
+              <Typography variant="p">{coinName}</Typography>
             </Box>
 
             <Box>
-              <Typography variant="p">{coin.symbol}</Typography>
+              <Typography variant="p">{coinSymbol}</Typography>
             </Box>
           </Box>
           <Box>
             <TextField
               size="small"
-              onChange={(e) => setSearch(e.target.value)}
+              //onChange={(e) => setSearch(e.target.value)}
             />
           </Box>
         </Box>
@@ -66,23 +61,30 @@ const CurrencyPriceConverter = ({ coinName, cionIconUrl, coinPrice }) => {
           />
           <Box>
             <Box>
-              <Typography variant="p">{coin.name}</Typography>
+              <Typography variant="p">{coinName}</Typography>
             </Box>
 
             <Box>
-              <Typography variant="p">{coin.symbol}</Typography>
+              <Typography variant="p">{coinSymbol}</Typography>
             </Box>
           </Box>
           <Box>
             <TextField
               size="small"
-              onChange={(e) => setSearch(e.target.value)}
+              //onChange={(e) => setSearch(e.target.value)}
             />
           </Box>
         </Box>
       </Box>
     </Box>
   );
+};
+
+CurrencyInfobar.propType = {
+  coinName: PropTypes.string.isRequired,
+  coinSymbol: PropTypes.string.isRequired,
+  coinIconUrl: PropTypes.string.isRequired,
+  coinPrice: PropTypes.number.isRequired,
 };
 
 export default CurrencyPriceConverter;

@@ -1,14 +1,7 @@
 import React from "react";
 import { StarOutline } from "@mui/icons-material";
 import PropTypes from "prop-types";
-import {
-  Avatar,
-  Card,
-  Box,
-  Button,
-  Typography,
-  CardContent,
-} from "@mui/material";
+import { Avatar, Box, Button } from "@mui/material";
 import { useTheme } from "@mui/system";
 
 const CurrencyToolbar = ({ coinName, coinSymbol, coinIconUrl }) => {

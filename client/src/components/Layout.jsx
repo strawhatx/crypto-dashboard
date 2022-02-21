@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Index";
 import PropTypes from "prop-types";
 
 const Layout = ({ children }) => {

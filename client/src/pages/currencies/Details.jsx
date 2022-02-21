@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Box, Container } from "@mui/material";
-import CurrencyBreadcrumbs from "../../components/currency/price-converter/Index";
 import CurrencyChart from "../../components/currency/chart/Index";
 import { useLocation } from "react-router-dom";
 import axios from "../../config/axios";

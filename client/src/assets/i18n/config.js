@@ -2,8 +2,7 @@ import i18next from "i18next";
 import HttpBackend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
-
-const loadPath = `./locales/{{lng}}/{{ns}}.json?api_key=${apiKey}`;
+import { languages } from "./languages";
 
 i18next
   .use(HttpBackend)
@@ -15,21 +14,7 @@ i18next
     ns: ["default"],
     defaultNS: "default",
 
-    supportedLngs: [
-      "de",
-      "en",
-      "es",
-      "fr",
-      "id",
-      "it",
-      "ja",
-      "ms",
-      "nl",
-      "pt",
-      "ro",
-      "ru",
-      tr,
-    ],
+    supportedLngs: languages.map((e) => e.code),
 
     // for all available options read the backend's repository readme file
     loadPath: "/locales/{{lng}}/{{ns}}.json",
