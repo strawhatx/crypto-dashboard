@@ -1,4 +1,7 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
+import MenuIcon from "@mui/icons-material/Menu";
+import logo from "../assets/images/logo.svg";
 import {
   Box,
   AppBar,
@@ -9,11 +12,10 @@ import {
   IconButton,
   Menu,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import logo from "../assets/images/logo.svg";
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const { t } = useTranslation();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,22 +36,22 @@ const Navbar = () => {
             {/* Desktop */}
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <Button color="inherit" href="/currencies">
-                Currencies
+                {t("Currencies")}
               </Button>
               <Button color="inherit" href="/exchanges">
-                Exchanges
+                {t("Exchanges")}
               </Button>
               <Button color="inherit" href="/portfolios">
-                Portfolio
+                {t("Portfolio")}
               </Button>
             </Box>
 
             <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
               <Button color="inherit" href="/signin">
-                Signin
+                {t("Signin")}
               </Button>
               <Button color="inherit" href="/signup">
-                Signup
+                {t("Signup")}
               </Button>
             </Box>
 
@@ -85,19 +87,30 @@ const Navbar = () => {
               >
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Button color="inherit" href="/currencies">
-                    Cryptocurrencies
+                    {t("Currencies")}
                   </Button>
                 </MenuItem>
 
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Button color="inherit" href="/exchanges">
-                    Exchanges
+                    {t("Exchanges")}
                   </Button>
                 </MenuItem>
 
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Button color="inherit" href="/portfolios">
-                    Portfolio
+                    {t("Portfolio")}
+                  </Button>
+                </MenuItem>
+                <hr />
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Button color="inherit" href="/portfolios">
+                    {t("Signin")}
+                  </Button>
+                </MenuItem>
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Button color="inherit" href="/portfolios">
+                    {t("Signup")}
                   </Button>
                 </MenuItem>
               </Menu>

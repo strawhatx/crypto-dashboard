@@ -3,9 +3,11 @@ import { Box, Container, Typography } from "@mui/material";
 import TrendingCarousel from "../../components/currencies/carousel/Index";
 import CurrencyTable from "../../components/currencies/table/Index";
 import { useTheme } from "@mui/system";
+import { useTranslation } from "react-i18next";
 
 const Currencies = () => {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -29,7 +31,7 @@ const Currencies = () => {
               textAlign: { xs: "center", sm: "left" },
             }}
           >
-            Currencies
+            {t("Currencies")}
           </Typography>
         </Container>
 

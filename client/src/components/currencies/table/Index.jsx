@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NumberFormat from "react-number-format";
+import axios from "../../../config/axios";
+import { useTheme } from "@mui/system";
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Card,
@@ -17,8 +20,6 @@ import {
   Pagination,
   Avatar,
 } from "@mui/material";
-import axios from "../../../config/axios";
-import { useTheme } from "@mui/system";
 
 const CurrenciesTable = () => {
   const [page, setPage] = useState(1);
@@ -27,6 +28,7 @@ const CurrenciesTable = () => {
   const [coins, setCoins] = useState([]);
   const size = 30;
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const theme = useTheme();
 
@@ -69,7 +71,7 @@ const CurrenciesTable = () => {
                 py: theme.spacing(7),
               }}
             >
-              Cryptocurrency Prices by Rank
+              {t("Cryptocurrency Prices by Rank")}
             </Typography>
             <TextField
               label="Search"
@@ -84,7 +86,7 @@ const CurrenciesTable = () => {
           <Table>
             <TableHead>
               <TableRow>
-                {["Name", "Price", "Volume", "Market Cap"].map(
+                {[t("Name"), t("Price"), t("Volume"), t("Market Cap")].map(
                   (item, index) => (
                     <TableCell
                       key={index}

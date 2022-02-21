@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useState } from "react";
 import { useTheme } from "@mui/system";
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Card,
@@ -20,6 +20,7 @@ import {
 const Exchanges = () => {
   const [exchanges, setExchanges] = useState([]);
   const theme = useTheme();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -81,11 +82,11 @@ const Exchanges = () => {
                   <TableHead>
                     <TableRow>
                       <TableCell>#</TableCell>
-                      <TableCell>NAME</TableCell>
-                      <TableCell>PRICE</TableCell>
+                      <TableCell>{t("Name")}</TableCell>
+                      <TableCell>{t("Price")}</TableCell>
                       <TableCell>CHANGE</TableCell>
-                      <TableCell>VOLUME</TableCell>
-                      <TableCell>MARKET CAP</TableCell>
+                      <TableCell>{t("Volume")}</TableCell>
+                      <TableCell>{t("Market Cap")}</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
