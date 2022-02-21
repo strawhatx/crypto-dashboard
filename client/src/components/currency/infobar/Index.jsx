@@ -14,7 +14,7 @@ const CurrencyInfobar = ({
   const items = [
     { label: "Circulating Supply", value: coinCirculatingSupply },
     { label: "Max Supply", value: coinMaxSupply },
-    { label: "Marketcap", value: coinMarketcap },
+    { label: "Market Cap", value: coinMarketcap },
     { label: "24h Volume", value: coin24hVolume },
   ];
 

@@ -34,7 +34,7 @@ const Navbar = () => {
             {/* Desktop */}
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <Button color="inherit" href="/currencies">
-                Cryptocurrencies
+                Currencies
               </Button>
               <Button color="inherit" href="/exchanges">
                 Exchanges
