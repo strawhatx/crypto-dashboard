@@ -10,7 +10,7 @@ import Portfolio from "./pages/portfolio/Index";
 import Layout from "./components/Layout";
 import { GlobalStyles } from "./assets/theme/base/globalStyles";
 
-import "./assets/i18n/config";
+import "./assets/i18n";
 
 const App = () => {
   return (

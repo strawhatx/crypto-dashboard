@@ -4,6 +4,7 @@ import logo from "../../assets/images/logo.svg";
 import { Box, AppBar, Container, Toolbar, Button } from "@mui/material";
 import Mobile from "./menus/MobileMenu";
 import LanguageMenu from "./menus/LanguageMenu";
+import CurrencyMenu from "./menus/CurrencyMenu";
 
 const Navbar = () => {
   const { t } = useTranslation();
@@ -31,6 +32,7 @@ const Navbar = () => {
             </Box>
 
             <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+              <CurrencyMenu />
               <LanguageMenu />
 
               <Button color="inherit" href="/signin">

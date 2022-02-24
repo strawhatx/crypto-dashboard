@@ -1,7 +1,5 @@
 import _axios from "axios";
 
-//well leave this just incase we need comeback to reconfigure or something
-
 const coins_uri = process.env.COINS_URI;
 const access_token = process.env.COINS_ACCESS;
 
