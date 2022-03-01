@@ -11,9 +11,11 @@ export class AppCurrencyController {
      * @param res 
      * @param next 
      */
-    async getReferenceCurrencies(req: Request, res: Response, next: NextFunction) {
+    async searchReferenceCurrencies(req: Request, res: Response, next: NextFunction) {
         try {
-            const response = await coins_api.get("/reference-currencies?limit=30&types[]=fiat");
+            let page = req.body.page, size = req.body.size, search = req.body.search?.trim();
+            let offset = (page - 1) * size;
+            const response = await coins_api.get(`/reference-currencies?search=${search}&limit=${size}&offset=${offset}&types[]=fiat`);
 
             res.status(200).json(response.data);
 
@@ -22,4 +24,6 @@ export class AppCurrencyController {
             res.status(500).json({ error: GET_APP_CURRENCIES_EXCEPTION_MESSAGE })
         }
     }
+
+
 }

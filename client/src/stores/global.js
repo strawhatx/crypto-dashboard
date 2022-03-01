@@ -3,14 +3,14 @@ import { persist } from "zustand/middleware";
 
 export const useLanguageStore = create(
   persist((set) => ({
-    selected: "EN",
-    update: (value) => set({ selected: value }),
+    language: "EN",
+    updateLanguage: (value) => set({ language: value }),
   }))
 );
 
 export const useCurrencyStore = create(
   persist((set) => ({
-    selected: "USD",
-    update: (value) => set({ selected: value }),
+    currency: "USD",
+    updateCurrency: (value) => set({ currency: value }),
   }))
 );

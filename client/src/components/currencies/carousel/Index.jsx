@@ -1,30 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Box, useTheme, alpha } from "@mui/system";
 import AliceCarousel from "react-alice-carousel";
 import { Avatar, Card, Typography, Grid } from "@mui/material";
 import NumberFormat from "react-number-format";
-import axios from "../../../config/axios";
 import "react-alice-carousel/lib/alice-carousel.css";
+import { useTrendingHook } from "../../../hooks/trending";
 
 const TrendingCarousel = () => {
-  const [trending, setTrending] = useState([]);
-
+  const { loading, error, trending } = useTrendingHook();
   const theme = useTheme();
 
-  const fetchCoins = async () => {
-    try {
-      const { data } = await axios.get(`coins/trending/`);
-
-      setTrending(data.data.coins);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => fetchCoins(), []);
-
-  const items = trending.map((coin) => {
+  const items = trending?.map((coin) => {
     const profit = coin.change >= 0;
     return (
       <Grid item xs={10}>

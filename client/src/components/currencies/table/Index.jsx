@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NumberFormat from "react-number-format";
-import axios from "../../../config/axios";
 import { useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
 import {
@@ -20,33 +19,21 @@ import {
   Pagination,
   Avatar,
 } from "@mui/material";
+import { useCurrenciesHook } from "../../../hooks/currencies";
 
 const CurrenciesTable = () => {
   const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
   const [search, setSearch] = useState("");
-  const [coins, setCoins] = useState([]);
-  const size = 30;
+
+  const { loading, error, coins, total, size } = useCurrenciesHook(
+    page,
+    search
+  );
+
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const theme = useTheme();
-
-  const handleSearch = async () => {
-    try {
-      const { data } = await axios.post("coins/search", { page, size, search });
-      setTotal(data.data.stats.total);
-      setCoins(data.data.coins?.filter((e) => e.price > 0));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    handleSearch();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, search]);
 
   return (
     <Card>
@@ -67,7 +54,7 @@ const CurrenciesTable = () => {
                 fontSize: `large`,
                 fontWeight: theme.typography.fontWeightMedium,
                 textAlign: { xs: "center", sm: "left" },
-                px: theme.spacing(8.5),
+                px: theme.spacing(2.5),
                 py: theme.spacing(7),
               }}
             >

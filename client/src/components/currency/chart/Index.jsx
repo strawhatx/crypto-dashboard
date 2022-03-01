@@ -7,36 +7,13 @@ import PropTypes from "prop-types";
 import { Box, Typography, Button } from "@mui/material";
 import { chartIntervals, getDatetime } from "../../../util/coins-util";
 import { useTheme } from "@mui/system";
+import { useCurrencyChartHook } from "../../../hooks/currency-chart";
 
 const CurrencyChart = ({ coinName, coinPrice }) => {
   const [interval, setInterval] = useState("24h");
-  const [series, setSeries] = useState([]);
   const { state } = useLocation();
+  const { loading, error, series } = useCurrencyChartHook(state.uuid, interval);
   const theme = useTheme();
-
-  const fetchChart = async () => {
-    try {
-      const { data } = await axios.post(`/coins/history/`, {
-        id: state.uuid,
-        period: interval,
-      });
-      const history = data.data?.history;
-
-      setSeries(
-        history.map((item) => {
-          return { x: getDatetime(item.timestamp), y: parseInt(item.price) };
-        })
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchChart();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [interval]);
 
   const chart = {
     series: [

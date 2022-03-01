@@ -1,39 +1,43 @@
-import React, { useState } from "react";
-import { languages } from "../../../assets/i18n/languages";
-import { useLanguageStore } from "../../../stores";
-import { Button, Menu, MenuItem, Typography } from "@mui/material";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  all_languages,
+  popular_languages,
+} from "../../../assets/i18n/languages";
+import { useLanguageStore } from "../../../stores/global";
+import { Button, Grid, Box, Typography, TextField } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
+import BasicDialog from "../../dialog/Index";
+import NoResultsImg from "../../../assets/images/no-results.svg";
 
 const LanguageMenu = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [data, setData] = useState([]);
-  const open = Boolean(anchorEl);
+  const [search, setSearch] = useState("");
 
   const theme = useTheme();
   const [t, i18n] = useTranslation();
 
   const { selected, update } = useLanguageStore((state) => ({
-    selected: state.selected,
-    update: state.update,
+    selected: state.language,
+    update: state.updateLanguage,
   }));
 
-  const fetchLanguages = () => {
-    setData(languages);
+  const handlePopularSearch = () => {
+    return popular_languages.filter(
+      (lang) =>
+        lang.label.toLowerCase().includes(search?.toLowerCase()) ||
+        lang.value.toLowerCase().includes(search?.toLowerCase())
+    );
   };
 
-  const handleSelect = (value) => {
-    update(value?.toUpperCase());
-
-    setAnchorEl(null);
+  const handleAllSearch = () => {
+    return all_languages.filter(
+      (lang) =>
+        lang.label.toLowerCase().includes(search?.toLowerCase()) ||
+        lang.value.toLowerCase().includes(search?.toLowerCase())
+    );
   };
 
   useEffect(() => {
-    if (data.length <= 0) {
-      fetchLanguages();
-    }
-
     i18n.changeLanguage(selected.toLowerCase(), () =>
       console.log("language changed")
     );
@@ -41,50 +45,103 @@ const LanguageMenu = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
+  const popularGrid = (
+    <Box classNames="popular" sx={{ mb: theme.spacing(4) }}>
+      <Typography>Popular</Typography>
+      <Grid container spacing={2}>
+        {handlePopularSearch().map((e, i) => (
+          <Grid key={e.value} item xs={6} md={4}>
+            <Button fullWidth onClick={() => update(e.value)}>
+              <Typography
+                variant="p"
+                sx={{
+                  color:
+                    e.value === selected ? theme.palette.secondary.main : "",
+                }}
+              >
+                {e.label}
+              </Typography>
+            </Button>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
+
+  const allGrid = (
+    <Box classNames="all">
+      <Typography>All</Typography>
+      <Grid container spacing={2}>
+        {handleAllSearch().map((e, i) => (
+          <Grid key={e.value} item xs={6} md={4}>
+            <Button fullWidth onClick={() => update(e.value)}>
+              <Typography
+                variant="p"
+                sx={{
+                  color:
+                    e.value === selected ? theme.palette.secondary.main : "",
+                }}
+              >
+                {e.label}
+              </Typography>
+            </Button>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
+
+  const NoResults = (
+    <Box
+      className="no-results"
+      sx={{
+        display: "flex",
+        padding: theme.spacing(4),
+        mt: theme.spacing(5),
+        justifyContent: "center",
+      }}
+    >
+      <Box sx={{ display: "block" }}>
+        <Box>
+          <img
+            src={NoResultsImg}
+            className="no-results-img"
+            alt="no results"
+            style={{ margin: "auto" }}
+          />
+        </Box>
+        <Box>
+          <p>No search results</p>
+        </Box>
+      </Box>
+    </Box>
+  );
+
   return (
     <>
-      <Button
-        id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={(event) => setAnchorEl(event.currentTarget)}
-        variant="contained"
-        sx={{
-          border: 1,
-          borderColor: "#f5f5f5e3",
-          color: theme.palette.primary.contrastText,
-          py: theme.spacing(0.25),
-          mr: theme.spacing(2),
-        }}
-      >
-        <Typography>{selected}</Typography>
-      </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={() => setAnchorEl(null)}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-        PaperProps={{
-          style: {
-            maxHeight: 48 * 4.5,
-            width: "20ch",
-          },
-        }}
-      >
-        {data.map((e, i) => (
-          <MenuItem
-            key={i}
-            onClick={() => handleSelect(e.code)}
-            sx={{ py: theme.spacing(2), pr: theme.spacing(5) }}
-          >
-            {e.name}
-          </MenuItem>
-        ))}
-      </Menu>
+      <BasicDialog
+        btnTitle={selected}
+        title="Select a language"
+        children={
+          <Box sx={{ pb: theme.spacing(5) }}>
+            <Box classNames="search" sx={{ mb: theme.spacing(4) }}>
+              <TextField
+                label="Search"
+                size="small"
+                fullWidth
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </Box>
+            {handlePopularSearch().length > 0 && popularGrid}
+
+            {handleAllSearch().length > 0 && allGrid}
+
+            {handlePopularSearch().length <= 0 &&
+              handleAllSearch().length <= 0 &&
+              NoResults}
+          </Box>
+        }
+      />
     </>
   );
 };

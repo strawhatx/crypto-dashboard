@@ -1,89 +1,143 @@
 import React, { useState, useEffect } from "react";
-import { useCurrencyStore } from "../../../stores";
-import { Button, Menu, MenuItem, Typography } from "@mui/material";
+import { useCurrencyStore } from "../../../stores/global";
 import { useTheme } from "@mui/system";
-import { useTranslation } from "react-i18next";
-import axios from "../../../config/axios";
+import { useCurrencyReferenceHook } from "../../../hooks/currency-reference";
+import BasicDialog from "../../dialog/Index";
+import NoResultsImg from "../../../assets/images/no-results.svg";
+import {
+  Button,
+  Box,
+  Grid,
+  TextField,
+  Typography,
+  Pagination,
+} from "@mui/material";
 
 const CurrencyMenu = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [currencies, setCurrencies] = useState([]);
-  const open = Boolean(anchorEl);
-
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
   const theme = useTheme();
-  const [t, i18n] = useTranslation();
+
+  const { loading, error, total, size, popularCurrencies, allCurrencies } =
+    useCurrencyReferenceHook(page, search);
 
   const { selected, update } = useCurrencyStore((state) => ({
-    selected: state.selected,
-    update: state.update,
+    selected: state.currency,
+    update: state.updateCurrency,
   }));
 
-  const fetchCurrencies = async () => {
-    try {
-      const { data } = axios.get("/app-currency/");
+  const popularGrid = (
+    <Box className="popular" sx={{ mb: theme.spacing(4) }}>
+      <Typography>Popular</Typography>
+      <Grid container spacing={2}>
+        {popularCurrencies?.map((e, i) => (
+          <Grid key={i} item xs={6} md={4}>
+            <Button fullWidth onClick={() => update(e)}>
+              <Typography
+                variant="p"
+                sx={{
+                  color:
+                    e.symbol === selected ? theme.palette.secondary.main : "",
+                }}
+              >
+                {e.name} ({e.symbol})
+              </Typography>
+            </Button>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
 
-      setCurrencies(data.data.coins);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const allGrid = (
+    <Box className="all">
+      <Typography>All</Typography>
+      <Grid container spacing={3}>
+        {allCurrencies?.map((e, i) => (
+          <Grid key={i} item xs={6} md={4}>
+            <Button fullWidth onClick={() => update(e)}>
+              <Typography
+                variant="p"
+                sx={{
+                  color:
+                    e.symbol === selected ? theme.palette.secondary.main : "",
+                }}
+              >
+                {e.name} ({e.symbol})
+              </Typography>
+            </Button>
+          </Grid>
+        ))}
+      </Grid>
+      {/* Comes from @material-ui/lab */}
+      <Pagination
+        count={parseInt((total / size).toFixed(0))}
+        sx={{
+          padding: 2,
+          pt: 10,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+        onChange={(_, value) => {
+          setPage(value);
+          window.scroll(0, 450);
+        }}
+      />
+    </Box>
+  );
 
-  const handleSelect = (value) => {
-    update(value?.toUpperCase());
-
-    setAnchorEl(null);
-  };
-
-  useEffect(() => {
-    fetchCurrencies();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const NoResults = (
+    <Box
+      className="no-results"
+      sx={{
+        display: "flex",
+        padding: theme.spacing(4),
+        mt: theme.spacing(5),
+        justifyContent: "center",
+      }}
+    >
+      <Box sx={{ display: "block" }}>
+        <Box>
+          <img
+            src={NoResultsImg}
+            className="no-results-img"
+            alt="no results"
+            style={{ margin: "auto" }}
+          />
+        </Box>
+        <Box>
+          <p>No search results</p>
+        </Box>
+      </Box>
+    </Box>
+  );
 
   return (
     <>
-      <Button
-        id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={(event) => setAnchorEl(event.currentTarget)}
-        variant="contained"
-        sx={{
-          border: 1,
-          borderColor: "#f5f5f5e3",
-          color: theme.palette.primary.contrastText,
-          py: theme.spacing(0.25),
-          mr: theme.spacing(2),
-        }}
-      >
-        <Typography>{selected}</Typography>
-      </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={() => setAnchorEl(null)}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-        PaperProps={{
-          style: {
-            maxHeight: 48 * 4.5,
-            width: "20ch",
-          },
-        }}
-      >
-        {currencies.map((e, i) => (
-          <MenuItem
-            key={i}
-            onClick={() => handleSelect(e.code)}
-            sx={{ py: theme.spacing(2), pr: theme.spacing(5) }}
-          >
-            {e.name}
-          </MenuItem>
-        ))}
-      </Menu>
+      <BasicDialog
+        btnTitle={selected}
+        title="Select a currency"
+        children={
+          <Box sx={{ pb: theme.spacing(5) }}>
+            <Box classNames="search" sx={{ mb: theme.spacing(4) }}>
+              <TextField
+                label="Search"
+                size="small"
+                fullWidth
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </Box>
+            {popularCurrencies.length > 0 && popularGrid}
+
+            {allCurrencies.length > 0 && allGrid}
+
+            {popularCurrencies.length <= 0 &&
+              allCurrencies.length <= 0 &&
+              NoResults}
+          </Box>
+        }
+      />
     </>
   );
 };

@@ -6,7 +6,7 @@ const router = Router();
 const routes = new AppCurrencyController();
 
 //router.get("/", CheckAuth, routes.getUsers);
-router.get("/", routes.getReferenceCurrencies);
+router.post("/", routes.searchReferenceCurrencies);
 
 export const AppCurrencyRoutes = router;
 

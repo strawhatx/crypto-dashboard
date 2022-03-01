@@ -1,14 +1,22 @@
-export const languages = [
-  { name: "Deutsch", code: "de" },
-  { name: "English", code: "en" },
-  { name: "Español", code: "es" },
-  { name: "French", code: "fr" },
-  { name: "Bahasa Indonesia", code: "id" },
-  { name: "Italiano", code: "it" },
-  { name: "Japanese", code: "ja" },
-  { name: "Netherlands", code: "nl" },
-  { name: "Portuguese", code: "pt" },
-  { name: "Romanian", code: "ro" },
-  { name: "Russian", code: "ru" },
-  { name: "Turkish", code: "tr" },
+export const popular_languages = [
+  { label: "English (EN)", value: "EN" },
+  { label: "Español (ES)", value: "ES" },
+  { label: "French (FR)", value: "FR" },
+  { label: "Italiano (IT)", value: "IT" },
+  { label: "Japanese (JA)", value: "JA" },
+];
+
+export const all_languages = [
+  { label: "Deutsch (DE)", value: "DE" },
+  { label: "English (EN)", value: "EN" },
+  { label: "Español (ES)", value: "ES" },
+  { label: "French (FR)", value: "FR" },
+  { label: "Bahasa Indonesia (ID)", value: "ID" },
+  { label: "Italiano (IT)", value: "IT" },
+  { label: "Japanese (JA)", value: "JA" },
+  { label: "Netherlands (NL)", value: "NL" },
+  { label: "Portuguese (PT)", value: "PT" },
+  { label: "Romanian (RO)", value: "RO" },
+  { label: "Russian (RU)", value: "RU" },
+  { label: "Turkish (TR)", value: "TR" },
 ];

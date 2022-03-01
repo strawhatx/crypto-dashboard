@@ -2,31 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Box, Container } from "@mui/material";
 import CurrencyChart from "../../components/currency/chart/Index";
 import { useLocation } from "react-router-dom";
-import axios from "../../config/axios";
 import CurrencyToolbar from "../../components/currency/toolbar/Index";
 import { useTheme } from "@mui/system";
 import CurrencyInfobar from "../../components/currency/infobar/Index";
+import { useCurrencyHook } from "../../hooks/currency";
 
 const CurrencyDetail = () => {
-  const [coin, setCoin] = useState({});
   const { state } = useLocation();
   const theme = useTheme();
 
-  const fetchCoin = async () => {
-    try {
-      const { data } = await axios.get(`coins/${state.uuid}`);
+  const { loading, error, coin } = useCurrencyHook(state.uuid);
 
-      setCoin(data.data.coin);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchCoin();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <>
       {/** Hero */}

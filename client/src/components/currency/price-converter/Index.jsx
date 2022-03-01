@@ -1,6 +1,7 @@
 import { Box, TextField, Typography, Avatar } from "@mui/material";
 import React from "react";
 import { useTheme } from "@mui/system";
+import { useCurrencyStore } from "../../../stores/global";
 
 const CurrencyPriceConverter = ({
   coinName,
@@ -9,6 +10,10 @@ const CurrencyPriceConverter = ({
   coinPrice,
 }) => {
   const theme = useTheme();
+
+  const { selected } = useCurrencyStore((state) => ({
+    selected: state.currency,
+  }));
 
   return (
     <Box sx={{ border: 1, borderRadius: 16, mb: 4 }}>
