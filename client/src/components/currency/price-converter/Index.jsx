@@ -1,7 +1,10 @@
 import { Box, TextField, Typography, Avatar } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/system";
 import { useCurrencyStore } from "../../../stores/global";
+import { useCurrencyReferenceHook } from "../../../hooks/currency-reference";
+import PropTypes from "prop-types";
+import CurrencyPriceConverterFeild from "./field/Index";
 
 const CurrencyPriceConverter = ({
   coinName,
@@ -9,83 +12,77 @@ const CurrencyPriceConverter = ({
   coinIconUrl,
   coinPrice,
 }) => {
+  const [amount, setAmount] = useState(1);
+  const [toAmount, setToAmount] = useState(0);
+  const [fromAmount, setFromAmount] = useState(0);
+  const [amountInFrom, setAmountInFrom] = useState(true);
+
   const theme = useTheme();
 
   const { selected } = useCurrencyStore((state) => ({
-    selected: state.currency,
+    selected: state.currency.symbol,
   }));
 
+  const { loading, error, currency } = useCurrencyReferenceHook(selected);
+
+  useEffect(() => {
+    if (!coinPrice) return;
+
+    if (amountInFrom) {
+      setFromAmount(amount);
+      setToAmount(amount * coinPrice);
+    } else {
+      setToAmount(amount);
+      setFromAmount(amount / coinPrice);
+    }
+  }, [amountInFrom, amount, coinPrice]);
+
+  const handleFromAmountChange = (e) => {
+    setAmount(e.target.value);
+    setAmountInFrom(true);
+  };
+
+  const handleToAmountChange = (e) => {
+    setAmount(e.target.value);
+    setAmountInFrom(false);
+  };
+
   return (
-    <Box sx={{ border: 1, borderRadius: 16, mb: 4 }}>
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
-        <Box
-          sx={{
-            display: "flex",
-            flex: "1 1 0%",
-            flexDirection: "row",
-            padding: theme.spacing(3.5, 4),
-          }}
-        >
-          <Avatar
-            src={coinIconUrl}
-            alt="currency-tag"
-            width={40}
-            height={40}
-            style={{ marginRight: "1rem" }}
-          />
-          <Box>
-            <Box>
-              <Typography variant="p">{coinName}</Typography>
-            </Box>
+    <>
+      <Typography variant="h5" sx={{ my: theme.spacing(1.5) }}>
+        {coinSymbol} to {currency.symbol} Conversion
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { sm: "column", md: "row" },
+          border: `${1}px solid`,
+          borderRadius: theme.spacing(2),
+          mb: theme.spacing(4),
+          borderColor: theme.palette.grey[300],
+        }}
+      >
+        <CurrencyPriceConverterFeild
+          name={coinName}
+          symbol={coinSymbol}
+          iconUrl={coinIconUrl}
+          amount={`${fromAmount}`}
+          change={handleFromAmountChange}
+        />
 
-            <Box>
-              <Typography variant="p">{coinSymbol}</Typography>
-            </Box>
-          </Box>
-          <Box>
-            <TextField
-              size="small"
-              //onChange={(e) => setSearch(e.target.value)}
-            />
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flex: "1 1 0%",
-            flexDirection: "row",
-            padding: theme.spacing(3.5, 4),
-          }}
-        >
-          <Avatar
-            src={coinIconUrl}
-            alt="currency-tag"
-            width={40}
-            height={40}
-            style={{ marginRight: "1rem" }}
-          />
-          <Box>
-            <Box>
-              <Typography variant="p">{coinName}</Typography>
-            </Box>
-
-            <Box>
-              <Typography variant="p">{coinSymbol}</Typography>
-            </Box>
-          </Box>
-          <Box>
-            <TextField
-              size="small"
-              //onChange={(e) => setSearch(e.target.value)}
-            />
-          </Box>
-        </Box>
+        <CurrencyPriceConverterFeild
+          name={currency.name}
+          symbol={currency.symbol}
+          iconUrl={currency.iconUrl}
+          amount={toAmount}
+          change={handleToAmountChange}
+        />
       </Box>
-    </Box>
+    </>
   );
 };
 
-CurrencyInfobar.propType = {
+CurrencyPriceConverter.propTypes = {
   coinName: PropTypes.string.isRequired,
   coinSymbol: PropTypes.string.isRequired,
   coinIconUrl: PropTypes.string.isRequired,

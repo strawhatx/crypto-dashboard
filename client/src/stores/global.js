@@ -10,7 +10,7 @@ export const useLanguageStore = create(
 
 export const useCurrencyStore = create(
   persist((set) => ({
-    currency: "USD",
+    currency: { symbol: "USD" },
     updateCurrency: (value) => set({ currency: value }),
   }))
 );

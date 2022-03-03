@@ -20,9 +20,21 @@ const CurrencyInfobar = ({
     { label: t("24h Volume"), value: coin24hVolume },
   ];
 
+  const numFormatter = (num) => {
+    if (num > 999 && num < 1000000) {
+      return (num / 1000).toFixed(2) + "K"; // convert to K for number from > 1000 < 1 million
+    } else if (num > 1000000 && num < 1000000000) {
+      return (num / 1000000).toFixed(2) + "M"; // convert to M for number from > 1 million < 1 billion
+    } else if (num > 1000000000) {
+      return (num / 1000000000).toFixed(2) + "B"; // convert to B for number from > 1 billion
+    } else if (num < 900) {
+      return num; // if value < 1000, nothing to do
+    }
+  };
+
   const stack = items.map((e, i) => {
     return (
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid key={i} item xs={12} sm={6} md={3}>
         <Card
           sx={{
             boxShadow: "none",
@@ -33,12 +45,7 @@ const CurrencyInfobar = ({
         >
           <Box>
             <Typography variant="h4" sx={{ mr: 1 }}>
-              <NumberFormat
-                value={e.value?.toString()}
-                displayType={"text"}
-                thousandSeparator={true}
-                prefix={"$"}
-              />
+              {numFormatter(e.value)}
             </Typography>
           </Box>
 
@@ -59,7 +66,7 @@ const CurrencyInfobar = ({
   );
 };
 
-CurrencyInfobar.propType = {
+CurrencyInfobar.propTypes = {
   coinMarketcap: PropTypes.string.isRequired,
   coin24hVolume: PropTypes.string.isRequired,
   coinCirculatingSupply: PropTypes.string.isRequired,

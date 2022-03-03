@@ -53,4 +53,10 @@ const BasicDialog = ({ btnTitle, title, children }) => {
   );
 };
 
+BasicDialog.propTypes = {
+  btnTitle: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.any.isRequired,
+};
+
 export default BasicDialog;

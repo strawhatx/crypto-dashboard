@@ -47,11 +47,19 @@ const LanguageMenu = () => {
 
   const popularGrid = (
     <Box classNames="popular" sx={{ mb: theme.spacing(4) }}>
-      <Typography>Popular</Typography>
-      <Grid container spacing={2}>
+      <Typography sx={{ pb: theme.spacing(2) }}>Popular</Typography>
+      <Grid container spacing={1}>
         {handlePopularSearch().map((e, i) => (
           <Grid key={e.value} item xs={6} md={4}>
-            <Button fullWidth onClick={() => update(e.value)}>
+            <Button
+              //fullWidth
+              onClick={() => update(e.value)}
+              style={{
+                flexDirection: "column",
+                alignItems: "flex-start",
+                height: theme.spacing(6),
+              }}
+            >
               <Typography
                 variant="p"
                 sx={{
@@ -70,11 +78,19 @@ const LanguageMenu = () => {
 
   const allGrid = (
     <Box classNames="all">
-      <Typography>All</Typography>
-      <Grid container spacing={2}>
+      <Typography sx={{ pb: theme.spacing(2) }}>All</Typography>
+      <Grid container spacing={1}>
         {handleAllSearch().map((e, i) => (
           <Grid key={e.value} item xs={6} md={4}>
-            <Button fullWidth onClick={() => update(e.value)}>
+            <Button
+              //fullWidth
+              onClick={() => update(e.value)}
+              style={{
+                flexDirection: "column",
+                alignItems: "flex-start",
+                height: theme.spacing(6),
+              }}
+            >
               <Typography
                 variant="p"
                 sx={{

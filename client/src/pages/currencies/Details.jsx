@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box, Container } from "@mui/material";
 import CurrencyChart from "../../components/currency/chart/Index";
 import { useLocation } from "react-router-dom";
@@ -6,6 +6,7 @@ import CurrencyToolbar from "../../components/currency/toolbar/Index";
 import { useTheme } from "@mui/system";
 import CurrencyInfobar from "../../components/currency/infobar/Index";
 import { useCurrencyHook } from "../../hooks/currency";
+import CurrencyPriceConverter from "../../components/currency/price-converter/Index";
 
 const CurrencyDetail = () => {
   const { state } = useLocation();
@@ -15,7 +16,7 @@ const CurrencyDetail = () => {
 
   return (
     <>
-      {/** Hero */}
+      {/* Hero */}
       <Box
         sx={{
           display: "flex",
@@ -39,14 +40,26 @@ const CurrencyDetail = () => {
         </Container>
       </Box>
 
-      {/**Currencies */}
-      <Box sx={{ mt: -8, pb: 1 }}>
+      {/** statistics */}
+      <Box sx={{ mt: -8, pb: 3 }}>
         <Container maxWidth="lg">
           <CurrencyInfobar
             coinMarketcap={coin.marketCap}
             coin24hVolume={coin["24hVolume"]}
             coinCirculatingSupply={coin.supply?.circulating}
             coinMaxSupply={coin.supply?.total}
+          />
+        </Container>
+      </Box>
+
+      {/** price conveter */}
+      <Box>
+        <Container maxWidth="lg">
+          <CurrencyPriceConverter
+            coinName={coin.name}
+            coinSymbol={coin.symbol}
+            coinIconUrl={coin.iconUrl}
+            coinPrice={coin.price}
           />
         </Container>
       </Box>

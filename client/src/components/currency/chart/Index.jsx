@@ -153,7 +153,7 @@ const CurrencyChart = ({ coinName, coinPrice }) => {
   );
 };
 
-CurrencyChart.propType = {
+CurrencyChart.propTypes = {
   coinName: PropTypes.string.isRequired,
   coinPrice: PropTypes.string.isRequired,
 };

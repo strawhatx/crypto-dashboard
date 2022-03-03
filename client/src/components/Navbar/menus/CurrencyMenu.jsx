@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useCurrencyStore } from "../../../stores/global";
 import { useTheme } from "@mui/system";
-import { useCurrencyReferenceHook } from "../../../hooks/currency-reference";
+import { useCurrencyReferencesHook } from "../../../hooks/currency-references";
 import BasicDialog from "../../dialog/Index";
 import NoResultsImg from "../../../assets/images/no-results.svg";
 import {
@@ -19,20 +19,28 @@ const CurrencyMenu = () => {
   const theme = useTheme();
 
   const { loading, error, total, size, popularCurrencies, allCurrencies } =
-    useCurrencyReferenceHook(page, search);
+    useCurrencyReferencesHook(page, search);
 
   const { selected, update } = useCurrencyStore((state) => ({
-    selected: state.currency,
+    selected: state.currency.symbol,
     update: state.updateCurrency,
   }));
 
   const popularGrid = (
     <Box className="popular" sx={{ mb: theme.spacing(4) }}>
-      <Typography>Popular</Typography>
-      <Grid container spacing={2}>
+      <Typography sx={{ pb: theme.spacing(2) }}>Popular</Typography>
+      <Grid container spacing={1}>
         {popularCurrencies?.map((e, i) => (
           <Grid key={i} item xs={6} md={4}>
-            <Button fullWidth onClick={() => update(e)}>
+            <Button
+              fullWidth
+              onClick={() => update(e)}
+              style={{
+                flexDirection: "column",
+                alignItems: "flex-start",
+                height: theme.spacing(6),
+              }}
+            >
               <Typography
                 variant="p"
                 sx={{
@@ -51,11 +59,19 @@ const CurrencyMenu = () => {
 
   const allGrid = (
     <Box className="all">
-      <Typography>All</Typography>
-      <Grid container spacing={3}>
+      <Typography sx={{ pb: theme.spacing(2) }}>All</Typography>
+      <Grid container spacing={1}>
         {allCurrencies?.map((e, i) => (
           <Grid key={i} item xs={6} md={4}>
-            <Button fullWidth onClick={() => update(e)}>
+            <Button
+              fullWidth
+              onClick={() => update(e)}
+              style={{
+                flexDirection: "column",
+                alignItems: "flex-start",
+                height: theme.spacing(6),
+              }}
+            >
               <Typography
                 variant="p"
                 sx={{
