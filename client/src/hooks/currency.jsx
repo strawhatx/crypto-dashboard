@@ -5,7 +5,7 @@ import _axios from "axios";
 export const useCurrencyHook = (id) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [coin, setCoin] = useState([]);
+  const [coin, setCoin] = useState({});
 
   const fetchCoin = async () => {
     let cancel;
@@ -26,8 +26,6 @@ export const useCurrencyHook = (id) => {
 
     return () => cancel();
   };
-
-  useEffect(() => setCoin({}), [id]);
 
   useEffect(() => {
     fetchCoin();

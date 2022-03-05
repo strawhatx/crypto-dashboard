@@ -8,7 +8,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import { useTrendingHook } from "../../../hooks/trending";
 
 const TrendingCarousel = () => {
-  const { loading, error, trending } = useTrendingHook();
+  const { error, trending } = useTrendingHook();
   const theme = useTheme();
 
   const items = trending?.map((coin) => {

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useCurrencyStore } from "../../../stores/global";
+import React, { useState } from "react";
+import { useCurrencyStore } from "../../../stores";
 import { useTheme } from "@mui/system";
 import { useCurrencyReferencesHook } from "../../../hooks/currency-references";
 import BasicDialog from "../../dialog/Index";
@@ -18,7 +18,7 @@ const CurrencyMenu = () => {
   const [search, setSearch] = useState("");
   const theme = useTheme();
 
-  const { loading, error, total, size, popularCurrencies, allCurrencies } =
+  const { error, total, size, popularCurrencies, allCurrencies } =
     useCurrencyReferencesHook(page, search);
 
   const { selected, update } = useCurrencyStore((state) => ({

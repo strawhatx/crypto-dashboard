@@ -27,8 +27,6 @@ export const useTrendingHook = () => {
     return () => cancel();
   };
 
-  useEffect(() => setTrending([]), []);
-
   useEffect(() => fetchCoins(), []);
 
   return { loading, error, trending };

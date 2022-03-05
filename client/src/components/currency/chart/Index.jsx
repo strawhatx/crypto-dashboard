@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "../../../config/axios";
 import Chart from "react-apexcharts";
 import NumberFormat from "react-number-format";
 import PropTypes from "prop-types";
 import { Box, Typography, Button } from "@mui/material";
-import { chartIntervals, getDatetime } from "../../../util/coins-util";
+import { chartIntervals } from "../../../util/coins-util";
 import { useTheme } from "@mui/system";
 import { useCurrencyChartHook } from "../../../hooks/currency-chart";
 
 const CurrencyChart = ({ coinName, coinPrice }) => {
   const [interval, setInterval] = useState("24h");
   const { state } = useLocation();
-  const { loading, error, series } = useCurrencyChartHook(state.uuid, interval);
+  const { error, series } = useCurrencyChartHook(state.uuid, interval);
   const theme = useTheme();
 
   const chart = {
@@ -153,9 +152,9 @@ const CurrencyChart = ({ coinName, coinPrice }) => {
   );
 };
 
-CurrencyChart.propTypes = {
-  coinName: PropTypes.string.isRequired,
-  coinPrice: PropTypes.string.isRequired,
+CurrencyChart.propType = {
+  coinName: PropTypes.string,
+  coinPrice: PropTypes.string,
 };
 
 export default CurrencyChart;

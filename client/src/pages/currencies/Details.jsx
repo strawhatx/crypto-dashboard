@@ -7,12 +7,13 @@ import { useTheme } from "@mui/system";
 import CurrencyInfobar from "../../components/currency/infobar/Index";
 import { useCurrencyHook } from "../../hooks/currency";
 import CurrencyPriceConverter from "../../components/currency/price-converter/Index";
+import CurrencyDescription from "../../components/currency/description/Index";
 
 const CurrencyDetail = () => {
   const { state } = useLocation();
   const theme = useTheme();
 
-  const { loading, error, coin } = useCurrencyHook(state.uuid);
+  const { error, coin } = useCurrencyHook(state.uuid);
 
   return (
     <>
@@ -59,7 +60,18 @@ const CurrencyDetail = () => {
             coinName={coin.name}
             coinSymbol={coin.symbol}
             coinIconUrl={coin.iconUrl}
-            coinPrice={coin.price}
+            coinPrice={parseInt(coin.price)}
+          />
+        </Container>
+      </Box>
+
+      {/** about */}
+      <Box>
+        <Container maxWidth="lg">
+          <CurrencyDescription
+            name={coin.name}
+            rank={coin.rank}
+            description={coin.description}
           />
         </Container>
       </Box>

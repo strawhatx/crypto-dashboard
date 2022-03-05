@@ -74,9 +74,9 @@ const CurrencyToolbar = ({ coinName, coinSymbol, coinIconUrl }) => {
 };
 
 CurrencyToolbar.propTypes = {
-  coinName: PropTypes.string.isRequired,
-  coinSymbol: PropTypes.string.isRequired,
-  coinIconUrl: PropTypes.string.isRequired,
+  coinName: PropTypes.string,
+  coinSymbol: PropTypes.string,
+  coinIconUrl: PropTypes.string,
 };
 
 export default CurrencyToolbar;

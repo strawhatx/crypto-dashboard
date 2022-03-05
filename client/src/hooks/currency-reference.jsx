@@ -5,7 +5,6 @@ import axios from "../config/axios";
 import _axios from "axios";
 
 export const useCurrencyReferenceHook = (selectedCurrency = "USD") => {
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [currency, setCurrency] = useState({});
 
@@ -20,7 +19,6 @@ export const useCurrencyReferenceHook = (selectedCurrency = "USD") => {
     })
       .then((res) => {
         setCurrency(res.data.data.currencies[0]);
-        setLoading(false);
       })
       .catch((e) => {
         if (_axios.isCancel(e)) return;
@@ -36,5 +34,5 @@ export const useCurrencyReferenceHook = (selectedCurrency = "USD") => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCurrency]);
 
-  return { loading, error, currency };
+  return { error, currency };
 };

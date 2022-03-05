@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NumberFormat from "react-number-format";
 import { useTheme } from "@mui/system";
@@ -25,10 +25,7 @@ const CurrenciesTable = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
-  const { loading, error, coins, total, size } = useCurrenciesHook(
-    page,
-    search
-  );
+  const { error, coins, total, size } = useCurrenciesHook(page, search);
 
   const navigate = useNavigate();
   const { t } = useTranslation();

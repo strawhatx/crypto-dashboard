@@ -1,8 +1,7 @@
 import React from "react";
 import { useTheme } from "@mui/system";
-import { Box, TextField, Typography, Avatar, Input } from "@mui/material";
+import { Box, Typography, Avatar, Input } from "@mui/material";
 import PropTypes from "prop-types";
-import NumberFormat from "react-number-format";
 
 const CurrencyPriceConverterFeild = ({
   name,
@@ -84,11 +83,11 @@ const CurrencyPriceConverterFeild = ({
 };
 
 CurrencyPriceConverterFeild.propTypes = {
-  name: PropTypes.string.isRequired,
-  symbol: PropTypes.string.isRequired,
-  iconUrl: PropTypes.string.isRequired,
-  amount: PropTypes.number.isRequired,
-  change: PropTypes.func.isRequired,
+  name: PropTypes.string,
+  symbol: PropTypes.string,
+  iconUrl: PropTypes.string,
+  amount: PropTypes.number,
+  change: PropTypes.func,
 };
 
 export default CurrencyPriceConverterFeild;

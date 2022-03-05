@@ -67,10 +67,10 @@ const CurrencyInfobar = ({
 };
 
 CurrencyInfobar.propTypes = {
-  coinMarketcap: PropTypes.string.isRequired,
-  coin24hVolume: PropTypes.string.isRequired,
-  coinCirculatingSupply: PropTypes.string.isRequired,
-  coinMaxSupply: PropTypes.string.isRequired,
+  coinMarketcap: PropTypes.string,
+  coin24hVolume: PropTypes.string,
+  coinCirculatingSupply: PropTypes.string,
+  coinMaxSupply: PropTypes.string,
 };
 
 export default CurrencyInfobar;

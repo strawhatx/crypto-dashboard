@@ -1,7 +1,7 @@
 import { Box, TextField, Typography, Avatar } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/system";
-import { useCurrencyStore } from "../../../stores/global";
+import { useCurrencyStore } from "../../../stores";
 import { useCurrencyReferenceHook } from "../../../hooks/currency-reference";
 import PropTypes from "prop-types";
 import CurrencyPriceConverterFeild from "./field/Index";
@@ -66,7 +66,7 @@ const CurrencyPriceConverter = ({
           name={coinName}
           symbol={coinSymbol}
           iconUrl={coinIconUrl}
-          amount={`${fromAmount}`}
+          amount={fromAmount}
           change={handleFromAmountChange}
         />
 
@@ -83,10 +83,10 @@ const CurrencyPriceConverter = ({
 };
 
 CurrencyPriceConverter.propTypes = {
-  coinName: PropTypes.string.isRequired,
-  coinSymbol: PropTypes.string.isRequired,
-  coinIconUrl: PropTypes.string.isRequired,
-  coinPrice: PropTypes.number.isRequired,
+  coinName: PropTypes.string,
+  coinSymbol: PropTypes.string,
+  coinIconUrl: PropTypes.string,
+  coinPrice: PropTypes.number,
 };
 
 export default CurrencyPriceConverter;
