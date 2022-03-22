@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Card, Grid, Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
-import NumberFormat from "react-number-format";
 
 const CurrencyInfobar = ({
   coinMarketcap,
@@ -37,7 +36,7 @@ const CurrencyInfobar = ({
       <Grid key={i} item xs={12} sm={6} md={3}>
         <Card
           sx={{
-            boxShadow: "none",
+            //boxShadow: "none",
             textAlign: "center",
             padding: theme.spacing(3, 5),
             backgroundColor: "#f5f5f5e3",

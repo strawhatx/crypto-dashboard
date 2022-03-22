@@ -1,0 +1,1 @@
+export const GET_TWEETS_EXCEPTION_MESSAGE = "ERROR: unable to retrieve the requested tweets at this time."

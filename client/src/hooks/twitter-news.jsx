@@ -2,24 +2,20 @@ import { useState, useEffect } from "react";
 import axios from "../config/axios";
 import _axios from "axios";
 
-export const useCurrenciesHook = (page = 1, search) => {
+export const useTwitterHook = (query = "") => {
   const [error, setError] = useState(false);
-  const [total, setTotal] = useState(0);
-  const [coins, setCoins] = useState([]);
-  const size = 30;
+  const [tweets, setTweets] = useState([]);
 
-  const fetchCoins = async () => {
+  const fetchTweets = async () => {
     let cancel;
 
     axios({
-      method: "POST",
-      url: "coins/search",
-      data: { page, size, search },
+      method: "GET",
+      url: `twitter-news/${query}`,
       cancelToken: new _axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
-        setTotal(res.data.data.stats.total);
-        setCoins(res.data.data.coins?.filter((e) => e.price > 0));
+        setTweets(res.data.statuses);
       })
       .catch((e) => {
         if (_axios.isCancel(e)) return;
@@ -30,10 +26,10 @@ export const useCurrenciesHook = (page = 1, search) => {
   };
 
   useEffect(() => {
-    fetchCoins();
+    fetchTweets();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, search]);
+  }, [query]);
 
-  return { error, coins, total, size };
+  return { error, tweets };
 };

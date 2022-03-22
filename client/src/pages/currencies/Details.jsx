@@ -8,6 +8,7 @@ import CurrencyInfobar from "../../components/currency/infobar/Index";
 import { useCurrencyHook } from "../../hooks/currency";
 import CurrencyPriceConverter from "../../components/currency/price-converter/Index";
 import CurrencyDescription from "../../components/currency/description/Index";
+import CurrencySocials from "../../components/currency/socials/Index";
 
 const CurrencyDetail = () => {
   const { state } = useLocation();
@@ -54,7 +55,7 @@ const CurrencyDetail = () => {
       </Box>
 
       {/** price conveter */}
-      <Box>
+      <Box sx={{ pb: 4 }}>
         <Container maxWidth="lg">
           <CurrencyPriceConverter
             coinName={coin.name}
@@ -66,13 +67,20 @@ const CurrencyDetail = () => {
       </Box>
 
       {/** about */}
-      <Box>
+      <Box sx={{ pb: 4 }}>
         <Container maxWidth="lg">
           <CurrencyDescription
             name={coin.name}
             rank={coin.rank}
             description={coin.description}
           />
+        </Container>
+      </Box>
+
+      {/** socials */}
+      <Box sx={{ pb: 4 }}>
+        <Container maxWidth="lg">
+          <CurrencySocials />
         </Container>
       </Box>
     </>

@@ -1,4 +1,4 @@
-import { Box, TextField, Typography, Avatar } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/system";
 import { useCurrencyStore } from "../../../stores";
@@ -23,7 +23,7 @@ const CurrencyPriceConverter = ({
     selected: state.currency.symbol,
   }));
 
-  const { loading, error, currency } = useCurrencyReferenceHook(selected);
+  const { error, currency } = useCurrencyReferenceHook(selected);
 
   useEffect(() => {
     if (!coinPrice) return;
@@ -58,7 +58,6 @@ const CurrencyPriceConverter = ({
           flexDirection: { sm: "column", md: "row" },
           border: `${1}px solid`,
           borderRadius: theme.spacing(2),
-          mb: theme.spacing(4),
           borderColor: theme.palette.grey[300],
         }}
       >

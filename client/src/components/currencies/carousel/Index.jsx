@@ -18,7 +18,7 @@ const TrendingCarousel = () => {
         <Link
           sx={{ textDecoration: "none" }}
           to={`/currencies/${coin.name?.toLowerCase()}}`}
-          state={{ uuid: coin.uuid, name: coin.name }}
+          state={{ uuid: coin.uuid, name: coin.name, symbol: coin.symbol }}
         >
           <Card
             sx={{

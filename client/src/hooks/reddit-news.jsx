@@ -2,24 +2,20 @@ import { useState, useEffect } from "react";
 import axios from "../config/axios";
 import _axios from "axios";
 
-export const useCurrenciesHook = (page = 1, search) => {
+export const useTwitterHook = (id) => {
   const [error, setError] = useState(false);
-  const [total, setTotal] = useState(0);
-  const [coins, setCoins] = useState([]);
-  const size = 30;
+  const [posts, setPosts] = useState([]);
 
-  const fetchCoins = async () => {
+  const fetchPosts = async () => {
     let cancel;
 
     axios({
-      method: "POST",
-      url: "coins/search",
-      data: { page, size, search },
+      method: "GET",
+      url: `reddit-news/${id}`,
       cancelToken: new _axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
-        setTotal(res.data.data.stats.total);
-        setCoins(res.data.data.coins?.filter((e) => e.price > 0));
+        setPosts(res.data);
       })
       .catch((e) => {
         if (_axios.isCancel(e)) return;
@@ -30,10 +26,10 @@ export const useCurrenciesHook = (page = 1, search) => {
   };
 
   useEffect(() => {
-    fetchCoins();
+    fetchPosts();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, search]);
+  }, [id]);
 
-  return { error, coins, total, size };
+  return { error, posts };
 };

@@ -97,7 +97,11 @@ const CurrenciesTable = () => {
                     hover
                     onClick={() =>
                       navigate(`/currencies/${coin.name?.toLowerCase()}`, {
-                        state: { uuid: coin.uuid, name: coin.name },
+                        state: {
+                          uuid: coin.uuid,
+                          name: coin.name,
+                          symbol: coin.symbol,
+                        },
                       })
                     }
                     sx={{

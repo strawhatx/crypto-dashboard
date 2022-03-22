@@ -9,6 +9,7 @@ import { Backdrop } from "./Backdrop";
 import { Typography } from "./Typography";
 import { IconButton } from "./IconButton";
 import { Autocomplete } from "./Autocomplete";
+import { Tabs, Tab } from "./Tabs";
 
 // ----------------------------------------------------------------------
 
@@ -23,6 +24,8 @@ export const ComponentsOverrides = (theme) => {
     Backdrop(theme),
     Typography(theme),
     IconButton(theme),
-    Autocomplete(theme)
+    Autocomplete(theme),
+    Tabs(theme),
+    Tab(theme)
   );
 };
