@@ -76,13 +76,6 @@ const CurrencyDetail = () => {
           />
         </Container>
       </Box>
-
-      {/** socials */}
-      <Box sx={{ pb: 4 }}>
-        <Container maxWidth="lg">
-          <CurrencySocials />
-        </Container>
-      </Box>
     </>
   );
 };
