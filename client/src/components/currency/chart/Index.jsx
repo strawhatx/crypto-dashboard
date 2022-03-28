@@ -25,6 +25,7 @@ const CurrencyChart = ({ coinName, coinPrice }) => {
       chart: {
         type: "area",
         stacked: false,
+        foreColor: "#ccc",
         height: 350,
         zoom: {
           enabled: false,
@@ -36,6 +37,7 @@ const CurrencyChart = ({ coinName, coinPrice }) => {
       dataLabels: {
         enabled: false,
       },
+      colors: ["#24CE52"],
       markers: {
         size: 0,
       },

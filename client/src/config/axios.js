@@ -10,6 +10,20 @@ const axios = _axios.create({
   ////withCredentials: true,
 });
 
+const setAuthToken = async (currentUser) => {
+  // Important: If axios is used with multiple domains, the AUTH_TOKEN will be sent to all of them.
+  const AUTH_TOKEN = currentUser
+    ? `Bearer ${currentUser && (await currentUser.getIdToken())}`
+    : null;
+
+  axios.defaults.headers.common["Authorization"] = "";
+  delete axios.defaults.headers.common["Authorization"];
+
+  if (AUTH_TOKEN) {
+    axios.defaults.headers.common["Authorization"] = AUTH_TOKEN;
+  }
+};
+
 axios.defaults.headers.post["Content-Type"] =
   "application/x-www-form-urlencoded";
 
@@ -27,4 +41,4 @@ axios.interceptors.response.use((res) => {
   return res;
 });
 
-export default axios;
+export { axios, setAuthToken };

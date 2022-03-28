@@ -23,9 +23,6 @@ const Navbar = () => {
               <Button color="inherit" href="/currencies">
                 {t("Currencies")}
               </Button>
-              <Button color="inherit" href="/exchanges">
-                {t("Exchanges")}
-              </Button>
               <Button color="inherit" href="/portfolios">
                 {t("Portfolio")}
               </Button>

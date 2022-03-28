@@ -5,7 +5,7 @@ import AliceCarousel from "react-alice-carousel";
 import { Avatar, Card, Typography, Grid } from "@mui/material";
 import NumberFormat from "react-number-format";
 import "react-alice-carousel/lib/alice-carousel.css";
-import { useTrendingHook } from "../../../hooks/trending";
+import { useTrendingHook } from "../../../hooks/currencies/trending";
 
 const TrendingCarousel = () => {
   const { error, trending } = useTrendingHook();

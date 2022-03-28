@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
-import axios from "../config/axios";
+import axios from "../../config/axios";
 import _axios from "axios";
 
-export const useTwitterHook = (id) => {
+export const useTrendingHook = () => {
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [posts, setPosts] = useState([]);
+  const [trending, setTrending] = useState([]);
 
-  const fetchPosts = async () => {
+  const fetchCoins = async () => {
     let cancel;
 
     axios({
       method: "GET",
-      url: `reddit-news/${id}`,
+      url: "coins/trending/",
       cancelToken: new _axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
-        setPosts(res.data);
+        setTrending(res.data.data.coins);
+        setLoading(false);
       })
       .catch((e) => {
         if (_axios.isCancel(e)) return;
@@ -25,11 +27,7 @@ export const useTwitterHook = (id) => {
     return () => cancel();
   };
 
-  useEffect(() => {
-    fetchPosts();
+  useEffect(() => fetchCoins(), []);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
-  return { error, posts };
+  return { loading, error, trending };
 };

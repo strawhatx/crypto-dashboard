@@ -19,7 +19,7 @@ import {
   Pagination,
   Avatar,
 } from "@mui/material";
-import { useCurrenciesHook } from "../../../hooks/currencies";
+import { useCurrenciesHook } from "../../../hooks/currencies/currencies";
 
 const CurrenciesTable = () => {
   const [page, setPage] = useState(1);

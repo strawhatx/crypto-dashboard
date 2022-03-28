@@ -43,12 +43,6 @@ const Mobile = () => {
         </MenuItem>
 
         <MenuItem onClick={() => setIsOpen(false)}>
-          <Button color="inherit" href="/exchanges">
-            {t("Exchanges")}
-          </Button>
-        </MenuItem>
-
-        <MenuItem onClick={() => setIsOpen(false)}>
           <Button color="inherit" href="/portfolios">
             {t("Portfolio")}
           </Button>

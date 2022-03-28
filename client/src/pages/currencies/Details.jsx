@@ -8,7 +8,6 @@ import CurrencyInfobar from "../../components/currency/infobar/Index";
 import { useCurrencyHook } from "../../hooks/currency";
 import CurrencyPriceConverter from "../../components/currency/price-converter/Index";
 import CurrencyDescription from "../../components/currency/description/Index";
-import CurrencySocials from "../../components/currency/socials/Index";
 
 const CurrencyDetail = () => {
   const { state } = useLocation();

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useCurrencyStore } from "../../../stores";
 import { useTheme } from "@mui/system";
-import { useCurrencyReferencesHook } from "../../../hooks/currency-references";
+import { useCurrencyReferencesHook } from "../../../hooks/currency/currency-references";
 import BasicDialog from "../../dialog/Index";
 import NoResultsImg from "../../../assets/images/no-results.svg";
 import {
