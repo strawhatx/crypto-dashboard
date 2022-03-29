@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import CurrencyToolbar from "../../components/currency/toolbar/Index";
 import { useTheme } from "@mui/system";
 import CurrencyInfobar from "../../components/currency/infobar/Index";
-import { useCurrencyHook } from "../../hooks/currency";
+import { useCurrencyHook } from "../../hooks/currency/currency";
 import CurrencyPriceConverter from "../../components/currency/price-converter/Index";
 import CurrencyDescription from "../../components/currency/description/Index";
 
@@ -13,7 +13,7 @@ const CurrencyDetail = () => {
   const { state } = useLocation();
   const theme = useTheme();
 
-  const { error, coin } = useCurrencyHook(state.uuid);
+  const { coin } = useCurrencyHook(state.uuid);
 
   return (
     <>

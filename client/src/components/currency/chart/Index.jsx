@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { Box, Typography, Button } from "@mui/material";
 import { chartIntervals } from "../../../util/coins-util";
 import { useTheme } from "@mui/system";
-import { useCurrencyChartHook } from "../../../hooks/currency-chart";
+import { useCurrencyChartHook } from "../../../hooks/currency/currency-chart";
 
 const CurrencyChart = ({ coinName, coinPrice }) => {
   const [interval, setInterval] = useState("24h");

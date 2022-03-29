@@ -18,7 +18,7 @@ const CurrencyMenu = () => {
   const [search, setSearch] = useState("");
   const theme = useTheme();
 
-  const { error, total, size, popularCurrencies, allCurrencies } =
+  const { total, size, popularCurrencies, allCurrencies } =
     useCurrencyReferencesHook(page, search);
 
   const { selected, update } = useCurrencyStore((state) => ({
@@ -134,6 +134,7 @@ const CurrencyMenu = () => {
       <BasicDialog
         btnTitle={selected}
         title="Select a currency"
+        type="currency"
         children={
           <Box sx={{ pb: theme.spacing(5) }}>
             <Box classNames="search" sx={{ mb: theme.spacing(4) }}>

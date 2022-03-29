@@ -138,6 +138,7 @@ const LanguageMenu = () => {
       <BasicDialog
         btnTitle={selected}
         title="Select a language"
+        type="language"
         children={
           <Box sx={{ pb: theme.spacing(5) }}>
             <Box classNames="search" sx={{ mb: theme.spacing(4) }}>

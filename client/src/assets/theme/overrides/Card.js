@@ -12,6 +12,7 @@ export const Card = (theme) => {
         },
       },
     },
+
     MuiCardHeader: {
       defaultProps: {
         titleTypographyProps: { variant: "h6" },

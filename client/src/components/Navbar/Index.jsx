@@ -5,6 +5,7 @@ import { Box, AppBar, Container, Toolbar, Button } from "@mui/material";
 import Mobile from "./menus/MobileMenu";
 import LanguageMenu from "./menus/LanguageMenu";
 import CurrencyMenu from "./menus/CurrencyMenu";
+import Login from "../authentication/Login";
 
 const Navbar = () => {
   const { t } = useTranslation();
@@ -32,9 +33,7 @@ const Navbar = () => {
               <CurrencyMenu />
               <LanguageMenu />
 
-              <Button color="inherit" href="/signin">
-                {t("Signin")}
-              </Button>
+              <Login />
               <Button color="inherit" href="/signup">
                 {t("Signup")}
               </Button>

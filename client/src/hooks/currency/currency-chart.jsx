@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "../config/axios";
+import { axios } from "../../config/axios";
 import _axios from "axios";
-import { getDatetime } from "../util/coins-util";
+import { getDatetime } from "../../util/coins-util";
 
 export const useCurrencyChartHook = (id, interval) => {
   const [error, setError] = useState(false);

@@ -28,7 +28,7 @@ const BasicDialogTitleWithClose = ({ title, onClose }) => {
 };
 
 BasicDialogTitleWithClose.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   onClose: PropTypes.func.isRequired,
 };
 

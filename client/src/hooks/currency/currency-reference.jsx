@@ -1,7 +1,7 @@
 //Use the CurrencyReference search api to find individual currencies
 
 import { useState, useEffect } from "react";
-import axios from "../config/axios";
+import { axios } from "../../config/axios";
 import _axios from "axios";
 
 export const useCurrencyReferenceHook = (selectedCurrency = "USD") => {

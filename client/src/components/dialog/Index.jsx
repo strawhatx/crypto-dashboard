@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Button, Dialog, DialogContent, useTheme } from "@mui/material";
 import BasicDialogTitleWithClose from "./Title";
 
-const BasicDialog = ({ btnTitle, title, children }) => {
+const BasicDialog = ({ btnTitle, title, children, type, size = "md" }) => {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
 
@@ -19,7 +19,7 @@ const BasicDialog = ({ btnTitle, title, children }) => {
     <>
       <Button
         id="basic-button"
-        aria-controls={open ? "language-dialog" : undefined}
+        aria-controls={open ? `${type}-dialog` : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClickOpen}
@@ -39,7 +39,7 @@ const BasicDialog = ({ btnTitle, title, children }) => {
         aria-labelledby="customized-dialog-title"
         open={open}
         fullWidth
-        maxWidth="md"
+        maxWidth={size}
       >
         <BasicDialogTitleWithClose
           id="customized-dialog-title"
@@ -55,8 +55,10 @@ const BasicDialog = ({ btnTitle, title, children }) => {
 
 BasicDialog.propTypes = {
   btnTitle: PropTypes.string,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   children: PropTypes.any.isRequired,
+  type: PropTypes.string.isRequired,
+  size: PropTypes.string,
 };
 
 export default BasicDialog;

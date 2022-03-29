@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/system";
 import { useCurrencyStore } from "../../../stores";
-import { useCurrencyReferenceHook } from "../../../hooks/currency-reference";
+import { useCurrencyReferenceHook } from "../../../hooks/currency/currency-reference";
 import PropTypes from "prop-types";
 import CurrencyPriceConverterFeild from "./field/Index";
 

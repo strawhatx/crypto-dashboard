@@ -12,15 +12,15 @@ const CurrencyPriceConverterFeild = ({
 }) => {
   const theme = useTheme();
 
-  const handleDecimalScale = (value) => {
-    if (value <= 0) return;
-
-    let valString = value.toString();
-
-    return value >= 1
-      ? 2
-      : valString?.split("").findIndex((e) => parseInt(e) > 0) + 2;
-  };
+  //const handleDecimalScale = (value) => {
+  //  if (value <= 0) return;
+  //
+  //  let valString = value.toString();
+  //
+  //  return value >= 1
+  //    ? 2
+  //    : valString?.split("").findIndex((e) => parseInt(e) > 0) + 2;
+  //};
 
   return (
     <Box

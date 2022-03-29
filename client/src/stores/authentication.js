@@ -1,5 +1,5 @@
 import create from "zustand";
-import { persist } from "zustand/middleware";
+import { axios } from "../config/axios";
 import { auth } from "../config/firebase";
 
 export const useAuthStore = create((set) => ({
@@ -29,7 +29,7 @@ export const useAuthStore = create((set) => ({
   },
 
   updateEmail: (email) => {
-    return currentUser.updateEmail(email).then(async (response) => {
+    return auth.currentUser.updateEmail(email).then(async (response) => {
       await axios.put("/accounts/", {
         email: response.user.email,
       });
@@ -37,7 +37,7 @@ export const useAuthStore = create((set) => ({
   },
 
   updatePassword: (password) => {
-    return currentUser.updatePassword(password);
+    return auth.currentUser.updatePassword(password);
   },
 
   setLoading: (value = true) => set({ loading: value }),

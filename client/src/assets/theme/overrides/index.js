@@ -1,5 +1,6 @@
 import { merge } from "lodash";
 import { Card } from "./Card";
+import { Dialog } from "./Dialog";
 import { Lists } from "./Lists";
 import { Paper } from "./Paper";
 import { Input } from "./Input";
@@ -26,6 +27,7 @@ export const ComponentsOverrides = (theme) => {
     IconButton(theme),
     Autocomplete(theme),
     Tabs(theme),
-    Tab(theme)
+    Tab(theme),
+    Dialog(theme)
   );
 };
