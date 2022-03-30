@@ -6,6 +6,7 @@ import Mobile from "./menus/MobileMenu";
 import LanguageMenu from "./menus/LanguageMenu";
 import CurrencyMenu from "./menus/CurrencyMenu";
 import Login from "../authentication/Login";
+import Register from "../authentication/Register";
 
 const Navbar = () => {
   const { t } = useTranslation();
@@ -34,9 +35,7 @@ const Navbar = () => {
               <LanguageMenu />
 
               <Login />
-              <Button color="inherit" href="/signup">
-                {t("Signup")}
-              </Button>
+              <Register />
             </Box>
 
             {/* Mobile */}

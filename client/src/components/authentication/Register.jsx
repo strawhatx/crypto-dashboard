@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -16,47 +16,59 @@ import BasicDialog from "../dialog/Index";
 import { useAuthStore } from "../../stores/authentication";
 import { Notification } from "../Notification";
 import logo from "../../assets/images/logo.svg";
-import { setAuthToken } from "../../config/axios";
+import { axios } from "../../config/axios";
 
-const Login = () => {
+const Register = () => {
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
   const theme = useTheme();
-  const { login, currentUser } = useAuthStore((state) => ({
-    login: state.login,
-    currentUser: state.currentUser,
-  }));
+  const { register } = useAuthStore((state) => ({ register: state.register }));
 
   const schema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
+
     password: Yup.string()
-      .min(6, "Password shold be at least 6 characters!")
-      .uppercase("Password must contain at least 1 uppercase!")
+      //.min(6, "Password should be at least 6 characters!")
+      //.uppercase("Password must contain at least 1 uppercase!")
       .required("Password is required"),
-    rememberMe: Yup.boolean(),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Password Confirmation is required"),
+    subscribe: Yup.boolean(),
+    acceptTerms: Yup.bool().oneOf(
+      [true],
+      "Accept Terms & Conditions is required"
+    ),
   });
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
-      rememberMe: false,
+      confirmPassword: "",
+      subscribe: false,
+      acceptTerms: false,
     },
     validationSchema: schema,
     onSubmit: async (values) => {
-      await login(values.email, values.password) //, values.rememberMe || false)
-        .then(() => {
-          setAuthToken(currentUser);
+      await register(values.email, values.password)
+        .then(async (response) => {
+          console.log(response);
+          await axios.post("/accounts/", {
+            uid: response.user.uid,
+            email: response.user.email,
+            isSubscribed: values.subscribe,
+          });
         })
         .then(() => {
-          navigate("/dashboard");
+          navigate("/auth/login");
         })
         .catch((error) => {
           console.log(error);
           setMessage({
             title: "ERROR",
             color: "error",
-            text: "email and/or password is incorrect",
+            text: "Registration failed please contacct us for assistance.",
           });
         });
     },
@@ -80,26 +92,6 @@ const Login = () => {
       </Box>
 
       <Box sx={{ mt: theme.spacing(4) }}>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "end",
-            flexDirection: "column",
-            mb: theme.spacing(1.5),
-          }}
-        >
-          <Link
-            style={{
-              textDecoration: "none",
-              alignContent: "flex-end",
-              color: theme.palette.grey[500],
-              "& hover": { textDecoration: "none" },
-            }}
-            to={`/auth/forgot-password`}
-          >
-            Forgot Password?
-          </Link>
-        </Box>
         <TextField
           name="password"
           type="password"
@@ -119,19 +111,33 @@ const Login = () => {
             disabled
             control={
               <Checkbox
-                name="rememberMe"
-                value={formik.values.rememberMe}
+                name="subscribe"
+                value={formik.values.subscribe}
                 onChange={formik.handleChange}
               />
             }
-            label="Remember Me"
+            label="Subscribe"
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <FormControlLabel
+            disabled
+            control={
+              <Checkbox
+                name="acceptTerms"
+                value={formik.values.acceptTerms}
+                onChange={formik.handleChange}
+              />
+            }
+            label="I agree with the Terms and conditions."
           />
         </FormGroup>
       </Box>
 
       <Box className="mt-8">
         <Button variant="contained" type="submit" size="large" fullWidth>
-          Login
+          Register
         </Button>
       </Box>
     </form>
@@ -140,8 +146,8 @@ const Login = () => {
   return (
     <>
       <BasicDialog
-        btnTitle="Sign In"
-        type="signin"
+        btnTitle="Sign Up"
+        type="signup"
         size="xs"
         children={
           <Box
@@ -168,7 +174,7 @@ const Login = () => {
               variant="h6"
               sx={{ mt: theme.spacing(2), mb: theme.spacing(0.5) }}
             >
-              Login
+              Register
             </Typography>
             <Typography
               variant="p"
@@ -199,4 +205,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
