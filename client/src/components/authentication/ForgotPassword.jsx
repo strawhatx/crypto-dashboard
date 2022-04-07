@@ -19,7 +19,7 @@ const ForgotPasswordForm = () => {
   const [message, setMessage] = useState(null);
   const theme = useTheme();
   const { resetPassword } = useAuthStore((state) => ({
-    login: state.login,
+    resetPassword: state.resetPassword,
   }));
 
   const initialValues = { email: "" };
@@ -117,7 +117,7 @@ const ForgotPasswordForm = () => {
               variant="h6"
               sx={{ mt: theme.spacing(2), mb: theme.spacing(0.5) }}
             >
-              Login
+              Enter Email
             </Typography>
             <Typography
               variant="p"
@@ -127,7 +127,7 @@ const ForgotPasswordForm = () => {
                 color: theme.palette.grey[500],
               }}
             >
-              To start using CryptoWatch
+              To retrieve password
             </Typography>
 
             {message && (

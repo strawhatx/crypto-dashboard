@@ -5,8 +5,6 @@ import { Box, AppBar, Container, Toolbar, Button } from "@mui/material";
 import Mobile from "./menus/MobileMenu";
 import LanguageMenu from "./menus/LanguageMenu";
 import CurrencyMenu from "./menus/CurrencyMenu";
-import Login from "../authentication/Login";
-import Register from "../authentication/Register";
 
 const Navbar = () => {
   const { t } = useTranslation();

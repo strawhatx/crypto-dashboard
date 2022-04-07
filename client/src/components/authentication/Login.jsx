@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Checkbox,
@@ -28,7 +28,10 @@ import { setAuthToken } from "../../config/axios";
 const LoginForm = () => {
   const [message, setMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+
   const theme = useTheme();
+  const navigate = useNavigate();
+
   const { login, currentUser } = useAuthStore((state) => ({
     login: state.login,
     currentUser: state.currentUser,
@@ -61,6 +64,7 @@ const LoginForm = () => {
           setSubmitting(false);
           resetForm(initialValues);
         })
+        .then(() => navigate("/portfolio"))
         .catch((error) => {
           setMessage({
             title: "ERROR",
