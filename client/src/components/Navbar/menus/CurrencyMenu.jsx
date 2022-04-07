@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCurrencyStore } from "../../../stores";
+import { useCurrencyStore } from "../../../stores/app-settings";
 import { useTheme } from "@mui/system";
 import { useCurrencyReferencesHook } from "../../../hooks/currency/currency-references";
 import BasicDialog from "../../dialog/Index";
@@ -133,6 +133,7 @@ const CurrencyMenu = () => {
     <>
       <BasicDialog
         btnTitle={selected}
+        btnType="nav"
         title="Select a currency"
         type="currency"
         children={

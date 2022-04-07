@@ -5,10 +5,10 @@ import path from "path";
 import cors from "cors"
 import { PORT } from "./"
 import { Connection } from "./connect"
-import { UserRoutes } from "../routes/user-routes";
+import { AccountRoutes } from "../routes/account-routes";
 import { CoinRoutes } from "../routes/coin-routes";
 import { AppCurrencyRoutes } from "../routes/app-currency-routes";
-import { TwitterRoutes } from "../routes/twitter-routes";
+
 export class Server {
     public app: express.Application;
     public connect: Connection;
@@ -27,10 +27,9 @@ export class Server {
     * Controller routes
     */
     public routes(): void {
-        this.app.use("/api/users", UserRoutes);
+        this.app.use("/api/accounts", AccountRoutes);
         this.app.use("/api/coins", CoinRoutes);
         this.app.use("/api/app-currency", AppCurrencyRoutes)
-        this.app.use("/api/twitter-news", TwitterRoutes)
     }
 
     /** 

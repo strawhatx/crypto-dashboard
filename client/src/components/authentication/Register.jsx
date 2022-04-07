@@ -1,28 +1,45 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Box,
-  Button,
   Checkbox,
   FormControlLabel,
   FormGroup,
+  Icon,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography,
+  Card,
+  CardHeader,
+  CardContent,
 } from "@mui/material";
 import { useTheme } from "@mui/system";
-import { useFormik } from "formik";
+import { LoadingButton } from "@mui/lab";
+import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
+import eyeFill from "@iconify/icons-eva/eye-fill";
+import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
 import BasicDialog from "../dialog/Index";
 import { useAuthStore } from "../../stores/authentication";
 import { Notification } from "../Notification";
 import logo from "../../assets/images/logo.svg";
 import { axios } from "../../config/axios";
 
-const Register = () => {
+const RegisterForm = () => {
   const [message, setMessage] = useState(null);
-  const navigate = useNavigate();
+  const [requestClose, setRequestClose] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const theme = useTheme();
   const { register } = useAuthStore((state) => ({ register: state.register }));
+
+  const initialValues = {
+    email: "",
+    password: "",
+    confirmPassword: "",
+    subscribe: false,
+    acceptTerms: false,
+  };
 
   const schema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -42,16 +59,10 @@ const Register = () => {
   });
 
   const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      subscribe: false,
-      acceptTerms: false,
-    },
+    initialValues: initialValues,
     validationSchema: schema,
-    onSubmit: async (values) => {
-      await register(values.email, values.password)
+    onSubmit: (values, { setSubmitting, resetForm }) => {
+      register(values.email, values.password, values.subscribe)
         .then(async (response) => {
           console.log(response);
           await axios.post("/accounts/", {
@@ -61,95 +72,155 @@ const Register = () => {
           });
         })
         .then(() => {
-          navigate("/auth/login");
+          setSubmitting(false);
+          resetForm(initialValues);
+          setRequestClose(true);
         })
         .catch((error) => {
-          console.log(error);
           setMessage({
             title: "ERROR",
-            color: "error",
+            severity: "error",
             text: "Registration failed please contacct us for assistance.",
           });
         });
     },
   });
 
+  const {
+    errors,
+    touched,
+    handleSubmit,
+    handleChange,
+    handleReset,
+    isSubmitting,
+    getFieldProps,
+    values,
+  } = formik;
+
   //the form using formik to handle the submission
   const form = (
-    <form onSubmit={formik.handleSubmit}>
-      <Box>
-        <TextField
-          name="email"
-          type="email"
-          label="Email"
-          fullWidth
-          inputProps={{ maxLength: 255 }}
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-      </Box>
-
-      <Box sx={{ mt: theme.spacing(4) }}>
-        <TextField
-          name="password"
-          type="password"
-          fullWidth
-          label="Password"
-          inputProps={{ maxLength: 255 }}
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-        />
-      </Box>
-
-      <Box sx={{ mt: theme.spacing(4) }}>
-        <FormGroup>
-          <FormControlLabel
-            disabled
-            control={
-              <Checkbox
-                name="subscribe"
-                value={formik.values.subscribe}
-                onChange={formik.handleChange}
-              />
-            }
-            label="Subscribe"
+    <FormikProvider value={formik}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <Box>
+          <TextField
+            fullWidth
+            autoComplete="username"
+            type="email"
+            label="Email address"
+            {...getFieldProps("email")}
+            error={Boolean(touched.email && errors.email)}
+            helperText={touched.email && errors.email}
           />
-        </FormGroup>
+        </Box>
 
-        <FormGroup>
-          <FormControlLabel
-            disabled
-            control={
-              <Checkbox
-                name="acceptTerms"
-                value={formik.values.acceptTerms}
-                onChange={formik.handleChange}
-              />
-            }
-            label="I agree with the Terms and conditions."
+        <Box sx={{ mt: theme.spacing(3) }}>
+          <TextField
+            fullWidth
+            autoComplete="current-password"
+            type={showPassword ? "text" : "password"}
+            label="Password"
+            {...getFieldProps("password")}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    edge="end"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
+                    <Icon icon={showPassword ? eyeFill : eyeOffFill} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            error={Boolean(touched.password && errors.password)}
+            helperText={touched.password && errors.password}
           />
-        </FormGroup>
-      </Box>
+        </Box>
 
-      <Box className="mt-8">
-        <Button variant="contained" type="submit" size="large" fullWidth>
-          Register
-        </Button>
-      </Box>
-    </form>
+        <Box sx={{ mt: theme.spacing(3) }}>
+          <TextField
+            fullWidth
+            autoComplete="confirm-password"
+            type={showConfirmPassword ? "text" : "password"}
+            label="Confirm Password"
+            {...getFieldProps("confirmPassword")}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    edge="end"
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  >
+                    <Icon icon={showConfirmPassword ? eyeFill : eyeOffFill} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            error={Boolean(touched.confirmPassword && errors.confirmPassword)}
+            helperText={touched.confirmPassword && errors.confirmPassword}
+          />
+        </Box>
+
+        <Box sx={{ mt: theme.spacing(3) }}>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="subscribe"
+                  value={values.subscribe}
+                  onChange={handleChange}
+                />
+              }
+              label="Subscribe"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="acceptTerms"
+                  value={values.acceptTerms}
+                  onChange={handleChange}
+                />
+              }
+              label="I agree with the Terms and conditions."
+            />
+            {errors.acceptTerms && touched.acceptTerms ? (
+              <Box
+                sx={{
+                  color: "#FF4842",
+                  lineHeight: 1.5,
+                  fontSize: `${0.75}rem`,
+                  textAlign: "left",
+                  mt: theme.spacing(0.2),
+                  mx: theme.spacing(2),
+                  mb: 0,
+                }}
+              >
+                {errors.acceptTerms}
+              </Box>
+            ) : null}
+          </FormGroup>
+        </Box>
+
+        <Box sx={{ mt: theme.spacing(3) }}>
+          <LoadingButton
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+          >
+            Register
+          </LoadingButton>
+        </Box>
+      </Form>
+    </FormikProvider>
   );
 
   return (
     <>
-      <BasicDialog
-        btnTitle="Sign Up"
-        type="signup"
-        size="xs"
-        children={
+      <Card>
+        <CardHeader />
+        <CardContent>
           <Box
             sx={{
               display: "flex",
@@ -174,7 +245,7 @@ const Register = () => {
               variant="h6"
               sx={{ mt: theme.spacing(2), mb: theme.spacing(0.5) }}
             >
-              Register
+              Sign Up
             </Typography>
             <Typography
               variant="p"
@@ -190,19 +261,17 @@ const Register = () => {
             {message && (
               <Notification
                 title={message.title}
-                color={message.color}
+                severity={message.severity}
                 message={message.text}
               />
             )}
 
-            <Box sx={{ width: "100%" }}>{form}</Box>
-
-            <Box></Box>
+            <Box sx={{ width: "100%", pt: theme.spacing(1) }}>{form}</Box>
           </Box>
-        }
-      />
+        </CardContent>
+      </Card>
     </>
   );
 };
 
-export default Register;
+export default RegisterForm;

@@ -3,7 +3,7 @@ import {
   all_languages,
   popular_languages,
 } from "../../../assets/i18n/languages";
-import { useLanguageStore } from "../../../stores";
+import { useLanguageStore } from "../../../stores/app-settings";
 import { Button, Grid, Box, Typography, TextField } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
@@ -137,6 +137,7 @@ const LanguageMenu = () => {
     <>
       <BasicDialog
         btnTitle={selected}
+        btnType="nav"
         title="Select a language"
         type="language"
         children={

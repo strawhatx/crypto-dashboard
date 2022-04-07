@@ -2,10 +2,10 @@ import React from "react";
 import Navbar from "./Navbar/Index";
 import PropTypes from "prop-types";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, hasNav }) => {
   return (
     <>
-      <Navbar />
+      {hasNav && <Navbar />}
 
       <main>{children}</main>
 
@@ -17,6 +17,7 @@ const Layout = ({ children }) => {
 };
 
 Layout.propTypes = {
+  hasNav: PropTypes.bool.isRequired,
   children: PropTypes.any.isRequired,
 };
 

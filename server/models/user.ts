@@ -6,14 +6,10 @@ import validator from 'validator';
  */
 export interface IUser {
     _id: string,
-    firstName: string,
-    lastName: string,
-    displayName: string,
     email: string,
-    phoneNumber: string,
-    bio: string,
+    displayName: string,
     profileImage: string,
-    role: string,
+    isSubscribed: boolean,
 }
 
 /**
@@ -26,13 +22,7 @@ class UserSchema {
     static get schema() {
         var schema: Schema<IUser> = new Schema(
             {
-                _id: { type: String, trim: true },
-                firstName: { type: String, trim: true },
-                lastName: { type: String, trim: true },
-                displayName: {
-                    type: String,
-                    required: [true, "display name is required"],
-                },
+                _id: { type: String, trim: true, required: [true, "id is required"], unique: true, },
                 email: {
                     type: String,
                     validate: [validator.isEmail, "Please provide a valid email address"],
@@ -41,31 +31,19 @@ class UserSchema {
                     trim: true,
                     lowercase: true
                 },
-                phoneNumber: {
+                displayName: {
                     type: String,
-                    validate: [
-                        validator.isMobilePhone,
-                        "Please provide a valid phone number",
-                    ],
-                },
-                bio: {
-                    type: String,
-                    required: false,
-                    max: 255,
+                    required: [true, "display name is required"],
                 },
                 profileImage: {
                     type: String,
                     required: false,
                     max: 255,
                 },
-                role: {
-                    type: String,
+                isSubscribed: {
+                    type: Boolean,
                     required: true,
-                    enum: {
-                        values: ['Free', 'Basic', 'Admin'],
-                        message: '{VALUE} is not supported'
-                    },
-                    default: 'Free'
+                    default: false,
                 },
             },
             { timestamps: true }

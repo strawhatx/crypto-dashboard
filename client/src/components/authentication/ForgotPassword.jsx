@@ -1,91 +1,93 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { useTheme } from "@mui/system";
-import { useFormik } from "formik";
+import { LoadingButton } from "@mui/lab";
+import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import BasicDialog from "../dialog/Index";
 import { useAuthStore } from "../../stores/authentication";
 import { Notification } from "../Notification";
 import logo from "../../assets/images/logo.svg";
-import { setAuthToken } from "../../config/axios";
 
 const ForgotPassword = () => {
   const [message, setMessage] = useState(null);
-  const navigate = useNavigate();
   const theme = useTheme();
-  const { resetPassword, currentUser } = useAuthStore((state) => ({
+  const { resetPassword } = useAuthStore((state) => ({
     login: state.login,
-    currentUser: state.currentUser,
   }));
+
+  const initialValues = { email: "" };
 
   const schema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
   });
 
   const formik = useFormik({
-    initialValues: {
-      email: "",
-    },
+    initialValues: initialValues,
     validationSchema: schema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
       await resetPassword(values.email)
         .then(() => {
           setMessage({
             title: "SUCCESS",
-            color: "success",
+            severity: "success",
             text: "Check your inbox for further instructions",
           });
+        })
+        .then(() => {
+          setSubmitting(false);
+          resetForm(initialValues);
         })
         .catch((error) => {
           console.log(error);
           setMessage({
             title: "ERROR",
-            color: "error",
+            severity: "error",
             text: "Failed to reset password",
           });
         });
     },
   });
 
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+
   //the form using formik to handle the submission
   const form = (
-    <form onSubmit={formik.handleSubmit}>
-      <Box>
-        <TextField
-          name="email"
-          type="email"
-          label="Email"
-          fullWidth
-          inputProps={{ maxLength: 255 }}
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-      </Box>
+    <FormikProvider value={formik}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <Box>
+          <TextField
+            fullWidth
+            autoComplete="username"
+            type="email"
+            label="Email address"
+            {...getFieldProps("email")}
+            error={Boolean(touched.email && errors.email)}
+            helperText={touched.email && errors.email}
+          />
+        </Box>
 
-      <Box className="mt-8">
-        <Button variant="contained" type="submit" size="large" fullWidth>
-          Reset Password
-        </Button>
-      </Box>
-    </form>
+        <Box sx={{ mt: theme.spacing(3) }}>
+          <LoadingButton
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+          >
+            Reset Password
+          </LoadingButton>
+        </Box>
+      </Form>
+    </FormikProvider>
   );
 
   return (
     <>
       <BasicDialog
-        btnTitle="Sign In"
-        type="signin"
+        btnTitle="Forgot Password"
+        btnType="forgot"
+        type="forgot"
         size="xs"
         children={
           <Box
@@ -128,14 +130,12 @@ const ForgotPassword = () => {
             {message && (
               <Notification
                 title={message.title}
-                color={message.color}
+                severity={message.severity}
                 message={message.text}
               />
             )}
 
-            <Box sx={{ width: "100%" }}>{form}</Box>
-
-            <Box></Box>
+            <Box sx={{ width: "100%", pt: theme.spacing(1) }}>{form}</Box>
           </Box>
         }
       />

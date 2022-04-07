@@ -10,6 +10,7 @@ import Layout from "./components/Layout";
 import { GlobalStyles } from "./assets/theme/base/globalStyles";
 
 import "./assets/i18n";
+import Register from "./pages/authentication/Register/Index";
 
 const App = () => {
   return (
@@ -18,18 +19,27 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <GlobalStyles />
         <Routes>
-          <Route exact path="/" element={<Layout children={<Home />} />} />
+          <Route
+            exact
+            path="/"
+            element={<Layout children={<Home />} hasNav={true} />}
+          />
+          <Route
+            exact
+            path="/signup"
+            element={<Layout children={<Register />} hasNav={false} />}
+          />
           <Route
             path="/currencies"
-            element={<Layout children={<Currencies />} />}
+            element={<Layout children={<Currencies />} hasNav={true} />}
           />
           <Route
             path="/currencies/:id"
-            element={<Layout children={<CurrencyDetail />} />}
+            element={<Layout children={<CurrencyDetail />} hasNav={true} />}
           />
           <Route
             path="/portfolios"
-            element={<Layout children={<Portfolio />} />}
+            element={<Layout children={<Portfolio />} hasNav={true} />}
           />
         </Routes>
       </ThemeProvider>

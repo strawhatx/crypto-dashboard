@@ -1,23 +1,23 @@
 import create from "zustand";
 import { axios } from "../config/axios";
-import { auth } from "../config/firebase";
+import {
+  auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  updateEmail,
+  updatePassword,
+} from "../config/firebase";
 
 export const useAuthStore = create((set) => ({
   currentUser: null,
   loading: true,
-  register: (email, password) => {
-    return auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(async (response) => {
-        await axios.post("/accounts/", {
-          uid: response.user.uid,
-          email: response.user.email,
-        });
-      });
+  register: (email, password, subscribed) => {
+    return createUserWithEmailAndPassword(auth, email, password);
   },
 
   login: (email, password) => {
-    return auth.signInWithEmailAndPassword(email, password);
+    return signInWithEmailAndPassword(auth, email, password);
   },
 
   logout: () => {
@@ -25,11 +25,11 @@ export const useAuthStore = create((set) => ({
   },
 
   resetPassword: (email) => {
-    return auth.sendPasswordResetEmail(email);
+    return sendPasswordResetEmail(auth, email);
   },
 
   updateEmail: (email) => {
-    return auth.currentUser.updateEmail(email).then(async (response) => {
+    return updateEmail(auth.currentUser, email).then(async (response) => {
       await axios.put("/accounts/", {
         email: response.user.email,
       });
@@ -37,7 +37,7 @@ export const useAuthStore = create((set) => ({
   },
 
   updatePassword: (password) => {
-    return auth.currentUser.updatePassword(password);
+    return updatePassword(auth.currentUser, password);
   },
 
   setLoading: (value = true) => set({ loading: value }),

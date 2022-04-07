@@ -7,7 +7,7 @@ import { Request, Response, NextFunction } from "express";
 * User Controller
 */
 
-export class UserController {
+export class AccountController {
     constructor() { }
 
     /**
@@ -50,12 +50,10 @@ export class UserController {
     async createUser(req: Request, res: Response, next: NextFunction) {
         try {
             let user = {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                displayName: req.body.displayName,
-                phoneNumber: req.body.phoneNumber,
-                bio: req.body.bio,
-                profileImage: req.body.profileImage,
+                _id: req.body.uid,
+                email: req.body.email,
+                displayName: req.body.email,
+                isSubscribed: req.body.isSubscribed,
             }
 
             const created = await User.create(user);
@@ -81,11 +79,7 @@ export class UserController {
         try {
             let user = {
                 _id: req.params.id,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
                 displayName: req.body.displayName,
-                phoneNumber: req.body.phoneNumber,
-                bio: req.body.bio,
                 profileImage: req.body.profileImage,
             }
 

@@ -1,31 +1,47 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Box,
-  Button,
   Checkbox,
   FormControlLabel,
   FormGroup,
+  Icon,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography,
+  Card,
+  CardHeader,
+  CardContent,
 } from "@mui/material";
 import { useTheme } from "@mui/system";
-import { useFormik } from "formik";
+import { LoadingButton } from "@mui/lab";
+import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
+import eyeFill from "@iconify/icons-eva/eye-fill";
+import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
 import BasicDialog from "../dialog/Index";
 import { useAuthStore } from "../../stores/authentication";
 import { Notification } from "../Notification";
 import logo from "../../assets/images/logo.svg";
 import { setAuthToken } from "../../config/axios";
+import ForgotPassword from "./ForgotPassword";
 
-const Login = () => {
+const LoginForm = () => {
   const [message, setMessage] = useState(null);
-  const navigate = useNavigate();
+  const [requestClose, setRequestClose] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const theme = useTheme();
   const { login, currentUser } = useAuthStore((state) => ({
     login: state.login,
     currentUser: state.currentUser,
   }));
+
+  const initialValues = {
+    email: "",
+    password: "",
+    rememberMe: false,
+  };
 
   const schema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -37,166 +53,187 @@ const Login = () => {
   });
 
   const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-      rememberMe: false,
-    },
+    initialValues: initialValues,
     validationSchema: schema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
       await login(values.email, values.password) //, values.rememberMe || false)
         .then(() => {
           setAuthToken(currentUser);
         })
         .then(() => {
-          navigate("/dashboard");
+          setSubmitting(false);
+          resetForm(initialValues);
+          setRequestClose(true);
         })
         .catch((error) => {
-          console.log(error);
           setMessage({
             title: "ERROR",
-            color: "error",
+            severity: "error",
             text: "email and/or password is incorrect",
           });
         });
     },
   });
 
+  const {
+    errors,
+    touched,
+    handleSubmit,
+    handleChange,
+    isSubmitting,
+    getFieldProps,
+    values,
+  } = formik;
+
   //the form using formik to handle the submission
   const form = (
-    <form onSubmit={formik.handleSubmit}>
-      <Box>
-        <TextField
-          name="email"
-          type="email"
-          label="Email"
-          fullWidth
-          inputProps={{ maxLength: 255 }}
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-      </Box>
-
-      <Box sx={{ mt: theme.spacing(4) }}>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "end",
-            flexDirection: "column",
-            mb: theme.spacing(1.5),
-          }}
-        >
-          <Link
-            style={{
-              textDecoration: "none",
-              alignContent: "flex-end",
-              color: theme.palette.grey[500],
-              "& hover": { textDecoration: "none" },
-            }}
-            to={`/auth/forgot-password`}
-          >
-            Forgot Password?
-          </Link>
-        </Box>
-        <TextField
-          name="password"
-          type="password"
-          fullWidth
-          label="Password"
-          inputProps={{ maxLength: 255 }}
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-        />
-      </Box>
-
-      <Box sx={{ mt: theme.spacing(4) }}>
-        <FormGroup>
-          <FormControlLabel
-            disabled
-            control={
-              <Checkbox
-                name="rememberMe"
-                value={formik.values.rememberMe}
-                onChange={formik.handleChange}
-              />
-            }
-            label="Remember Me"
+    <FormikProvider value={formik}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <Box>
+          <TextField
+            fullWidth
+            autoComplete="username"
+            type="email"
+            label="Email address"
+            {...getFieldProps("email")}
+            error={Boolean(touched.email && errors.email)}
+            helperText={touched.email && errors.email}
           />
-        </FormGroup>
-      </Box>
+        </Box>
 
-      <Box className="mt-8">
-        <Button variant="contained" type="submit" size="large" fullWidth>
-          Login
-        </Button>
-      </Box>
-    </form>
+        <Box sx={{ mt: theme.spacing(3) }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "end",
+              flexDirection: "column",
+              mb: theme.spacing(1.5),
+            }}
+          >
+            <Link
+              style={{
+                textDecoration: "none",
+                alignContent: "flex-end",
+                color: theme.palette.grey[500],
+                "& hover": { textDecoration: "none" },
+              }}
+              to={`/auth/forgot-password`}
+            >
+              Forgot Password?
+            </Link>
+            <ForgotPassword />
+          </Box>
+          <TextField
+            fullWidth
+            autoComplete="current-password"
+            type={showPassword ? "text" : "password"}
+            label="Password"
+            {...getFieldProps("password")}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    edge="end"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
+                    <Icon icon={showPassword ? eyeFill : eyeOffFill} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            error={Boolean(touched.password && errors.password)}
+            helperText={touched.password && errors.password}
+          />
+        </Box>
+
+        <Box sx={{ mt: theme.spacing(3) }}>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="subscribe"
+                  value={values.rememberMe}
+                  onChange={handleChange}
+                />
+              }
+              label="Remember Me"
+            />
+          </FormGroup>
+        </Box>
+
+        <Box sx={{ mt: theme.spacing(3) }}>
+          <LoadingButton
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+          >
+            Sign In
+          </LoadingButton>
+        </Box>
+      </Form>
+    </FormikProvider>
   );
 
   return (
     <>
-      <BasicDialog
-        btnTitle="Sign In"
-        type="signin"
-        size="xs"
-        children={
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              variant="span"
+      <>
+        <Card>
+          <CardHeader />
+          <CardContent>
+            <Box
               sx={{
-                width: theme.spacing(10),
-                height: theme.spacing(10),
-                backgroundImage: `url(${logo})`,
-                backgroundSize: "100%",
-                backgroundPosition: "center",
-                boxShadow: "0px 3px 6px rgb(0 0 0 / 7%)",
-                backgroundRepeat: "no-repeat",
-                borderRadius: theme.spacing(12.4),
-              }}
-            ></Typography>
-            <Typography
-              variant="h6"
-              sx={{ mt: theme.spacing(2), mb: theme.spacing(0.5) }}
-            >
-              Login
-            </Typography>
-            <Typography
-              variant="p"
-              sx={{
-                pb: theme.spacing(2),
-                fontWeight: theme.typography.fontWeightMedium,
-                color: theme.palette.grey[500],
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
-              To start using CryptoWatch
-            </Typography>
+              <Typography
+                variant="span"
+                sx={{
+                  width: theme.spacing(10),
+                  height: theme.spacing(10),
+                  backgroundImage: `url(${logo})`,
+                  backgroundSize: "100%",
+                  backgroundPosition: "center",
+                  boxShadow: "0px 3px 6px rgb(0 0 0 / 7%)",
+                  backgroundRepeat: "no-repeat",
+                  borderRadius: theme.spacing(12.4),
+                }}
+              ></Typography>
+              <Typography
+                variant="h6"
+                sx={{ mt: theme.spacing(2), mb: theme.spacing(0.5) }}
+              >
+                Sign In
+              </Typography>
+              <Typography
+                variant="p"
+                sx={{
+                  pb: theme.spacing(2),
+                  fontWeight: theme.typography.fontWeightMedium,
+                  color: theme.palette.grey[500],
+                }}
+              >
+                To start using CryptoWatch
+              </Typography>
 
-            {message && (
-              <Notification
-                title={message.title}
-                color={message.color}
-                message={message.text}
-              />
-            )}
+              {message && (
+                <Notification
+                  title={message.title}
+                  severity={message.severity}
+                  message={message.text}
+                />
+              )}
 
-            <Box sx={{ width: "100%" }}>{form}</Box>
-
-            <Box></Box>
-          </Box>
-        }
-      />
+              <Box sx={{ width: "100%", pt: theme.spacing(1) }}>{form}</Box>
+            </Box>
+          </CardContent>
+        </Card>
+      </>
     </>
   );
 };
 
-export default Login;
+export default LoginForm;

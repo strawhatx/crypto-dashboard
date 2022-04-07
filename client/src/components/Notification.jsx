@@ -4,9 +4,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Alert, AlertTitle } from "@mui/material";
 
-const Notification = ({ title, message, color }) => {
+const Notification = ({ title, message, severity }) => {
   return (
-    <Alert severity={color}>
+    <Alert severity={severity} sx={{ width: "100%", my: 2 }}>
       <AlertTitle>{title}</AlertTitle>
       {message}
     </Alert>
@@ -16,7 +16,7 @@ const Notification = ({ title, message, color }) => {
 Notification.propTypes = {
   title: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(["green", "blue", "red", "yellow", "lime"]).isRequired,
+  severity: PropTypes.oneOf(["success", "info", "error", "warning"]).isRequired,
 };
 
 export { Notification };

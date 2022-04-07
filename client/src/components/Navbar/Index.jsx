@@ -35,7 +35,9 @@ const Navbar = () => {
               <LanguageMenu />
 
               <Login />
-              <Register />
+              <Button color="inherit" href="/signup">
+                Sign Up
+              </Button>
             </Box>
 
             {/* Mobile */}
