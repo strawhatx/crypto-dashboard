@@ -133,7 +133,6 @@ const CurrencyMenu = () => {
     <>
       <BasicDialog
         btnTitle={selected}
-        btnType="nav"
         title="Select a currency"
         type="currency"
         children={

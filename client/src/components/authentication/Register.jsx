@@ -19,7 +19,6 @@ import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import eyeFill from "@iconify/icons-eva/eye-fill";
 import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
-import BasicDialog from "../dialog/Index";
 import { useAuthStore } from "../../stores/authentication";
 import { Notification } from "../Notification";
 import logo from "../../assets/images/logo.svg";
@@ -27,7 +26,6 @@ import { axios } from "../../config/axios";
 
 const RegisterForm = () => {
   const [message, setMessage] = useState(null);
-  const [requestClose, setRequestClose] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const theme = useTheme();
@@ -74,7 +72,6 @@ const RegisterForm = () => {
         .then(() => {
           setSubmitting(false);
           resetForm(initialValues);
-          setRequestClose(true);
         })
         .catch((error) => {
           setMessage({
@@ -91,7 +88,6 @@ const RegisterForm = () => {
     touched,
     handleSubmit,
     handleChange,
-    handleReset,
     isSubmitting,
     getFieldProps,
     values,

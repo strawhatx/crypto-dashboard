@@ -137,7 +137,6 @@ const LanguageMenu = () => {
     <>
       <BasicDialog
         btnTitle={selected}
-        btnType="nav"
         title="Select a language"
         type="language"
         children={

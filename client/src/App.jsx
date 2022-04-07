@@ -11,6 +11,8 @@ import { GlobalStyles } from "./assets/theme/base/globalStyles";
 
 import "./assets/i18n";
 import Register from "./pages/authentication/Register/Index";
+import Login from "./pages/authentication/Login/Index";
+import ForgotPassword from "./pages/authentication/ForgotPassword/Index";
 
 const App = () => {
   return (
@@ -28,6 +30,16 @@ const App = () => {
             exact
             path="/signup"
             element={<Layout children={<Register />} hasNav={false} />}
+          />
+          <Route
+            exact
+            path="/signin"
+            element={<Layout children={<Login />} hasNav={false} />}
+          />
+          <Route
+            exact
+            path="/forgot-password"
+            element={<Layout children={<ForgotPassword />} hasNav={false} />}
           />
           <Route
             path="/currencies"

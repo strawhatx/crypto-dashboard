@@ -20,16 +20,13 @@ import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import eyeFill from "@iconify/icons-eva/eye-fill";
 import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
-import BasicDialog from "../dialog/Index";
 import { useAuthStore } from "../../stores/authentication";
 import { Notification } from "../Notification";
 import logo from "../../assets/images/logo.svg";
 import { setAuthToken } from "../../config/axios";
-import ForgotPassword from "./ForgotPassword";
 
 const LoginForm = () => {
   const [message, setMessage] = useState(null);
-  const [requestClose, setRequestClose] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const theme = useTheme();
   const { login, currentUser } = useAuthStore((state) => ({
@@ -63,7 +60,6 @@ const LoginForm = () => {
         .then(() => {
           setSubmitting(false);
           resetForm(initialValues);
-          setRequestClose(true);
         })
         .catch((error) => {
           setMessage({
@@ -117,11 +113,10 @@ const LoginForm = () => {
                 color: theme.palette.grey[500],
                 "& hover": { textDecoration: "none" },
               }}
-              to={`/auth/forgot-password`}
+              to={`/forgot-password`}
             >
               Forgot Password?
             </Link>
-            <ForgotPassword />
           </Box>
           <TextField
             fullWidth
@@ -178,60 +173,58 @@ const LoginForm = () => {
 
   return (
     <>
-      <>
-        <Card>
-          <CardHeader />
-          <CardContent>
-            <Box
+      <Card>
+        <CardHeader />
+        <CardContent>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="span"
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                width: theme.spacing(10),
+                height: theme.spacing(10),
+                backgroundImage: `url(${logo})`,
+                backgroundSize: "100%",
+                backgroundPosition: "center",
+                boxShadow: "0px 3px 6px rgb(0 0 0 / 7%)",
+                backgroundRepeat: "no-repeat",
+                borderRadius: theme.spacing(12.4),
+              }}
+            ></Typography>
+            <Typography
+              variant="h6"
+              sx={{ mt: theme.spacing(2), mb: theme.spacing(0.5) }}
+            >
+              Sign In
+            </Typography>
+            <Typography
+              variant="p"
+              sx={{
+                pb: theme.spacing(2),
+                fontWeight: theme.typography.fontWeightMedium,
+                color: theme.palette.grey[500],
               }}
             >
-              <Typography
-                variant="span"
-                sx={{
-                  width: theme.spacing(10),
-                  height: theme.spacing(10),
-                  backgroundImage: `url(${logo})`,
-                  backgroundSize: "100%",
-                  backgroundPosition: "center",
-                  boxShadow: "0px 3px 6px rgb(0 0 0 / 7%)",
-                  backgroundRepeat: "no-repeat",
-                  borderRadius: theme.spacing(12.4),
-                }}
-              ></Typography>
-              <Typography
-                variant="h6"
-                sx={{ mt: theme.spacing(2), mb: theme.spacing(0.5) }}
-              >
-                Sign In
-              </Typography>
-              <Typography
-                variant="p"
-                sx={{
-                  pb: theme.spacing(2),
-                  fontWeight: theme.typography.fontWeightMedium,
-                  color: theme.palette.grey[500],
-                }}
-              >
-                To start using CryptoWatch
-              </Typography>
+              To start using CryptoWatch
+            </Typography>
 
-              {message && (
-                <Notification
-                  title={message.title}
-                  severity={message.severity}
-                  message={message.text}
-                />
-              )}
+            {message && (
+              <Notification
+                title={message.title}
+                severity={message.severity}
+                message={message.text}
+              />
+            )}
 
-              <Box sx={{ width: "100%", pt: theme.spacing(1) }}>{form}</Box>
-            </Box>
-          </CardContent>
-        </Card>
-      </>
+            <Box sx={{ width: "100%", pt: theme.spacing(1) }}>{form}</Box>
+          </Box>
+        </CardContent>
+      </Card>
     </>
   );
 };

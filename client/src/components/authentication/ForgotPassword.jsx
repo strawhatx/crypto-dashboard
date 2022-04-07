@@ -1,15 +1,21 @@
 import React, { useState } from "react";
-import { Box, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Typography,
+  Card,
+  CardHeader,
+  CardContent,
+} from "@mui/material";
 import { useTheme } from "@mui/system";
 import { LoadingButton } from "@mui/lab";
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
-import BasicDialog from "../dialog/Index";
 import { useAuthStore } from "../../stores/authentication";
 import { Notification } from "../Notification";
 import logo from "../../assets/images/logo.svg";
 
-const ForgotPassword = () => {
+const ForgotPasswordForm = () => {
   const [message, setMessage] = useState(null);
   const theme = useTheme();
   const { resetPassword } = useAuthStore((state) => ({
@@ -84,12 +90,9 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <BasicDialog
-        btnTitle="Forgot Password"
-        btnType="forgot"
-        type="forgot"
-        size="xs"
-        children={
+      <Card>
+        <CardHeader />
+        <CardContent>
           <Box
             sx={{
               display: "flex",
@@ -137,10 +140,10 @@ const ForgotPassword = () => {
 
             <Box sx={{ width: "100%", pt: theme.spacing(1) }}>{form}</Box>
           </Box>
-        }
-      />
+        </CardContent>
+      </Card>
     </>
   );
 };
 
-export default ForgotPassword;
+export default ForgotPasswordForm;

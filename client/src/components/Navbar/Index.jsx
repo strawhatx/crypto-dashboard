@@ -34,7 +34,9 @@ const Navbar = () => {
               <CurrencyMenu />
               <LanguageMenu />
 
-              <Login />
+              <Button color="inherit" href="/signin">
+                Sign In
+              </Button>
               <Button color="inherit" href="/signup">
                 Sign Up
               </Button>
