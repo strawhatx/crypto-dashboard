@@ -18,7 +18,7 @@ const Layout = ({ children, hasNav }) => {
 
 Layout.propTypes = {
   hasNav: PropTypes.bool.isRequired,
-  children: PropTypes.any.isRequired,
+  children: PropTypes.element.isRequired,
 };
 
 export default Layout;

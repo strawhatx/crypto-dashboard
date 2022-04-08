@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import logo from "../../assets/images/logo.svg";
 import { Box, AppBar, Container, Toolbar, Button } from "@mui/material";
@@ -7,11 +7,23 @@ import LanguageMenu from "./menus/LanguageMenu";
 import CurrencyMenu from "./menus/CurrencyMenu";
 
 const Navbar = () => {
+  const [color, setColor] = useState("transparent");
   const { t } = useTranslation();
+
+  const handleNavColor = () => {
+    console.log(window.scrollY);
+    if (window.scrollY >= 64) {
+      setColor("primary");
+    } else {
+      setColor("transparent");
+    }
+  };
+
+  window.addEventListener("scroll", handleNavColor);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed" color={color} sx={{ boxShadow: "none" }}>
         <Container maxWidth="lg">
           <Toolbar disableGutters>
             <Box component="div" sx={{ flexGrow: { xs: 1, md: 0 } }}>

@@ -55,7 +55,7 @@ const BasicDialog = ({ btnTitle, title, children, type, size = "md" }) => {
 BasicDialog.propTypes = {
   btnTitle: PropTypes.string,
   title: PropTypes.string,
-  children: PropTypes.any.isRequired,
+  children: PropTypes.element.isRequired,
   type: PropTypes.string.isRequired,
   size: PropTypes.string,
 };
