@@ -190,8 +190,8 @@ const Navbar = () => {
                 alignItems: "center",
               }}
             >
-              <CurrencyMenu />
-              <LanguageMenu />
+              <CurrencyMenu isIcon={true} />
+              <LanguageMenu isIcon={true} />
 
               <Divider
                 orientation="vertical"

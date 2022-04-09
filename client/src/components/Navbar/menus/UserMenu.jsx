@@ -119,7 +119,7 @@ const UserMenu = () => {
             borderRadius: 1,
           }}
         >
-          Logout
+          Sign out
         </MenuItem>
       </Menu>
     </>

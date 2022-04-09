@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Tabs, Tab, Box, Typography } from "@mui/material";
-import TabPanel from "./Panel";
+import TabPanel from "./components/Panel";
 import { useTheme } from "@mui/system";
 
 const NavTabs = ({ title, tabItems = [] }) => {
