@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/system";
-import { useCurrencyStore } from "../../../stores/app-settings";
-import { useCurrencyReferenceHook } from "../../../hooks/currency/currency-reference";
+import { useCurrencyStore } from "../../../../stores/app-settings";
+import { useCurrencyReferenceHook } from "../../../../hooks/currency/currency-reference";
 import PropTypes from "prop-types";
-import CurrencyPriceConverterFeild from "./field/Index";
+import CurrencyPriceConverterFeild from "./components/Field";
 
 const CurrencyPriceConverter = ({
   coinName,

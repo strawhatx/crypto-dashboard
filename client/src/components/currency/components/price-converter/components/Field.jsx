@@ -3,7 +3,7 @@ import { useTheme } from "@mui/system";
 import { Box, Typography, Avatar, Input } from "@mui/material";
 import PropTypes from "prop-types";
 
-const CurrencyPriceConverterFeild = ({
+const CurrencyPriceConverterField = ({
   name,
   symbol,
   iconUrl,
@@ -82,7 +82,7 @@ const CurrencyPriceConverterFeild = ({
   );
 };
 
-CurrencyPriceConverterFeild.propTypes = {
+CurrencyPriceConverterField.propTypes = {
   name: PropTypes.string,
   symbol: PropTypes.string,
   iconUrl: PropTypes.string,
@@ -90,4 +90,4 @@ CurrencyPriceConverterFeild.propTypes = {
   change: PropTypes.func,
 };
 
-export default CurrencyPriceConverterFeild;
+export default CurrencyPriceConverterField;
