@@ -4,14 +4,23 @@ import {
   popular_languages,
 } from "../../../assets/i18n/languages";
 import { useLanguageStore } from "../../../stores/app-settings";
-import { Button, Grid, Box, Typography, TextField } from "@mui/material";
+import {
+  Button,
+  Grid,
+  Box,
+  Typography,
+  TextField,
+  IconButton,
+} from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
 import BasicDialog from "../../dialog/Index";
 import NoResultsImg from "../../../assets/images/no-results.svg";
+import LanguageImg from "../../../assets/images/language.svg";
 
 const LanguageMenu = () => {
   const [search, setSearch] = useState("");
+  const [open, setOpen] = useState(false);
 
   const theme = useTheme();
   const { i18n } = useTranslation();
@@ -134,11 +143,35 @@ const LanguageMenu = () => {
   );
 
   return (
-    <>
+    <Box sx={{ ml: 2 }}>
+      <IconButton
+        color="primary"
+        aria-label="currencies"
+        onClick={() => setOpen(true)}
+        sx={{
+          display: "inline-flex",
+          backgroundColor: "transparent",
+          border: 0,
+          fontSize: "1.5rem",
+
+          padding: 1,
+          transition: "background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+          color: "inherit",
+        }}
+      >
+        <img
+          src={LanguageImg}
+          className="language-img"
+          alt="language"
+          style={{ margin: "auto" }}
+        />
+      </IconButton>
       <BasicDialog
         btnTitle={selected}
         title="Select a language"
         type="language"
+        open={open}
+        setOpen={setOpen}
         children={
           <Box sx={{ pb: theme.spacing(5) }}>
             <Box classNames="search" sx={{ mb: theme.spacing(4) }}>
@@ -159,7 +192,7 @@ const LanguageMenu = () => {
           </Box>
         }
       />
-    </>
+    </Box>
   );
 };
 

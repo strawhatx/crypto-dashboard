@@ -11,7 +11,7 @@ const Mobile = () => {
     <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
       <IconButton
         size="large"
-        aria-label="account of current user"
+        aria-label="mobile"
         aria-controls="menu-appbar"
         aria-haspopup="true"
         onClick={() => setIsOpen(true)}
@@ -23,7 +23,7 @@ const Mobile = () => {
         id="menu-appbar"
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "left",
+          horizontal: "right",
         }}
         keepMounted
         transformOrigin={{

@@ -62,7 +62,11 @@ const RegisterForm = () => {
     onSubmit: (values, { setSubmitting, resetForm }) => {
       register(values.email, values.password, values.subscribe)
         .then(async (response) => {
-          console.log(response);
+          await response.user.updateProfile({
+            displayName: values.email,
+            //role: "FREETRIAL",
+          });
+
           await axios.post("/accounts/", {
             uid: response.user.uid,
             email: response.user.email,

@@ -4,6 +4,7 @@ import { useTheme } from "@mui/system";
 import { useCurrencyReferencesHook } from "../../../hooks/currency/currency-references";
 import BasicDialog from "../../dialog/Index";
 import NoResultsImg from "../../../assets/images/no-results.svg";
+import CurrencyImg from "../../../assets/images/currency.svg";
 import {
   Button,
   Box,
@@ -11,9 +12,11 @@ import {
   TextField,
   Typography,
   Pagination,
+  IconButton,
 } from "@mui/material";
 
 const CurrencyMenu = () => {
+  const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const theme = useTheme();
@@ -130,11 +133,35 @@ const CurrencyMenu = () => {
   );
 
   return (
-    <>
+    <Box>
+      <IconButton
+        color="primary"
+        aria-label="currencies"
+        onClick={() => setOpen(true)}
+        sx={{
+          display: "inline-flex",
+          backgroundColor: "transparent",
+          border: 0,
+          fontSize: "1.5rem",
+          padding: 1,
+          transition: "background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+          color: "inherit",
+        }}
+      >
+        <img
+          src={CurrencyImg}
+          className="currency-img"
+          alt="currency"
+          style={{ margin: "auto" }}
+        />
+      </IconButton>
+
       <BasicDialog
         btnTitle={selected}
         title="Select a currency"
         type="currency"
+        open={open}
+        setOpen={setOpen}
         children={
           <Box sx={{ pb: theme.spacing(5) }}>
             <Box classNames="search" sx={{ mb: theme.spacing(4) }}>
@@ -155,7 +182,7 @@ const CurrencyMenu = () => {
           </Box>
         }
       />
-    </>
+    </Box>
   );
 };
 
