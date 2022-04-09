@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Dialog, DialogContent, useTheme } from "@mui/material";
-import BasicDialogTitleWithClose from "./Title";
+import BasicDialogTitleWithClose from "./components/Title";
 
 const BasicDialog = ({ title, children, open, setOpen, size = "md" }) => {
   const theme = useTheme();
