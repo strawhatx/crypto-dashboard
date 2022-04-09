@@ -3,10 +3,8 @@ import { Button, Box } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import CurrencyMenu from "../../menus/CurrencyMenu";
-import LanguageMenu from "../../menus/LanguageMenu";
 
-const UserActions = () => {
+const MobileDrawerLoginActions = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -26,14 +24,21 @@ const UserActions = () => {
         variant="outlined"
         onClick={() => navigate("/signin")}
       >
-        {t("Sign out")}
+        {t("Sign in")}
       </Button>
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
-        <CurrencyMenu isIcon={false} />
-        <LanguageMenu isIcon={false} />
-      </Box>
+      <Button
+        fullWidth
+        size="medium"
+        type="submit"
+        variant="contained"
+        color="primary"
+        sx={{ mt: theme.spacing(2) }}
+        onClick={() => navigate("/signup")}
+      >
+        {t("Sign up")}
+      </Button>
     </Box>
   );
 };
 
-export default UserActions;
+export default MobileDrawerLoginActions;

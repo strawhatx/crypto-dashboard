@@ -9,14 +9,14 @@ import {
   Typography,
   Divider,
 } from "@mui/material";
-import LanguageMenu from "./menus/LanguageMenu";
-import CurrencyMenu from "./menus/CurrencyMenu";
+import LanguageMenu from "./components/language-menu/LanguageMenu";
+import CurrencyMenu from "./components/currency-menu/Index";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/system";
 import useAuthStore from "../../stores/authentication";
 import UserMenu from "./menus/UserMenu";
 import LoginMenu from "./menus/LoginMenu";
-import MobileDrawer from "./drawers/MobileDrawer";
+import MobileDrawer from "./components/mobile-drawer/Index";
 
 const Navbar = () => {
   const [color, setColor] = useState("transparent");
