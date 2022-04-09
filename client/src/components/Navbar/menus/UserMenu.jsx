@@ -2,11 +2,14 @@ import React from "react";
 import useAuthStore from "../../../stores/authentication";
 import { useNavigate } from "react-router-dom";
 import { Menu, MenuItem, IconButton, Avatar } from "@mui/material";
+import { useTheme } from "@mui/system";
 
 const UserMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const open = Boolean(anchorEl);
+
+  const theme = useTheme();
 
   const navigate = useNavigate();
 
@@ -24,7 +27,7 @@ const UserMenu = () => {
   };
 
   return (
-    <div>
+    <>
       <IconButton
         id="user-menu-button"
         color="primary"
@@ -36,16 +39,16 @@ const UserMenu = () => {
           display: "inline-flex",
           backgroundColor: "transparent",
           border: 0,
-          fontSize: "1.5rem",
           padding: 1,
           transition: "background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
           color: "inherit",
+          ml: 2,
         }}
       >
         <Avatar
           src={currentUser?.photoURL}
           alt={currentUser?.displayName}
-          sx={{ ml: 2, width: 30, height: 30 }}
+          sx={{ width: 30, height: 30 }}
         />
       </IconButton>
 
@@ -57,12 +60,69 @@ const UserMenu = () => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
+        sx={{
+          "& .MuiPaper-root": {
+            px: theme.spacing(1),
+            width: 220,
+            boxShadow: "rgb(145 158 171 / 30%) -24px 24px 72px -8px",
+            border: "1px solid",
+            borderColor: "rgba(145, 158, 171, 0.08)",
+          },
+        }}
       >
-        <MenuItem onClick={() => navigate("/my-account")}>Profile</MenuItem>
-        <MenuItem onClick={() => navigate("/my-account")}>My account</MenuItem>
-        <MenuItem onClick={() => logout()}>Logout</MenuItem>
+        <MenuItem
+          onClick={() => navigate("/my-account")}
+          sx={{
+            my: theme.spacing(1),
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            minHeight: 48,
+            whiteSpace: "nowrap",
+            lineHeight: 1.85714,
+            fontSize: 14,
+            padding: theme.spacing(1),
+            borderRadius: 1,
+          }}
+        >
+          Profile
+        </MenuItem>
+        <MenuItem
+          onClick={() => navigate("/my-account")}
+          sx={{
+            my: theme.spacing(1),
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            minHeight: 48,
+            whiteSpace: "nowrap",
+            lineHeight: 1.85714,
+            fontSize: 14,
+            padding: theme.spacing(1),
+            borderRadius: 1,
+          }}
+        >
+          My account
+        </MenuItem>
+        <MenuItem
+          onClick={() => logout()}
+          sx={{
+            my: theme.spacing(1),
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            minHeight: 48,
+            whiteSpace: "nowrap",
+            lineHeight: 1.85714,
+            fontSize: 14,
+            padding: theme.spacing(1),
+            borderRadius: 1,
+          }}
+        >
+          Logout
+        </MenuItem>
       </Menu>
-    </div>
+    </>
   );
 };
 

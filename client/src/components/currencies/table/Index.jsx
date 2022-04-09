@@ -52,7 +52,7 @@ const CurrenciesTable = () => {
                 fontWeight: theme.typography.fontWeightMedium,
                 textAlign: { xs: "center", sm: "left" },
                 px: theme.spacing(2.5),
-                py: theme.spacing(7),
+                py: theme.spacing(1),
               }}
             >
               {t("Cryptocurrency Prices by Rank")}

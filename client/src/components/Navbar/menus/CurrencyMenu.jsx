@@ -34,7 +34,7 @@ const CurrencyMenu = () => {
       <Typography sx={{ pb: theme.spacing(2) }}>Popular</Typography>
       <Grid container spacing={1}>
         {popularCurrencies?.map((e, i) => (
-          <Grid key={i} item xs={6} md={4}>
+          <Grid key={i} item xs={12} sm={12} md={4}>
             <Button
               fullWidth
               onClick={() => update(e)}
@@ -65,7 +65,7 @@ const CurrencyMenu = () => {
       <Typography sx={{ pb: theme.spacing(2) }}>All</Typography>
       <Grid container spacing={1}>
         {allCurrencies?.map((e, i) => (
-          <Grid key={i} item xs={6} md={4}>
+          <Grid key={i} item xs={12} sm={12} md={4}>
             <Button
               fullWidth
               onClick={() => update(e)}
@@ -142,7 +142,6 @@ const CurrencyMenu = () => {
           display: "inline-flex",
           backgroundColor: "transparent",
           border: 0,
-          fontSize: "1.5rem",
           padding: 1,
           transition: "background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
           color: "inherit",

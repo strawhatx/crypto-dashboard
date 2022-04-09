@@ -9,7 +9,6 @@ import {
   Typography,
   Divider,
 } from "@mui/material";
-import Mobile from "./menus/MobileMenu";
 import LanguageMenu from "./menus/LanguageMenu";
 import CurrencyMenu from "./menus/CurrencyMenu";
 import { Link } from "react-router-dom";
@@ -17,6 +16,7 @@ import { useTheme } from "@mui/system";
 import useAuthStore from "../../stores/authentication";
 import UserMenu from "./menus/UserMenu";
 import LoginMenu from "./menus/LoginMenu";
+import MobileDrawer from "./drawers/MobileDrawer";
 
 const Navbar = () => {
   const [color, setColor] = useState("transparent");
@@ -115,7 +115,7 @@ const Navbar = () => {
                   fontWeight: 500,
                   color: "inherit",
                   lineHeight: 1.85714,
-                  fontSize: "0.875rem",
+                  fontSize: 14,
                   display: "flex",
                   position: "relative",
                   alignItems: "center",
@@ -133,7 +133,7 @@ const Navbar = () => {
                   color: "inherit",
                   fontWeight: 500,
                   lineHeight: 1.85714,
-                  fontSize: "0.875rem",
+                  fontSize: 14,
                   display: "flex",
                   position: "relative",
                   alignItems: "center",
@@ -151,7 +151,7 @@ const Navbar = () => {
                   cursor: "pointer",
                   fontWeight: 500,
                   lineHeight: 1.85714,
-                  fontSize: "0.875rem",
+                  fontSize: 14,
                   display: "flex",
                   position: "relative",
                   alignItems: "center",
@@ -159,6 +159,24 @@ const Navbar = () => {
                 }}
               >
                 {t("Portfolio")}
+              </Link>
+              <Link
+                to="/watchlist"
+                style={{
+                  marginLeft: 48,
+                  textDecoration: "none",
+                  color: "inherit",
+                  cursor: "pointer",
+                  fontWeight: 500,
+                  lineHeight: 1.85714,
+                  fontSize: 14,
+                  display: "flex",
+                  position: "relative",
+                  alignItems: "center",
+                  transition: "opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+                }}
+              >
+                {t("Watchlist")}
               </Link>
             </Box>
 
@@ -186,7 +204,7 @@ const Navbar = () => {
             </Box>
 
             {/* Mobile */}
-            <Mobile />
+            <MobileDrawer />
           </Container>
         </Toolbar>
       </AppBar>
