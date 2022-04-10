@@ -3,19 +3,24 @@ import { Drawer, IconButton, Box, List } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@mui/system";
 import { Link } from "react-router-dom";
-import logo from "../../../assets/images/coins-logo-black.png";
+import logo from "../../../../assets/images/coins-logo-black.png";
 import MobileDrawerLoginActions from "./components/LoginActions";
 import MobileDrawerUserActions from "./components/UserActions";
 import useAuthStore from "../../../../stores/authentication";
 import MobileDrawerNavItems from "./components/NavItems";
+import { useModalStore } from "../../../../stores/app-settings";
 
 const MobileDrawer = () => {
-  const [open, setOpen] = useState(false);
   const [actions, setActions] = useState(null);
   const theme = useTheme();
 
   const { currentUser } = useAuthStore((state) => ({
     currentUser: state.currentUser,
+  }));
+
+  const { isOpen, setOpen } = useModalStore((state) => ({
+    isOpen: state.isMobileDrawerOpen,
+    setOpen: state.setIsMobileDrawerOpen,
   }));
 
   useEffect(() => {
@@ -47,7 +52,7 @@ const MobileDrawer = () => {
           },
         }}
         anchor={"left"}
-        open={open}
+        open={isOpen}
         onClose={() => setOpen(false)}
       >
         <Box

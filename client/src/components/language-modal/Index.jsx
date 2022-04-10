@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from "react";
-import {
-  all_languages,
-  popular_languages,
-} from "../../../../assets/i18n/languages";
-import { useLanguageStore } from "../../../../stores/app-settings";
-import { Box, TextField, IconButton } from "@mui/material";
+import { all_languages, popular_languages } from "../../assets/i18n/languages";
+import { useLanguageStore, useModalStore } from "../../stores/app-settings";
+import { Box, TextField } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
-import BasicDialog from "../../../dialog/Index";
-import LanguageImg from "../../../assets/images/language.svg";
+import BasicDialog from "../dialog/Index";
 import LanguageMenuPopularGrid from "./components/PopularGrid";
 import LanguageMenuNoResults from "./components/NoResults";
 import LanguageMenuAllGrid from "./components/AllGrid";
 
 const LanguageMenu = () => {
   const [search, setSearch] = useState("");
-  const [open, setOpen] = useState(false);
 
   const theme = useTheme();
   const { i18n } = useTranslation();
 
-  const { selected, update } = useLanguageStore((state) => ({
+  const { selected } = useLanguageStore((state) => ({
     selected: state.language,
-    update: state.updateLanguage,
+  }));
+
+  const { isOpen, setOpen } = useModalStore((state) => ({
+    isOpen: state.isLanguagesOpen,
+    setOpen: state.setIsLanguagesOpen,
   }));
 
   const handlePopularSearch = () => {
@@ -50,32 +49,12 @@ const LanguageMenu = () => {
   }, [selected]);
 
   return (
-    <Box sx={{ ml: 2 }}>
-      <IconButton
-        color="primary"
-        aria-label="currencies"
-        onClick={() => setOpen(true)}
-        sx={{
-          display: "inline-flex",
-          backgroundColor: "transparent",
-          border: 0,
-          padding: 1,
-          transition: "background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-          color: "inherit",
-        }}
-      >
-        <img
-          src={LanguageImg}
-          className="language-img"
-          alt="language"
-          style={{ margin: "auto" }}
-        />
-      </IconButton>
+    <>
       <BasicDialog
         btnTitle={selected}
         title="Select a language"
         type="language"
-        open={open}
+        open={isOpen}
         setOpen={setOpen}
         children={
           <Box sx={{ pb: theme.spacing(5) }}>
@@ -100,7 +79,7 @@ const LanguageMenu = () => {
           </Box>
         }
       />
-    </Box>
+    </>
   );
 };
 

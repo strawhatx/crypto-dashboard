@@ -1,21 +1,20 @@
 import React from "react";
-
 import { useTheme } from "@mui/system";
-import { Button, Box, Grid, Typography } from "@mui/material";
+import { Button, Box, Grid, Typography, Pagination } from "@mui/material";
 import PropType from "prop-types";
-import { useCurrencyStore } from "../../../../../stores/app-settings";
+import { useCurrencyStore } from "../../../stores/app-settings";
 
-const CurrencyMenuPopularGrid = ({ currencies }) => {
+const CurrencyMenuAllGrid = ({ currencies, total, size, setPage }) => {
   const theme = useTheme();
 
   const { selected, update } = useCurrencyStore((state) => ({
     selected: state.currency.symbol,
-    update: state.updateCurrency,
+    update: state.setCurrency,
   }));
 
   return (
-    <Box className="popular" sx={{ mb: theme.spacing(4) }}>
-      <Typography sx={{ pb: theme.spacing(2) }}>Popular</Typography>
+    <Box className="all">
+      <Typography sx={{ pb: theme.spacing(2) }}>All</Typography>
       <Grid container spacing={1}>
         {currencies?.map((e, i) => (
           <Grid key={i} item xs={12} sm={12} md={4}>
@@ -41,12 +40,30 @@ const CurrencyMenuPopularGrid = ({ currencies }) => {
           </Grid>
         ))}
       </Grid>
+      {/* Comes from @material-ui/lab */}
+      <Pagination
+        count={parseInt((total / size).toFixed(0))}
+        sx={{
+          padding: 2,
+          pt: 10,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+        onChange={(_, value) => {
+          setPage(value);
+          window.scroll(0, 450);
+        }}
+      />
     </Box>
   );
 };
 
-CurrencyMenuPopularGrid.propType = {
+CurrencyMenuAllGrid.propType = {
   currencies: PropType.array,
+  total: PropType.number,
+  size: PropType.number,
+  setPage: PropType.any,
 };
 
-export default CurrencyMenuPopularGrid;
+export default CurrencyMenuAllGrid;

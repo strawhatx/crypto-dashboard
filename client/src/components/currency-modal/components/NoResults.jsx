@@ -1,9 +1,9 @@
 import React from "react";
 import { useTheme } from "@mui/system";
-import NoResultsImg from "../../../../../assets/images/no-results.svg";
+import NoResultsImg from "../../../assets/images/no-results.svg";
 import { Box } from "@mui/material";
 
-const LanguageMenuNoResults = () => {
+const CurrencyMenuNoResults = () => {
   const theme = useTheme();
 
   return (
@@ -33,4 +33,4 @@ const LanguageMenuNoResults = () => {
   );
 };
 
-export default LanguageMenuNoResults;
+export default CurrencyMenuNoResults;

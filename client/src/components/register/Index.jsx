@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Typography, Card, CardHeader, CardContent } from "@mui/material";
 import { useTheme } from "@mui/system";
-import { Notification } from "../../Notification";
+import { Notification } from "../Notification";
 import logo from "../../assets/images/logo.svg";
 import RegisterForm from "./components/Form";
 

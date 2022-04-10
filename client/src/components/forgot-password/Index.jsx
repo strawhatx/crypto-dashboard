@@ -10,6 +10,7 @@ import {
 import { useTheme } from "@mui/system";
 import logo from "../../assets/images/logo.svg";
 import ForgotPasswordForm from "./components/Form";
+import { Notification } from "../Notification";
 
 const ForgotPasswordView = () => {
   const [message, setMessage] = useState(null);

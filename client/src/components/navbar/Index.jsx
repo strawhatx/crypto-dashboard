@@ -8,15 +8,17 @@ import {
   Toolbar,
   Typography,
   Divider,
+  IconButton,
 } from "@mui/material";
-import LanguageMenu from "./components/language-menu/LanguageMenu";
-import CurrencyMenu from "./components/currency-menu/Index";
+import LanguageImg from "../../assets/images/language.svg";
+import CurrencyImg from "../../assets/images/currency.svg";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/system";
 import useAuthStore from "../../stores/authentication";
-import UserMenu from "./menus/UserMenu";
-import LoginMenu from "./menus/LoginMenu";
+import UserMenu from "./components/UserMenu";
+import LoginMenu from "./components/LoginMenu";
 import MobileDrawer from "./components/mobile-drawer/Index";
+import { useModalStore } from "../../stores/app-settings";
 
 const Navbar = () => {
   const [color, setColor] = useState("transparent");
@@ -27,6 +29,13 @@ const Navbar = () => {
   const { currentUser } = useAuthStore((state) => ({
     currentUser: state.currentUser,
   }));
+
+  const { setIsCurrenciesOpen, setIsLanguagesOpen } = useModalStore(
+    (state) => ({
+      setIsCurrenciesOpen: state.setIsCurrenciesOpen,
+      setIsLanguagesOpen: state.setIsLanguagesOpen,
+    })
+  );
 
   const handleNavColor = () => {
     console.log(window.scrollY);
@@ -190,8 +199,52 @@ const Navbar = () => {
                 alignItems: "center",
               }}
             >
-              <CurrencyMenu isIcon={true} />
-              <LanguageMenu isIcon={true} />
+              <Box>
+                <IconButton
+                  color="primary"
+                  aria-label="currencies"
+                  onClick={() => setIsCurrenciesOpen(true)}
+                  sx={{
+                    display: "inline-flex",
+                    backgroundColor: "transparent",
+                    border: 0,
+                    padding: 1,
+                    transition:
+                      "background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+                    color: "inherit",
+                  }}
+                >
+                  <img
+                    src={CurrencyImg}
+                    className="currency-img"
+                    alt="currency"
+                    style={{ margin: "auto" }}
+                  />
+                </IconButton>
+              </Box>
+              <Box sx={{ ml: 2 }}>
+                <IconButton
+                  color="primary"
+                  aria-label="languages"
+                  onClick={() => setIsLanguagesOpen(true)}
+                  sx={{
+                    display: "inline-flex",
+                    backgroundColor: "transparent",
+                    border: 0,
+                    padding: 1,
+                    transition:
+                      "background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+                    color: "inherit",
+                  }}
+                >
+                  <img
+                    src={LanguageImg}
+                    className="language-img"
+                    alt="language"
+                    style={{ margin: "auto" }}
+                  />
+                </IconButton>
+              </Box>
 
               <Divider
                 orientation="vertical"

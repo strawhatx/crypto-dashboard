@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { useTheme } from "@mui/system";
-import { Box, TextField, IconButton } from "@mui/material";
-import { useCurrencyStore } from "../../../../stores/app-settings";
-import { useCurrencyReferencesHook } from "../../../../hooks/currency/currency-references";
-import BasicDialog from "../../../dialog/Index";
-import CurrencyImg from "../../../../assets/images/currency.svg";
+import { Box, TextField } from "@mui/material";
+import { useCurrencyStore, useModalStore } from "../../stores/app-settings";
+import { useCurrencyReferencesHook } from "../../hooks/currency/currency-references";
+import BasicDialog from "../dialog/Index";
 import CurrencyMenuPopularGrid from "./components/PopularGrid";
 import CurrencyMenuAllGrid from "./components/AllGrid";
 import CurrencyMenuNoResults from "./components/NoResults";
 
 const CurrencyMenu = () => {
-  const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const theme = useTheme();
@@ -22,34 +20,18 @@ const CurrencyMenu = () => {
     selected: state.currency.symbol,
   }));
 
-  return (
-    <Box>
-      <IconButton
-        color="primary"
-        aria-label="currencies"
-        onClick={() => setOpen(true)}
-        sx={{
-          display: "inline-flex",
-          backgroundColor: "transparent",
-          border: 0,
-          padding: 1,
-          transition: "background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-          color: "inherit",
-        }}
-      >
-        <img
-          src={CurrencyImg}
-          className="currency-img"
-          alt="currency"
-          style={{ margin: "auto" }}
-        />
-      </IconButton>
+  const { isOpen, setOpen } = useModalStore((state) => ({
+    isOpen: state.isCurrenciesOpen,
+    setOpen: state.setIsCurrenciesOpen,
+  }));
 
+  return (
+    <>
       <BasicDialog
         btnTitle={selected}
         title="Select a currency"
         type="currency"
-        open={open}
+        open={isOpen}
         setOpen={setOpen}
         children={
           <Box sx={{ pb: theme.spacing(5) }}>
@@ -80,7 +62,7 @@ const CurrencyMenu = () => {
           </Box>
         }
       />
-    </Box>
+    </>
   );
 };
 

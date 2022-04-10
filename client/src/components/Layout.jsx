@@ -1,10 +1,16 @@
 import React from "react";
-import Navbar from "./navbarr/Index";
+import Navbar from "./navbar/Index";
 import PropTypes from "prop-types";
+import LanguageMenu from "./language-modal/Index";
+import CurrencyMenu from "./currency-modal/Index";
 
 const Layout = ({ children, hasNav }) => {
   return (
     <>
+      {/**Modals */}
+      <CurrencyMenu />
+      <LanguageMenu />
+
       {hasNav && <Navbar />}
 
       <main>{children}</main>

@@ -18,6 +18,10 @@ const UserMenu = () => {
     logout: state.logout,
   }));
 
+  const handleSignOut = () => {
+    logout().then(() => navigate("/signin"));
+  };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -105,7 +109,7 @@ const UserMenu = () => {
           My account
         </MenuItem>
         <MenuItem
-          onClick={() => logout()}
+          onClick={handleSignOut}
           sx={{
             my: theme.spacing(1),
             display: "flex",

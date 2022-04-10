@@ -14,3 +14,13 @@ export const useCurrencyStore = create(
     setCurrency: (value = "USD") => set({ currency: value }),
   }))
 );
+
+export const useModalStore = create((set) => ({
+  isCurrenciesOpen: false,
+  isLanguagesOpen: false,
+  isMobileDrawerOpen: false,
+
+  setIsCurrenciesOpen: (value = false) => set({ isCurrenciesOpen: value }),
+  setIsLanguagesOpen: (value = false) => set({ isLanguagesOpen: value }),
+  setIsMobileDrawerOpen: (value = false) => set({ isMobileDrawerOpen: value }),
+}));
