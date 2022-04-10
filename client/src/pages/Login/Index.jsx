@@ -1,13 +1,13 @@
 import React from "react";
 import { Box, Container } from "@mui/material";
-import LoginForm from "../../../components/authentication/Login";
+import LoginView from "../../components/login/Index";
 
 const Login = () => {
   return (
     <>
       <Box sx={{ py: 10 }}>
         <Container maxWidth="xs">
-          <LoginForm />
+          <LoginView />
         </Container>
       </Box>
     </>

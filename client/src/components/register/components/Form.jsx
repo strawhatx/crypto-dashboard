@@ -8,27 +8,22 @@ import {
   IconButton,
   InputAdornment,
   TextField,
-  Typography,
-  Card,
-  CardHeader,
-  CardContent,
 } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { LoadingButton } from "@mui/lab";
 import { Form, FormikProvider, useFormik } from "formik";
+import PropTypes from "prop-types";
 import * as Yup from "yup";
 import eyeFill from "@iconify/icons-eva/eye-fill";
 import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
-import { useAuthStore } from "../../stores/authentication";
-import { Notification } from "../Notification";
-import logo from "../../assets/images/logo.svg";
-import { axios } from "../../config/axios";
+import { useAuthStore } from "../../../stores/authentication";
+import { axios } from "../../../config/axios";
 
-const RegisterForm = () => {
-  const [message, setMessage] = useState(null);
+const RegisterForm = ({ setMessage }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const theme = useTheme();
+
   const { register } = useAuthStore((state) => ({ register: state.register }));
 
   const initialValues = {
@@ -98,7 +93,7 @@ const RegisterForm = () => {
   } = formik;
 
   //the form using formik to handle the submission
-  const form = (
+  return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Box>
@@ -215,63 +210,10 @@ const RegisterForm = () => {
       </Form>
     </FormikProvider>
   );
+};
 
-  return (
-    <>
-      <Card>
-        <CardHeader />
-        <CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              variant="span"
-              sx={{
-                width: theme.spacing(10),
-                height: theme.spacing(10),
-                backgroundImage: `url(${logo})`,
-                backgroundSize: "100%",
-                backgroundPosition: "center",
-                boxShadow: "0px 3px 6px rgb(0 0 0 / 7%)",
-                backgroundRepeat: "no-repeat",
-                borderRadius: theme.spacing(12.4),
-              }}
-            ></Typography>
-            <Typography
-              variant="h6"
-              sx={{ mt: theme.spacing(2), mb: theme.spacing(0.5) }}
-            >
-              Sign Up
-            </Typography>
-            <Typography
-              variant="p"
-              sx={{
-                pb: theme.spacing(2),
-                fontWeight: theme.typography.fontWeightMedium,
-                color: theme.palette.grey[500],
-              }}
-            >
-              To start using CryptoWatch
-            </Typography>
-
-            {message && (
-              <Notification
-                title={message.title}
-                severity={message.severity}
-                message={message.text}
-              />
-            )}
-
-            <Box sx={{ width: "100%", pt: theme.spacing(1) }}>{form}</Box>
-          </Box>
-        </CardContent>
-      </Card>
-    </>
-  );
+RegisterForm.propType = {
+  setMessage: PropTypes.any,
 };
 
 export default RegisterForm;

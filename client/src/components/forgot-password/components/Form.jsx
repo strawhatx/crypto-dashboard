@@ -1,28 +1,18 @@
-import React, { useState } from "react";
-import {
-  Box,
-  TextField,
-  Typography,
-  Card,
-  CardHeader,
-  CardContent,
-} from "@mui/material";
+import React from "react";
+import { Box, TextField } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { LoadingButton } from "@mui/lab";
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
-import { useAuthStore } from "../../stores/authentication";
-import { Notification } from "../Notification";
-import logo from "../../assets/images/logo.svg";
+import PropTypes from "prop-types";
+import { useAuthStore } from "../../../stores/authentication";
 
-const ForgotPasswordForm = () => {
-  const [message, setMessage] = useState(null);
+const ForgotPasswordForm = ({ setMessage }) => {
   const theme = useTheme();
+  const initialValues = { email: "" };
   const { resetPassword } = useAuthStore((state) => ({
     resetPassword: state.resetPassword,
   }));
-
-  const initialValues = { email: "" };
 
   const schema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -58,7 +48,7 @@ const ForgotPasswordForm = () => {
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   //the form using formik to handle the submission
-  const form = (
+  return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Box>
@@ -87,63 +77,10 @@ const ForgotPasswordForm = () => {
       </Form>
     </FormikProvider>
   );
+};
 
-  return (
-    <>
-      <Card>
-        <CardHeader />
-        <CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              variant="span"
-              sx={{
-                width: theme.spacing(10),
-                height: theme.spacing(10),
-                backgroundImage: `url(${logo})`,
-                backgroundSize: "100%",
-                backgroundPosition: "center",
-                boxShadow: "0px 3px 6px rgb(0 0 0 / 7%)",
-                backgroundRepeat: "no-repeat",
-                borderRadius: theme.spacing(12.4),
-              }}
-            ></Typography>
-            <Typography
-              variant="h6"
-              sx={{ mt: theme.spacing(2), mb: theme.spacing(0.5) }}
-            >
-              Enter Email
-            </Typography>
-            <Typography
-              variant="p"
-              sx={{
-                pb: theme.spacing(2),
-                fontWeight: theme.typography.fontWeightMedium,
-                color: theme.palette.grey[500],
-              }}
-            >
-              To retrieve password
-            </Typography>
-
-            {message && (
-              <Notification
-                title={message.title}
-                severity={message.severity}
-                message={message.text}
-              />
-            )}
-
-            <Box sx={{ width: "100%", pt: theme.spacing(1) }}>{form}</Box>
-          </Box>
-        </CardContent>
-      </Card>
-    </>
-  );
+ForgotPasswordForm.propType = {
+  setMessage: PropTypes.any,
 };
 
 export default ForgotPasswordForm;

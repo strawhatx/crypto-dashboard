@@ -10,7 +10,7 @@ import Layout from "./components/Layout";
 import { GlobalStyles } from "./assets/theme/base/globalStyles";
 
 import "./assets/i18n";
-import Register from "./pages/authentication/Register/Index";
+import Register from "./pages/Register/Index";
 import Login from "./pages/authentication/Login/Index";
 import ForgotPassword from "./pages/authentication/ForgotPassword/Index";
 

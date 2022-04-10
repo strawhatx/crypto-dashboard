@@ -1,17 +1,17 @@
 import React from "react";
 import { Box, Container } from "@mui/material";
-import RegisterForm from "../../../components/authentication/Register";
+import ForgotPasswordView from "../../components/forgot-password/Index";
 
-const Register = () => {
+const ForgotPassword = () => {
   return (
     <>
       <Box sx={{ py: 10 }}>
         <Container maxWidth="xs">
-          <RegisterForm />
+          <ForgotPasswordView />
         </Container>
       </Box>
     </>
   );
 };
 
-export default Register;
+export default ForgotPassword;
