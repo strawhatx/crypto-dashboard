@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import logo from "../../assets/images/coins-logo-black.png";
 import {
   Box,
@@ -8,34 +7,26 @@ import {
   Toolbar,
   Typography,
   Divider,
-  IconButton,
 } from "@mui/material";
-import LanguageImg from "../../assets/images/language.svg";
-import CurrencyImg from "../../assets/images/currency.svg";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/system";
+import PropTypes from "prop-types";
 import useAuthStore from "../../stores/authentication";
 import UserMenu from "./components/UserMenu";
 import LoginMenu from "./components/LoginMenu";
 import MobileDrawer from "./components/mobile-drawer/Index";
-import { useModalStore } from "../../stores/app-settings";
+import NavbarNavItems from "./components/NavItems";
+import NavbarModalButtons from "./components/Buttons";
 
 const Navbar = () => {
   const [color, setColor] = useState("transparent");
   const [actions, setActions] = useState(null);
-  const { t } = useTranslation();
+
   const theme = useTheme();
 
   const { currentUser } = useAuthStore((state) => ({
     currentUser: state.currentUser,
   }));
-
-  const { setIsCurrenciesOpen, setIsLanguagesOpen } = useModalStore(
-    (state) => ({
-      setIsCurrenciesOpen: state.setIsCurrenciesOpen,
-      setIsLanguagesOpen: state.setIsLanguagesOpen,
-    })
-  );
 
   const handleNavColor = () => {
     console.log(window.scrollY);
@@ -116,77 +107,7 @@ const Navbar = () => {
                 ml: 6,
               }}
             >
-              <Link
-                to="/"
-                style={{
-                  textDecoration: "none",
-                  cursor: "pointer",
-                  fontWeight: 500,
-                  color: "inherit",
-                  lineHeight: 1.85714,
-                  fontSize: 14,
-                  display: "flex",
-                  position: "relative",
-                  alignItems: "center",
-                  transition: "opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-                }}
-              >
-                {t("Home")}
-              </Link>
-              <Link
-                to="/currencies"
-                style={{
-                  marginLeft: 48,
-                  textDecoration: "none",
-                  cursor: "pointer",
-                  color: "inherit",
-                  fontWeight: 500,
-                  lineHeight: 1.85714,
-                  fontSize: 14,
-                  display: "flex",
-                  position: "relative",
-                  alignItems: "center",
-                  transition: "opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-                }}
-              >
-                {t("Currencies")}
-              </Link>
-              <Link
-                to="/portfolios"
-                style={{
-                  marginLeft: 48,
-                  textDecoration: "none",
-                  color: "inherit",
-                  cursor: "pointer",
-                  fontWeight: 500,
-                  lineHeight: 1.85714,
-                  fontSize: 14,
-                  display: "flex",
-                  position: "relative",
-                  alignItems: "center",
-                  transition: "opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-                }}
-              >
-                {t("Portfolio")}
-              </Link>
-              <Link
-                to="/watchlist"
-                style={{
-                  marginLeft: 48,
-                  textDecoration: "none",
-                  color: "inherit",
-                  cursor: "pointer",
-                  fontWeight: 500,
-                  lineHeight: 1.85714,
-                  fontSize: 14,
-                  display: "flex",
-                  position: "relative",
-                  alignItems: "center",
-                  transition: "opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-                }}
-              >
-                {t("Watchlist")}
-              </Link>
+              <NavbarNavItems />
             </Box>
 
             {/* divider */}
@@ -199,52 +120,7 @@ const Navbar = () => {
                 alignItems: "center",
               }}
             >
-              <Box>
-                <IconButton
-                  color="primary"
-                  aria-label="currencies"
-                  onClick={() => setIsCurrenciesOpen(true)}
-                  sx={{
-                    display: "inline-flex",
-                    backgroundColor: "transparent",
-                    border: 0,
-                    padding: 1,
-                    transition:
-                      "background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-                    color: "inherit",
-                  }}
-                >
-                  <img
-                    src={CurrencyImg}
-                    className="currency-img"
-                    alt="currency"
-                    style={{ margin: "auto" }}
-                  />
-                </IconButton>
-              </Box>
-              <Box sx={{ ml: 2 }}>
-                <IconButton
-                  color="primary"
-                  aria-label="languages"
-                  onClick={() => setIsLanguagesOpen(true)}
-                  sx={{
-                    display: "inline-flex",
-                    backgroundColor: "transparent",
-                    border: 0,
-                    padding: 1,
-                    transition:
-                      "background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-                    color: "inherit",
-                  }}
-                >
-                  <img
-                    src={LanguageImg}
-                    className="language-img"
-                    alt="language"
-                    style={{ margin: "auto" }}
-                  />
-                </IconButton>
-              </Box>
+              <NavbarModalButtons />
 
               <Divider
                 orientation="vertical"

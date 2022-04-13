@@ -68,7 +68,7 @@ const MobileDrawerUserActions = () => {
       <Box
         sx={{
           display: "flex",
-          mt: theme.spacing(3.8),
+          mt: theme.spacing(2.5),
           mb: theme.spacing(3),
           alignItems: "flex-start",
           width: "100%",
