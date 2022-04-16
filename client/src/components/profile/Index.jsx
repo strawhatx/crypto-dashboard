@@ -1,11 +1,14 @@
 import React from "react";
 import { Box, Container, Typography } from "@mui/material";
-import TrendingCarousel from "./components/Carousel";
-import CurrencyTable from "./components/Table";
 import { useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
+import NavTabs from "../tabs/Index";
+import UserProfileBilling from "./components/billing/Index";
+import UserProfileGeneral from "./components/general/Index";
+import UserProfileNotifications from "./components/notifications/Index";
+import UserProfileSecurity from "./components/security/Index";
 
-const CurrenciesView = () => {
+const UserProfileView = () => {
   const theme = useTheme();
   const { t } = useTranslation();
 
@@ -31,25 +34,29 @@ const CurrenciesView = () => {
               textAlign: { xs: "center", sm: "left" },
             }}
           >
-            {t("Currencies")}
+            {t("Account")}
           </Typography>
         </Container>
 
         <Box>
           <Container maxWidth="md">
-            <TrendingCarousel />
+            <NavTabs
+              title="settings"
+              tabItems={[
+                { title: "General", content: <UserProfileGeneral /> },
+                { title: "Billing", content: <UserProfileBilling /> },
+                {
+                  title: "Notifications",
+                  content: <UserProfileNotifications />,
+                },
+                { title: "Security", content: <UserProfileSecurity /> },
+              ]}
+            />
           </Container>
         </Box>
-      </Box>
-
-      {/**Currencies */}
-      <Box sx={{ mt: -8, pb: 1 }}>
-        <Container maxWidth="md">
-          <CurrencyTable />
-        </Container>
       </Box>
     </>
   );
 };
 
-export default CurrenciesView;
+export default UserProfileView;

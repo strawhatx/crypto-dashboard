@@ -8,44 +8,42 @@ const CurrencyDescription = ({ name, rank, description }) => {
   const theme = useTheme();
   return (
     <>
-      <Card>
-        <CardHeader />
-        <CardContent
+      <Card
+        sx={{
+          padding: 4,
+          "& h3": { mb: theme.spacing(0.5) },
+          "& p": { mb: theme.spacing(2) },
+        }}
+      >
+        <Box
           sx={{
-            "& h3": { mb: theme.spacing(0.5) },
-            "& p": { mb: theme.spacing(2) },
+            display: "flex",
+            alignItems: "center",
+            mb: theme.spacing(1),
           }}
         >
-          <Box
+          <Typography variant="h4" sx={{ mr: theme.spacing(2) }}>
+            About {name}
+          </Typography>
+          <Typography
+            variant="span"
             sx={{
-              display: "flex",
+              display: "inline-flex",
+              verticalAlign: "top",
               alignItems: "center",
-              mb: theme.spacing(1),
+              lineHeight: 1.2,
+              outlineOffset: 2,
+              borderRadius: 5,
+              padding: theme.spacing(0.8, 2),
+              background: theme.palette.secondary.main,
+              color: theme.palette.primary.contrastText,
             }}
           >
-            <Typography variant="h4" sx={{ mr: theme.spacing(2) }}>
-              About {name}
-            </Typography>
-            <Typography
-              variant="span"
-              sx={{
-                display: "inline-flex",
-                verticalAlign: "top",
-                alignItems: "center",
-                lineHeight: 1.2,
-                outlineOffset: 2,
-                borderRadius: 5,
-                padding: theme.spacing(0.8, 2),
-                background: theme.palette.secondary.main,
-                color: theme.palette.primary.contrastText,
-              }}
-            >
-              Rank #{rank}
-            </Typography>
-          </Box>
+            Rank #{rank}
+          </Typography>
+        </Box>
 
-          {Parse(description)}
-        </CardContent>
+        {Parse(description)}
       </Card>
     </>
   );

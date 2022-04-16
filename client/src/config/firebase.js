@@ -11,6 +11,7 @@ import {
   sendPasswordResetEmail,
   updateEmail,
   updatePassword,
+  updateProfile,
 } from "firebase/auth";
 
 //2. Initialize app with the config vars
@@ -36,4 +37,5 @@ export {
   sendPasswordResetEmail,
   updateEmail,
   updatePassword,
+  updateProfile,
 };

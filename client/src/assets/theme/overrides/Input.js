@@ -1,5 +1,12 @@
 export const Input = (theme) => {
   return {
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          top: "-5px",
+        },
+      },
+    },
     MuiInputBase: {
       styleOverrides: {
         root: {
@@ -8,6 +15,7 @@ export const Input = (theme) => {
           },
         },
         input: {
+          padding: theme.spacing(1.1, 1.6),
           "&::placeholder": {
             opacity: 1,
             color: theme.palette.text.disabled,
@@ -38,6 +46,9 @@ export const Input = (theme) => {
             backgroundColor: theme.palette.action.disabledBackground,
           },
         },
+        input: {
+          padding: theme.spacing(1.1, 1.6),
+        },
         underline: {
           "&:before": {
             borderBottomColor: theme.palette.grey[500_56],
@@ -56,6 +67,9 @@ export const Input = (theme) => {
               borderColor: theme.palette.action.disabledBackground,
             },
           },
+        },
+        input: {
+          padding: theme.spacing(1.1, 1.6),
         },
       },
     },

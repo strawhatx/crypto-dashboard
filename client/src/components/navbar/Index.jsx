@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/system";
-import PropTypes from "prop-types";
 import useAuthStore from "../../stores/authentication";
 import UserMenu from "./components/UserMenu";
 import LoginMenu from "./components/LoginMenu";

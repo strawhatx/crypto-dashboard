@@ -12,7 +12,9 @@ export class AccountController {
 
     /**
      * Gets users
-     * @returns  an array of users
+     * @param req Request
+     * @param res Response
+     * @param next Next Function
      */
 
     async getUsers(req: Request, res: Response, next: NextFunction) {
@@ -28,8 +30,9 @@ export class AccountController {
 
     /**
      * Gets specified user by id
-     * @param id 
-     * @returns  User object
+     * @param req Request
+     * @param res Response
+     * @param next Next Function
      */
     async getUserById(req: Request, res: Response, next: NextFunction) {
         try {
@@ -44,8 +47,9 @@ export class AccountController {
 
     /**
      * Public route create user profile
-     * @param user 
-     * @returns response message 
+     * @param req Request
+     * @param res Response
+     * @param next Next Function
      */
     async createUser(req: Request, res: Response, next: NextFunction) {
         try {
@@ -70,21 +74,23 @@ export class AccountController {
     }
 
     /**
-     * Update User
-     * @param id 
-     * @param User 
-     * @returns  response message
-     */
+    * Update User
+    * @param req Request
+    * @param res Response
+    * @param next Next Function
+    */
     async updateUser(req: Request, res: Response, next: NextFunction) {
         try {
-            let user = {
-                _id: req.params.id,
-                displayName: req.body.displayName,
-                profileImage: req.body.profileImage,
-            }
+            let user = { _id: req.params.id };
+
+            //only assign feilds that have values
+            if (req.body.email) user = Object.assign(user, { email: req.body.email });
+
+            if (req.body.displayName) user = Object.assign(user, { displayName: req.body.displayName });
+
+            if (req.body.profileImage) user = Object.assign(user, { profileImage: req.body.profileImage });
 
             const updated = await User.findByIdAndUpdate(user._id, user);
-
 
             if (!updated) throw new Error("Update failed");
 
@@ -95,6 +101,7 @@ export class AccountController {
             throw new Error(error);
         }
     }
+
 
     /**
      * Remove User

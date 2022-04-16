@@ -7,6 +7,7 @@ import {
   sendPasswordResetEmail,
   updateEmail,
   updatePassword,
+  updateProfile,
 } from "../config/firebase";
 
 export const useAuthStore = create((set) => ({
@@ -26,6 +27,10 @@ export const useAuthStore = create((set) => ({
 
   resetPassword: (email) => {
     return sendPasswordResetEmail(auth, email);
+  },
+
+  updateDisplayName: (name) => {
+    return updateProfile(auth.currentUser, { displayName: name });
   },
 
   updateEmail: (email) => {

@@ -13,6 +13,7 @@ import "./assets/i18n";
 import Register from "./pages/Register/Index";
 import Login from "./pages/Login/Index";
 import ForgotPassword from "./pages/ForgotPassword/Index";
+import UserProfile from "./pages/profile/Index";
 
 const App = () => {
   return (
@@ -35,6 +36,11 @@ const App = () => {
             exact
             path="/signin"
             element={<Layout children={<Login />} hasNav={false} />}
+          />
+          <Route
+            exact
+            path="/my-account"
+            element={<Layout children={<UserProfile />} hasNav={true} />}
           />
           <Route
             exact

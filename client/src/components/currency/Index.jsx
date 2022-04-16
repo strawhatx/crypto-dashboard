@@ -23,13 +23,13 @@ const CurrencyView = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "left",
-          pt: theme.spacing(5.25),
+          pt: theme.spacing(12),
           pb: theme.spacing(7.3),
           bgcolor: theme.palette.primary.main,
           color: theme.palette.primary.contrastText,
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="md">
           {/**<CurrencyBreadcrumbs />*/}
           <CurrencyToolbar
             coinName={coin.name}
@@ -43,7 +43,7 @@ const CurrencyView = () => {
 
       {/** statistics */}
       <Box sx={{ mt: -8, pb: 3 }}>
-        <Container maxWidth="lg">
+        <Container maxWidth="md">
           <CurrencyInfobar
             coinMarketcap={coin.marketCap}
             coin24hVolume={coin["24hVolume"]}
@@ -55,7 +55,7 @@ const CurrencyView = () => {
 
       {/** price conveter */}
       <Box sx={{ pb: 4 }}>
-        <Container maxWidth="lg">
+        <Container maxWidth="md">
           <CurrencyPriceConverter
             coinName={coin.name}
             coinSymbol={coin.symbol}
@@ -67,7 +67,7 @@ const CurrencyView = () => {
 
       {/** about */}
       <Box sx={{ pb: 4 }}>
-        <Container maxWidth="lg">
+        <Container maxWidth="md">
           <CurrencyDescription
             name={coin.name}
             rank={coin.rank}

@@ -29,7 +29,9 @@ const NavTabs = ({ title, tabItems = [] }) => {
           mb: theme.spacing(1),
         }}
       >
-        <Typography variant="h4">{title}</Typography>
+        <Typography variant="h5" sx={{ fontWeight: 400 }}>
+          {title}
+        </Typography>
         <Box
           sx={{
             height: "38px",
