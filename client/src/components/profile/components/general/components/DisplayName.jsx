@@ -62,7 +62,6 @@ const UserProfileGeneralDisplayNameField = () => {
           />
 
           <LoadingButton
-            fullWidth
             size="large"
             type="submit"
             variant="text"
