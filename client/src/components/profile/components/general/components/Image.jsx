@@ -9,13 +9,13 @@ import {
 } from "@mui/material";
 import useAuthStore from "../../../../../stores/authentication";
 import { axios } from "../../../../../config/axios";
-import { update } from "lodash";
+import { storage, getDownloadURL, ref } from "../../../../../config/firebase";
 
 const UserProfileGeneralImage = () => {
   const theme = useTheme();
-  const [photoImg, setPhotoImg] = useState("");
+  const [photoUrl, setPhotoUrl] = useState("");
 
-  const { currentUser } = useAuthStore((state) => ({
+  const { currentUser, update } = useAuthStore((state) => ({
     currentUser: state.currentUser,
     update: state.updateImage,
   }));
@@ -25,14 +25,17 @@ const UserProfileGeneralImage = () => {
 
     let img = e.target.files[0];
 
-    update(img).then(() => {});
-    axios
-      .put("/accounts/", {
-        uid: currentUser?.uid,
-        image: img,
-      })
-      .then(() => {
-        setPhotoImg(img);
+    update(img)
+      .then(async () => {
+        const imgRef = ref(storage, `profiles/${currentUser.uid}.png`);
+        const photoURL = await getDownloadURL(imgRef);
+
+        setPhotoUrl(photoURL);
+
+        axios.put("/accounts/", {
+          uid: currentUser?.uid,
+          image: photoURL,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -40,12 +43,8 @@ const UserProfileGeneralImage = () => {
   };
 
   useEffect(() => {
-    if (currentUser) {
-      axios.get(`/accounts/image/${currentUser?.uid}`).then((response) => {
-        setPhotoImg(response.image);
-      });
-    }
-  }, [currentUser]);
+    if (currentUser) setPhotoUrl(currentUser?.photoURL ?? "");
+  }, [currentUser?.photoURL]);
 
   return (
     <>
@@ -62,7 +61,7 @@ const UserProfileGeneralImage = () => {
         </Box>
         <Box sx={{ pt: 3, alignItems: "center", display: "flex" }}>
           <Avatar
-            src={photoImg}
+            src={photoUrl}
             alt={currentUser?.displayName}
             sx={{ width: 64, height: 64, mr: 2 }}
           />

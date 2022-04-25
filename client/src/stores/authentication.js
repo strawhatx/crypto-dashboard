@@ -1,5 +1,4 @@
 import create from "zustand";
-import { axios } from "../config/axios";
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -11,7 +10,7 @@ import {
   storage,
   getDownloadURL,
   uploadBytes,
-  ref
+  ref,
 } from "../config/firebase";
 
 export const useAuthStore = create((set) => ({
@@ -37,26 +36,18 @@ export const useAuthStore = create((set) => ({
     return updateProfile(auth.currentUser, { displayName: name });
   },
 
-  updateImage: (file) => {
-      const fileRef = ref(storage, auth.currentUser.uid + '.png');
-    
-      //setLoading(true);
-      
-      const snapshot = await uploadBytes(fileRef, file);
-      const photoURL = await getDownloadURL(fileRef);
-    
-      updateProfile(auth.currentUser, {photoURL});
-      
-      //setLoading(false);
-      console.log("Uploaded file!");
+  updateImage: async (img) => {
+    const imgRef = ref(storage, `profiles/${auth.currentUser.uid}.png`);
+
+    await uploadBytes(imgRef, img);
+
+    const photoURL = await getDownloadURL(imgRef);
+
+    return updateProfile(auth.currentUser, { photoURL });
   },
 
   updateEmail: (email) => {
-    return updateEmail(auth.currentUser, email).then(async (response) => {
-      await axios.put("/accounts/", {
-        email: response.user.email,
-      });
-    });
+    return updateEmail(auth.currentUser, email);
   },
 
   updatePassword: (password) => {

@@ -32,7 +32,8 @@ const app = initializeApp(config);
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 
-const storage = getStorage();
+// Get a reference to the storage service, which is used to create references in your storage bucket
+const storage = getStorage(app);
 
 export {
   auth,
