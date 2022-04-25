@@ -14,6 +14,8 @@ import {
   updateProfile,
 } from "firebase/auth";
 
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+
 //2. Initialize app with the config vars
 const config = {
   appId: process.env.REACT_APP_APP_ID,
@@ -30,6 +32,8 @@ const app = initializeApp(config);
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 
+const storage = getStorage();
+
 export {
   auth,
   createUserWithEmailAndPassword,
@@ -38,4 +42,8 @@ export {
   updateEmail,
   updatePassword,
   updateProfile,
+  storage,
+  getDownloadURL,
+  ref,
+  uploadBytes,
 };

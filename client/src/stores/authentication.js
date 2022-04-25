@@ -8,6 +8,10 @@ import {
   updateEmail,
   updatePassword,
   updateProfile,
+  storage,
+  getDownloadURL,
+  uploadBytes,
+  ref
 } from "../config/firebase";
 
 export const useAuthStore = create((set) => ({
@@ -31,6 +35,20 @@ export const useAuthStore = create((set) => ({
 
   updateDisplayName: (name) => {
     return updateProfile(auth.currentUser, { displayName: name });
+  },
+
+  updateImage: (file) => {
+      const fileRef = ref(storage, auth.currentUser.uid + '.png');
+    
+      //setLoading(true);
+      
+      const snapshot = await uploadBytes(fileRef, file);
+      const photoURL = await getDownloadURL(fileRef);
+    
+      updateProfile(auth.currentUser, {photoURL});
+      
+      //setLoading(false);
+      console.log("Uploaded file!");
   },
 
   updateEmail: (email) => {

@@ -46,6 +46,23 @@ export class AccountController {
     }
 
     /**
+     * Gets Image for specified user by id
+     * @param req Request
+     * @param res Response
+     * @param next Next Function
+     */
+    async getUsersImageById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const user = await User.findById(req.params.id);
+
+            res.status(200).json({ image: user?.profileImage })
+        }
+        catch (error: any) {
+            throw new Error(error);
+        }
+    }
+
+    /**
      * Public route create user profile
      * @param req Request
      * @param res Response
@@ -88,7 +105,7 @@ export class AccountController {
 
             if (req.body.displayName) user = Object.assign(user, { displayName: req.body.displayName });
 
-            if (req.body.profileImage) user = Object.assign(user, { profileImage: req.body.profileImage });
+            if (req.body.image) user = Object.assign(user, { profileImage: req.body.image });
 
             const updated = await User.findByIdAndUpdate(user._id, user);
 

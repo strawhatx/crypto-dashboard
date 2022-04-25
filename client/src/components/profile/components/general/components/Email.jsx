@@ -3,20 +3,20 @@ import { Box, TextField, Button } from "@mui/material";
 import useAuthStore from "../../../../../stores/authentication";
 import { axios } from "../../../../../config/axios";
 
-const UserProfileGeneralDisplayNameField = () => {
-  const [name, setName] = useState("");
+const UserProfileGeneralEmailField = () => {
+  const [email, setEmail] = useState("");
 
   const { currentUser, update } = useAuthStore((state) => ({
     currentUser: state.currentUser,
-    update: state.updateDisplayName,
+    update: state.updateEmail,
   }));
 
   const handleSubmit = () => {
-    update(name)
+    update(email)
       .then(async () => {
         await axios.put("/accounts/", {
           uid: currentUser?.uid,
-          displayName: name,
+          email: email,
         });
       })
       .catch((error) => {
@@ -25,30 +25,30 @@ const UserProfileGeneralDisplayNameField = () => {
   };
 
   const handleChange = (e) => {
-    setName(e.target.value);
+    setEmail(e.target.value);
   };
 
   useEffect(() => {
-    if (currentUser) setName(currentUser?.displayName);
-  }, [currentUser?.displayName]);
+    if (currentUser) setEmail(currentUser?.email);
+  }, [currentUser?.email]);
 
   //the form using formik to handle the submission
   return (
     <Box sx={{ display: "flex", mt: 4, alignItems: "center", width: "100%" }}>
       <TextField
         fullWidth
-        type="text"
-        label="Display Name"
+        type="email"
+        label="Email Address"
         onInput={handleChange}
         sx={{ margin: "0px 24px 0px 0px", flexGrow: 1 }}
-        value={name}
+        value={email}
       />
 
       <Button size="large" type="submit" variant="text" onClick={handleSubmit}>
-        Save
+        Update
       </Button>
     </Box>
   );
 };
 
-export default UserProfileGeneralDisplayNameField;
+export default UserProfileGeneralEmailField;
