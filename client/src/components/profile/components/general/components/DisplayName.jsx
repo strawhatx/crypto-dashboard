@@ -32,7 +32,6 @@ const UserProfileGeneralDisplayNameField = () => {
     if (currentUser) setName(currentUser?.displayName);
   }, [currentUser?.displayName]);
 
-  //the form using formik to handle the submission
   return (
     <Box sx={{ display: "flex", mt: 4, alignItems: "center", width: "100%" }}>
       <TextField

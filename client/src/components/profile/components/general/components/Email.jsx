@@ -32,7 +32,6 @@ const UserProfileGeneralEmailField = () => {
     if (currentUser) setEmail(currentUser?.email);
   }, [currentUser?.email]);
 
-  //the form using formik to handle the submission
   return (
     <Box sx={{ display: "flex", mt: 4, alignItems: "center", width: "100%" }}>
       <TextField
