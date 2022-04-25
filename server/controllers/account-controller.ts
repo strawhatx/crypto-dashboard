@@ -81,7 +81,7 @@ export class AccountController {
     */
     async updateUser(req: Request, res: Response, next: NextFunction) {
         try {
-            let user = { _id: req.params.id };
+            let user = { _id: req.body.uid };
 
             //only assign feilds that have values
             if (req.body.email) user = Object.assign(user, { email: req.body.email });
