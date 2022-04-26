@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Avatar, Box, Button, Input, useTheme } from "@mui/material";
-import useAuthStore from "../../../../../stores/authentication";
-import { axios } from "../../../../../config/axios";
-import { storage, getDownloadURL, ref } from "../../../../../config/firebase";
+import useAuthStore from "../../../../stores/authentication";
+import { axios } from "../../../../config/axios";
+import { storage, getDownloadURL, ref } from "../../../../config/firebase";
 
 const UserProfileBasicInfoImage = () => {
   const theme = useTheme();
@@ -37,6 +37,8 @@ const UserProfileBasicInfoImage = () => {
 
   useEffect(() => {
     if (currentUser) setPhotoUrl(currentUser?.photoURL ?? "");
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser?.photoURL]);
 
   return (

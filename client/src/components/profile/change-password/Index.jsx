@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Box, Typography } from "@mui/material";
 import UserProfileChangePasswordView from "./components/ChangePassword";
 
-const UserProfileDelete = () => {
+const UserProfileChangePassword = () => {
   return (
     <Card sx={{ padding: 3, mt: 4 }}>
       <Box>
@@ -15,4 +15,4 @@ const UserProfileDelete = () => {
   );
 };
 
-export default UserProfileDelete;
+export default UserProfileChangePassword;

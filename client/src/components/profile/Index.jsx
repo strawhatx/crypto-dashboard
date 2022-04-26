@@ -3,8 +3,8 @@ import { Box, Container, Typography } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
 import UserProfileBasicInfo from "./basic-info/Index";
-import UserProfileBasicInfoImage from "./basic-info/components/Image";
 import UserProfileDelete from "./delete/Index";
+import UserProfileChangePassword from "./change-password/Index";
 
 const UserProfileView = () => {
   const theme = useTheme();
@@ -38,10 +38,10 @@ const UserProfileView = () => {
       </Box>
 
       {/** Settings */}
-      <Box sx={{ mt: -8, pb: 1 }}>
+      <Box sx={{ mt: -14, pb: 1 }}>
         <Container maxWidth="md">
           <UserProfileBasicInfo />
-
+          <UserProfileChangePassword />
           <UserProfileDelete />
         </Container>
       </Box>

@@ -30,6 +30,8 @@ const UserProfileBasicInfoDisplayNameField = () => {
 
   useEffect(() => {
     if (currentUser) setName(currentUser?.displayName);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser?.displayName]);
 
   return (

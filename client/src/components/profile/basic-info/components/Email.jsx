@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
-import useAuthStore from "../../../../../stores/authentication";
-import { axios } from "../../../../../config/axios";
+import useAuthStore from "../../../../stores/authentication";
+import { axios } from "../../../../config/axios";
 
 const UserProfileBasicInfoEmailField = () => {
   const [email, setEmail] = useState("");
@@ -30,6 +30,8 @@ const UserProfileBasicInfoEmailField = () => {
 
   useEffect(() => {
     if (currentUser) setEmail(currentUser?.email);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser?.email]);
 
   return (
