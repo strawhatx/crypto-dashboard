@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 
-const UserProfileGeneralDelete = () => {
+const UserProfileDeleteView = () => {
   const handleDelete = () => {
     // TODO: delete the user profile image in storage
     // TODO: delete the user profile in both databses
@@ -26,4 +26,4 @@ const UserProfileGeneralDelete = () => {
   );
 };
 
-export default UserProfileGeneralDelete;
+export default UserProfileDeleteView;

@@ -2,11 +2,9 @@ import React from "react";
 import { Box, Container, Typography } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
-import NavTabs from "../tabs/Index";
-import UserProfileBilling from "./components/billing/Index";
-import UserProfileGeneral from "./components/general/Index";
-import UserProfileNotifications from "./components/notifications/Index";
-import UserProfileSecurity from "./components/security/Index";
+import UserProfileBasicInfo from "./basic-info/Index";
+import UserProfileBasicInfoImage from "./basic-info/components/Image";
+import UserProfileDelete from "./delete/Index";
 
 const UserProfileView = () => {
   const theme = useTheme();
@@ -37,23 +35,15 @@ const UserProfileView = () => {
             {t("Account")}
           </Typography>
         </Container>
+      </Box>
 
-        <Box>
-          <Container maxWidth="md">
-            <NavTabs
-              title="settings"
-              tabItems={[
-                { title: "General", content: <UserProfileGeneral /> },
-                { title: "Billing", content: <UserProfileBilling /> },
-                {
-                  title: "Notifications",
-                  content: <UserProfileNotifications />,
-                },
-                { title: "Security", content: <UserProfileSecurity /> },
-              ]}
-            />
-          </Container>
-        </Box>
+      {/** Settings */}
+      <Box sx={{ mt: -8, pb: 1 }}>
+        <Container maxWidth="md">
+          <UserProfileBasicInfo />
+
+          <UserProfileDelete />
+        </Container>
       </Box>
     </>
   );

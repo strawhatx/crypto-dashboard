@@ -4,7 +4,7 @@ import useAuthStore from "../../../../../stores/authentication";
 import { axios } from "../../../../../config/axios";
 import { storage, getDownloadURL, ref } from "../../../../../config/firebase";
 
-const UserProfileGeneralImage = () => {
+const UserProfileBasicInfoImage = () => {
   const theme = useTheme();
   const [photoUrl, setPhotoUrl] = useState("");
 
@@ -71,4 +71,4 @@ const UserProfileGeneralImage = () => {
   );
 };
 
-export default UserProfileGeneralImage;
+export default UserProfileBasicInfoImage;

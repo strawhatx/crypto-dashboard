@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
-import useAuthStore from "../../../../../stores/authentication";
-import { axios } from "../../../../../config/axios";
+import useAuthStore from "../../../../stores/authentication";
+import { axios } from "../../../../config/axios";
 
-const UserProfileGeneralDisplayNameField = () => {
+const UserProfileBasicInfoDisplayNameField = () => {
   const [name, setName] = useState("");
 
   const { currentUser, update } = useAuthStore((state) => ({
@@ -50,4 +50,4 @@ const UserProfileGeneralDisplayNameField = () => {
   );
 };
 
-export default UserProfileGeneralDisplayNameField;
+export default UserProfileBasicInfoDisplayNameField;

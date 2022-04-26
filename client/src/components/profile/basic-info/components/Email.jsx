@@ -3,7 +3,7 @@ import { Box, TextField, Button } from "@mui/material";
 import useAuthStore from "../../../../../stores/authentication";
 import { axios } from "../../../../../config/axios";
 
-const UserProfileGeneralEmailField = () => {
+const UserProfileBasicInfoEmailField = () => {
   const [email, setEmail] = useState("");
 
   const { currentUser, update } = useAuthStore((state) => ({
@@ -50,4 +50,4 @@ const UserProfileGeneralEmailField = () => {
   );
 };
 
-export default UserProfileGeneralEmailField;
+export default UserProfileBasicInfoEmailField;
