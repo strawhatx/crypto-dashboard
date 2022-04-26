@@ -19,7 +19,7 @@ const UserProfileGeneral = () => {
         <UserProfileGeneralEmailField />
       </Card>
 
-      <Card sx={{ padding: 3 }}>
+      <Card sx={{ padding: 3, mt: 4 }}>
         <Box>
           <Typography component="h5" sx={{ fontWeight: 600 }}>
             Delete Account
