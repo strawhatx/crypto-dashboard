@@ -14,8 +14,8 @@ const WatchlistView = () => {
       <Box
         className="hero"
         sx={{
-          pt: theme.spacing(20),
-          pb: theme.spacing(20),
+          pt: theme.spacing(12),
+          pb: theme.spacing(15),
           bgcolor: theme.palette.primary.main,
           color: theme.palette.primary.contrastText,
         }}
@@ -36,7 +36,7 @@ const WatchlistView = () => {
       </Box>
 
       {/**Currencies */}
-      <Box sx={{ mt: -8, pb: 1 }}>
+      <Box sx={{ mt: -14, pb: 1 }}>
         <Container maxWidth="md">
           <WatchlistTable />
         </Container>

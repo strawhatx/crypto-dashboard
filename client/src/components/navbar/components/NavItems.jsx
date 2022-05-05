@@ -21,7 +21,6 @@ const NavbarNavItems = () => {
   const authItems = [
     { name: "Home", url: "/" },
     { name: "Currencies", url: "/currencies" },
-    { name: "Portfolio", url: "/portfolios" },
     { name: "Watchlist", url: "/watchlists" },
     { name: "My Account", url: "/my-account" },
   ];

@@ -18,6 +18,7 @@ import {
   TextField,
   Pagination,
   Avatar,
+  Button,
 } from "@mui/material";
 import { useWatchlistsHook } from "../../../hooks/watchlists/watchlists";
 
@@ -43,23 +44,11 @@ const WatchlistTable = () => {
               justifyContent: "space-between",
             }}
           >
-            {" "}
-            <Typography
-              variant="p"
-              component="span"
-              sx={{
-                fontSize: `large`,
-                fontWeight: theme.typography.fontWeightMedium,
-                textAlign: { xs: "center", sm: "left" },
-                px: theme.spacing(2.5),
-                py: theme.spacing(1),
-              }}
-            >
-              {t("Cryptocurrency Prices by Rank")}
-            </Typography>
+            <Button variant="contained">Add to Watchlist</Button>
+
             <TextField
               label="Search"
-              size="small"
+              type="text"
               onChange={(e) => setSearch(e.target.value)}
             />
           </Box>

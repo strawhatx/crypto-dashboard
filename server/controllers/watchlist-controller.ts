@@ -24,20 +24,20 @@ export class WatchlistController {
 
             const coins = await Watchlist.find({ userId: req.params.uid, coinName: search }).skip(offset).limit(size);
 
-            if (coins.length <= 0) {
+            if (coins.length > 0) {
+                for (let i = 0; i < coins.length; i++) {
+                    if (i > 0) queryString += "&";
+
+                    queryString += `uuids[]=${coins[i].coinId}`
+                }
+
+                const response = await coins_api.get(`/coins?${queryString}`);
+
+                res.status(200).json(response.data);
+            }
+            else {
                 res.status(200);
-                return next();
             }
-
-            for (let i = 0; i < coins.length; i++) {
-                if (i > 0) queryString += "&";
-
-                queryString += `uuids[]=${coins[i].coinId}`
-            }
-
-            const response = await coins_api.get(`/coins?${queryString}`);
-
-            res.status(200).json(response.data)
         }
         catch (error) {
             console.log(error)
