@@ -23,8 +23,8 @@ const CurrencyView = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "left",
-          pt: theme.spacing(12),
-          pb: theme.spacing(7.3),
+          pt: theme.spacing(20),
+          pb: theme.spacing(15),
           bgcolor: theme.palette.primary.main,
           color: theme.palette.primary.contrastText,
         }}

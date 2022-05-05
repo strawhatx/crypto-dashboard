@@ -19,13 +19,13 @@ import {
   Pagination,
   Avatar,
 } from "@mui/material";
-import { useCurrenciesHook } from "../../../hooks/currencies/currencies";
+import { useWatchlistsHook } from "../../../hooks/watchlists/watchlists";
 
-const CurrenciesTable = () => {
+const WatchlistTable = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
-  const { error, coins, total, size } = useCurrenciesHook(page, search);
+  const { error, coins, total, size } = useWatchlistsHook(page, search);
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -43,6 +43,7 @@ const CurrenciesTable = () => {
               justifyContent: "space-between",
             }}
           >
+            {" "}
             <Typography
               variant="p"
               component="span"
@@ -58,7 +59,7 @@ const CurrenciesTable = () => {
             </Typography>
             <TextField
               label="Search"
-              type="text"
+              size="small"
               onChange={(e) => setSearch(e.target.value)}
             />
           </Box>
@@ -226,4 +227,4 @@ const CurrenciesTable = () => {
   );
 };
 
-export default CurrenciesTable;
+export default WatchlistTable;

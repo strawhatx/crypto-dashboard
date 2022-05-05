@@ -8,6 +8,7 @@ import { Connection } from "./connect"
 import { AccountRoutes } from "../routes/account-routes";
 import { CoinRoutes } from "../routes/coin-routes";
 import { AppCurrencyRoutes } from "../routes/app-currency-routes";
+import { WatchlistRoutes } from "../routes/watchlist-routes";
 
 export class Server {
     public app: express.Application;
@@ -29,7 +30,8 @@ export class Server {
     public routes(): void {
         this.app.use("/api/accounts", AccountRoutes);
         this.app.use("/api/coins", CoinRoutes);
-        this.app.use("/api/app-currency", AppCurrencyRoutes)
+        this.app.use("/api/app-currency", AppCurrencyRoutes);
+        this.app.use("/api/watchlists", WatchlistRoutes);
     }
 
     /** 

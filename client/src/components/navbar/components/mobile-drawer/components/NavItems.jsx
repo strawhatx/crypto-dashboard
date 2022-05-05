@@ -28,12 +28,12 @@ const MobileDrawerNavItems = () => {
   const publicItems = [
     { name: "Home", url: "/" },
     { name: "Currencies", url: "/currencies" },
-    { name: "Portfolio", url: "/portfolios" },
-    { name: "Watchlist", url: "/watchlists" },
   ];
 
   useEffect(() => {
     setNavItems(!!currentUser ? authItems : publicItems);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
   return navItems.map((item) => {

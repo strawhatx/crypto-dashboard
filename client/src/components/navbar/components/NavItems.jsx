@@ -1,23 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "@mui/system";
 import { Link } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { matchPath, useLocation } from "react-router-dom";
+import useAuthStore from "../../../stores/authentication";
 
 const NavbarNavItems = () => {
+  const [navItems, setNavItems] = useState([]);
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const theme = useTheme();
 
+  const { currentUser } = useAuthStore((state) => ({
+    currentUser: state.currentUser,
+  }));
+
   const match = (path) =>
     path ? !!matchPath({ path, exact: true }, pathname) : false;
 
-  const navItems = [
+  const authItems = [
     { name: "Home", url: "/" },
     { name: "Currencies", url: "/currencies" },
     { name: "Portfolio", url: "/portfolios" },
     { name: "Watchlist", url: "/watchlists" },
+    { name: "My Account", url: "/my-account" },
   ];
+
+  const publicItems = [
+    { name: "Home", url: "/" },
+    { name: "Currencies", url: "/currencies" },
+  ];
+
+  useEffect(() => {
+    setNavItems(!!currentUser ? authItems : publicItems);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
 
   return navItems.map((item, index) => {
     const isActive = match(item.url);

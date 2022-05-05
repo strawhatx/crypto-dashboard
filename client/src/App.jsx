@@ -5,15 +5,15 @@ import theme from "./assets/theme";
 import Home from "./pages/home/Index";
 import Currencies from "./pages/currencies/Index";
 import CurrencyDetail from "./pages/currencies/Details";
-import Portfolio from "./pages/portfolio/Index";
 import Layout from "./components/Layout";
+import Register from "./pages/rregister/Index";
+import Login from "./pages/llogin/Index";
+import ForgotPassword from "./pages/forgot-password/Index";
+import UserProfile from "./pages/profile/Index";
+import Watchlists from "./pages/watchlist/Index";
 import { GlobalStyles } from "./assets/theme/base/globalStyles";
 
 import "./assets/i18n";
-import Register from "./pages/Register/Index";
-import Login from "./pages/Login/Index";
-import ForgotPassword from "./pages/ForgotPassword/Index";
-import UserProfile from "./pages/profile/Index";
 
 const App = () => {
   return (
@@ -56,8 +56,8 @@ const App = () => {
             element={<Layout children={<CurrencyDetail />} hasNav={true} />}
           />
           <Route
-            path="/portfolios"
-            element={<Layout children={<Portfolio />} hasNav={true} />}
+            path="/watchlists"
+            element={<Layout children={<Watchlists />} hasNav={true} />}
           />
         </Routes>
       </ThemeProvider>
