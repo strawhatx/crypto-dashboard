@@ -51,7 +51,6 @@ const LanguageMenu = () => {
   return (
     <>
       <BasicDialog
-        btnTitle={selected}
         title="Select a language"
         type="language"
         open={isOpen}

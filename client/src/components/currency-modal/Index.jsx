@@ -16,10 +16,6 @@ const CurrencyMenu = () => {
   const { total, size, popularCurrencies, allCurrencies } =
     useCurrencyReferencesHook(page, search);
 
-  const { selected } = useCurrencyStore((state) => ({
-    selected: state.currency.symbol,
-  }));
-
   const { isOpen, setOpen } = useModalStore((state) => ({
     isOpen: state.isCurrenciesOpen,
     setOpen: state.setIsCurrenciesOpen,
@@ -28,7 +24,6 @@ const CurrencyMenu = () => {
   return (
     <>
       <BasicDialog
-        btnTitle={selected}
         title="Select a currency"
         type="currency"
         open={isOpen}

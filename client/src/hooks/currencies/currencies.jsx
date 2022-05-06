@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import { axios } from "../../config/axios";
 import _axios from "axios";
 
-export const useCurrenciesHook = (page = 1, search) => {
+export const useCurrenciesHook = (page = 1, search, size = 30) => {
   const [error, setError] = useState(false);
   const [total, setTotal] = useState(0);
   const [coins, setCoins] = useState([]);
-  const size = 30;
 
   const fetchCoins = async () => {
     let cancel;
@@ -33,7 +32,7 @@ export const useCurrenciesHook = (page = 1, search) => {
     fetchCoins();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, search]);
+  }, [page, search, size]);
 
   return { error, coins, total, size };
 };

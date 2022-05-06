@@ -21,6 +21,7 @@ import {
   Button,
 } from "@mui/material";
 import { useWatchlistsHook } from "../../../hooks/watchlists/watchlists";
+import WatchlistAddCoin from "./add-coins/Index";
 
 const WatchlistTable = () => {
   const [page, setPage] = useState(1);
@@ -44,7 +45,7 @@ const WatchlistTable = () => {
               justifyContent: "space-between",
             }}
           >
-            <Button variant="contained">Add to Watchlist</Button>
+            <WatchlistAddCoin />
 
             <TextField
               label="Search"
