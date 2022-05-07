@@ -46,7 +46,7 @@ export class WatchlistController {
     }
 
     /**
-     * Public route create user profile
+     * Public route watchlist single
      * @param req Request
      * @param res Response
      * @param next Next Function
@@ -63,6 +63,40 @@ export class WatchlistController {
             const created = await Watchlist.create(watchlist);
 
             if (!created) throw new Error("Create failed");
+
+            res.status(201).json({
+                message: "Create successful",
+            });
+        }
+        catch (error: any) {
+            throw new Error(error);
+        }
+    }
+
+    /**
+    * Public route watchlist many
+    * @param req Request
+    * @param res Response
+    * @param next Next Function
+    */
+    async addManyToWatchlist(req: Request, res: Response, next: NextFunction) {
+        try {
+            const arr = req.body.watchlists;
+
+            for (let i = 0; i < arr.length; i++) {
+                let watchlist = {
+                    _id: "",
+                    userId: arr[i].uid,
+                    coinId: arr[i].cuuid,
+                    coinName: arr[i].name
+                }
+
+                const created = await Watchlist.create(watchlist);
+
+                if (!created) throw new Error("Create failed");
+            }
+
+
 
             res.status(201).json({
                 message: "Create successful",

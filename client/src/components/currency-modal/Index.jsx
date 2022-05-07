@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "@mui/system";
 import { Box, TextField } from "@mui/material";
-import { useCurrencyStore, useModalStore } from "../../stores/app-settings";
+import { useModalStore } from "../../stores/app-settings";
 import { useCurrencyReferencesHook } from "../../hooks/currency/currency-references";
 import BasicDialog from "../dialog/Index";
 import CurrencyMenuPopularGrid from "./components/PopularGrid";

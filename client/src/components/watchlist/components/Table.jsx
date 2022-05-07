@@ -18,7 +18,6 @@ import {
   TextField,
   Pagination,
   Avatar,
-  Button,
 } from "@mui/material";
 import { useWatchlistsHook } from "../../../hooks/watchlists/watchlists";
 import WatchlistAddCoin from "./add-coins/Index";
@@ -27,7 +26,7 @@ const WatchlistTable = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
-  const { error, coins, total, size } = useWatchlistsHook(page, search);
+  const { coins, total, size } = useWatchlistsHook(page, search);
 
   const navigate = useNavigate();
   const { t } = useTranslation();

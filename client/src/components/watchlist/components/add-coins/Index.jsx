@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material";
+import { Box, Button, TextField, useTheme } from "@mui/material";
 import { useCurrenciesHook } from "../../../../hooks/currencies/currencies";
 import WatchlistAddCoinsList from "./components/List";
+import BasicDialog from "../../../dialog/Index";
 
 const WatchlistAddCoin = () => {
-  const [open, setOpen] = useState("");
-  const [page, setPage] = useState(1);
+  const [open, setOpen] = useState(false);
+  const page = 1;
   const [search, setSearch] = useState("");
   const theme = useTheme();
 
@@ -16,6 +17,7 @@ const WatchlistAddCoin = () => {
       <Button
         color="primary"
         aria-label="add to watchlist"
+        variant="contained"
         onClick={() => setOpen(true)}
       >
         Add to Watchlist
@@ -26,9 +28,13 @@ const WatchlistAddCoin = () => {
         type="language"
         open={open}
         setOpen={setOpen}
+        size="xs"
         children={
           <Box sx={{ pb: theme.spacing(5) }}>
-            <Box classNames="search" sx={{ mb: theme.spacing(4) }}>
+            <Box
+              classNames="search"
+              sx={{ mb: theme.spacing(4), justifyContent: "center" }}
+            >
               <TextField
                 label="Search"
                 size="small"
