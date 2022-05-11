@@ -3,14 +3,19 @@ import { Box, Button, TextField, useTheme } from "@mui/material";
 import { useCurrenciesHook } from "../../../../hooks/currencies/currencies";
 import WatchlistAddCoinsList from "./components/List";
 import BasicDialog from "../../../dialog/Index";
+import { useWatchlistStore } from "../../../../stores/app-settings";
 
 const WatchlistAddCoin = () => {
-  const [open, setOpen] = useState(false);
   const page = 1;
   const [search, setSearch] = useState("");
   const theme = useTheme();
 
   const { coins } = useCurrenciesHook(page, search, 6);
+
+  const { isAddOpen, setIsAddOpen } = useWatchlistStore((state) => ({
+    isAddOpen: state.isAddOpen,
+    setIsAddOpen: state.setIsAddOpen,
+  }));
 
   return (
     <>
@@ -18,7 +23,7 @@ const WatchlistAddCoin = () => {
         color="primary"
         aria-label="add to watchlist"
         variant="contained"
-        onClick={() => setOpen(true)}
+        onClick={() => setIsAddOpen(true)}
       >
         Add to Watchlist
       </Button>
@@ -26,11 +31,11 @@ const WatchlistAddCoin = () => {
       <BasicDialog
         title="Select a coin"
         type="language"
-        open={open}
-        setOpen={setOpen}
+        open={isAddOpen}
+        setOpen={setIsAddOpen}
         size="xs"
         children={
-          <Box sx={{ pb: theme.spacing(5) }}>
+          <Box>
             <Box
               classNames="search"
               sx={{ mb: theme.spacing(4), justifyContent: "center" }}
@@ -42,7 +47,7 @@ const WatchlistAddCoin = () => {
                 onChange={(e) => setSearch(e.target.value)}
               />
             </Box>
-            <WatchlistAddCoinsList currencies={coins} />
+            <WatchlistAddCoinsList currencies={coins} setOpen={setIsAddOpen} />
           </Box>
         }
       />

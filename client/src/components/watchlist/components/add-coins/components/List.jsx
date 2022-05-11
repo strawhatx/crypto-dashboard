@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { axios } from "../../../../../config/axios";
 import useAuthStore from "../../../../../stores/authentication";
+import { useWatchlistStore } from "../../../../../stores/app-settings";
 
 const WatchlistAddCoinsList = ({ currencies }) => {
   const [checked, setChecked] = React.useState([]);
@@ -21,13 +22,20 @@ const WatchlistAddCoinsList = ({ currencies }) => {
     currentUser: state.currentUser,
   }));
 
+  const { setIsAddOpen, setResetNum } = useWatchlistStore((state) => ({
+    setIsAddOpen: state.setIsAddOpen,
+    setResetNum: state.setResetNum,
+  }));
+
   const handleSubmit = async () => {
     await axios
-      .post("/watchlists/many", {
+      .post("/watchlists/addmany", {
         coins: checked,
       })
       .then(async () => {
         setChecked([]);
+        setResetNum();
+        setIsAddOpen(false);
       })
       .catch((error) => {
         console.log(error);
@@ -87,19 +95,25 @@ const WatchlistAddCoinsList = ({ currencies }) => {
         })}
       </List>
 
-      {checked?.map((value, index) => {
-        const coin = currencies.find((coin) => coin.name === value);
+      {checked?.map((coin, index) => {
         return (
           <Chip
             key={index}
-            avatar={<Avatar alt={coin?.name} src={coin?.iconUrl} />}
-            label={value}
-            onDelete={handleToggle(value)}
+            sx={{ mt: 0.5, mr: 0.5 }}
+            avatar={<Avatar alt={coin?.name} src={coin?.url} />}
+            label={coin.name}
+            onDelete={handleToggle(coin)}
           />
         );
       })}
 
-      <Button fullwidth variant="contained" onClick={handleSubmit}>
+      <Button
+        fullWidth
+        size="large"
+        variant="contained"
+        sx={{ mt: 2 }}
+        onClick={handleSubmit}
+      >
         Add {checked?.length} Coins
       </Button>
     </>

@@ -24,3 +24,11 @@ export const useModalStore = create((set) => ({
   setIsLanguagesOpen: (value = false) => set({ isLanguagesOpen: value }),
   setIsMobileDrawerOpen: (value = false) => set({ isMobileDrawerOpen: value }),
 }));
+
+export const useWatchlistStore = create((set, get) => ({
+  isAddOpen: false,
+  resetNum: 0,
+
+  setIsAddOpen: (value = false) => set({ isAddOpen: value }),
+  setResetNum: () => set((state) => ({ resetNum: state.resetNum + 1 })),
+}));

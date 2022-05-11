@@ -21,12 +21,17 @@ import {
 } from "@mui/material";
 import { useWatchlistsHook } from "../../../hooks/watchlists/watchlists";
 import WatchlistAddCoin from "./add-coins/Index";
+import { useWatchlistStore } from "../../../stores/app-settings";
 
 const WatchlistTable = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
-  const { coins, total, size } = useWatchlistsHook(page, search);
+  const { resetNum } = useWatchlistStore((state) => ({
+    resetNum: state.resetNum,
+  }));
+
+  const { coins, total, size } = useWatchlistsHook(page, search, resetNum);
 
   const navigate = useNavigate();
   const { t } = useTranslation();

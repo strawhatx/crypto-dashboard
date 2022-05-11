@@ -3,7 +3,7 @@ import { axios } from "../../config/axios";
 import _axios from "axios";
 import useAuthStore from "../../stores/authentication";
 
-export const useWatchlistsHook = (page = 1, search) => {
+export const useWatchlistsHook = (page = 1, search, num) => {
   const [error, setError] = useState(false);
   const [total, setTotal] = useState(0);
   const [coins, setCoins] = useState([]);
@@ -19,7 +19,7 @@ export const useWatchlistsHook = (page = 1, search) => {
     axios({
       method: "POST",
       url: "watchlists/search",
-      data: { page, size, search, uid: currentUser.uid },
+      data: { page, size, search, uid: currentUser.uid, num },
       cancelToken: new _axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
@@ -40,7 +40,7 @@ export const useWatchlistsHook = (page = 1, search) => {
     fetchCoins();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, search, currentUser?.uid]);
+  }, [page, search, currentUser?.uid, num]);
 
   return { error, coins, total, size };
 };

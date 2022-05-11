@@ -1,11 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import { StarOutline } from "@mui/icons-material";
 import PropTypes from "prop-types";
 import { Avatar, Box, Button } from "@mui/material";
 import { useTheme } from "@mui/system";
+import useAuthStore from "../../../stores/authentication";
+import { axios } from "../../../config/axios";
+import { useCurrencyWatchlist } from "../../../hooks/currency/currency-watchlist";
 
-const CurrencyToolbar = ({ coinName, coinSymbol, coinIconUrl }) => {
+const CurrencyToolbar = ({ coinId, coinName, coinSymbol, coinIconUrl }) => {
   const theme = useTheme();
+
+  const { currentUser } = useAuthStore((state) => ({
+    currentUser: state.currentUser,
+  }));
+
+  const { checked, setChecked } = useCurrencyWatchlist(coinId);
+
+  const handleToggle = async () => {
+    if (checked) {
+      await handleAdd();
+    } else {
+      handleRemove();
+    }
+  };
+
+  const handleAdd = async () => {
+    await axios
+      .post("/watchlists/add", {
+        userId: currentUser.uid,
+        coinId,
+        coinName,
+      })
+      .then(async () => {
+        setChecked(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleRemove = async () => {
+    await axios
+      .delete("/watchlists/", {
+        userId: currentUser.uid,
+        coinId,
+      })
+      .then(async () => {
+        setChecked(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -60,13 +106,16 @@ const CurrencyToolbar = ({ coinName, coinSymbol, coinIconUrl }) => {
             </Box>
           </Box>
 
-          <Button
-            color="inherit"
-            size="medium"
-            startIcon={<StarOutline fontSize="large" htmlColor="inherit" />}
-            aria-label="watchlist"
-            variant="text"
-          ></Button>
+          {currentUser && (
+            <Button
+              color="inherit"
+              size="medium"
+              startIcon={<StarOutline fontSize="large" htmlColor="inherit" />}
+              aria-label="watchlist"
+              variant="text"
+              onClick={handleToggle}
+            ></Button>
+          )}
         </Box>
       </Box>
     </>
@@ -74,6 +123,7 @@ const CurrencyToolbar = ({ coinName, coinSymbol, coinIconUrl }) => {
 };
 
 CurrencyToolbar.propTypes = {
+  coinId: PropTypes.string,
   coinName: PropTypes.string,
   coinSymbol: PropTypes.string,
   coinIconUrl: PropTypes.string,

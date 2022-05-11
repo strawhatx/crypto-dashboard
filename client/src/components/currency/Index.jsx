@@ -32,6 +32,7 @@ const CurrencyView = () => {
         <Container maxWidth="md">
           {/**<CurrencyBreadcrumbs />*/}
           <CurrencyToolbar
+            coinId={coin.uuid}
             coinName={coin.name}
             coinSymbol={coin.symbol}
             coinIconUrl={coin.iconUrl}

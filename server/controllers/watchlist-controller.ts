@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
+import { Types } from "mongoose";
 import { coins_api } from "../config/axios";
-import { GET_WATCHLIST_COINS_EXCEPTION_MESSAGE } from "../messages/watchlist";
+import { GET_WATCHLIST_COINS_EXCEPTION_MESSAGE, GET_WATCHLIST_COIN_EXCEPTION_MESSAGE } from "../messages/watchlist";
 import Watchlist from "../models/watchlist";
 
 /**
@@ -11,6 +12,27 @@ export class WatchlistController {
     constructor() { }
 
     /**
+    * TODO: get watchlist with search and filter
+    * @param req 
+    * @param res 
+    * @param next 
+    */
+    async getWatchlistItemById(req: Request, res: Response, next: NextFunction) {
+        try {
+            let result = false;
+            const coin = await Watchlist.find({ coinId: req.params.id });
+
+            if (coin) result = true;
+
+            res.status(200).json({ result: result });
+        }
+        catch (error) {
+            console.log(error)
+            res.status(500).json({ error: GET_WATCHLIST_COIN_EXCEPTION_MESSAGE })
+        }
+    }
+
+    /**
      * TODO: get watchlist with search and filter
      * @param req 
      * @param res 
@@ -18,11 +40,14 @@ export class WatchlistController {
      */
     async searchWatchlist(req: Request, res: Response, next: NextFunction) {
         try {
-            let page = req.body.page, size = req.body.size, search = req.body.search?.trim();
+            let page = req.body.page, size = req.body.size, queryString = "";
             let offset = (page - 1) * size;
-            let queryString = "";
 
-            const coins = await Watchlist.find({ userId: req.params.uid, coinName: search }).skip(offset).limit(size);
+            let filters = { userId: req.body.uid };
+            //only assign feilds that have values
+            if (req.body.search) filters = Object.assign(filters, { coinName: { $regex: `.*${req.body.search.toUpperCase().trim()}.*` } });
+
+            const coins = await Watchlist.find(filters).skip(offset).limit(size);
 
             if (coins.length > 0) {
                 for (let i = 0; i < coins.length; i++) {
@@ -54,10 +79,10 @@ export class WatchlistController {
     async addToWatchlist(req: Request, res: Response, next: NextFunction) {
         try {
             let watchlist = {
-                _id: "",
+                _id: new Types.ObjectId(),
                 userId: req.body.uid,
                 coinId: req.body.coinId,
-                coinName: req.body.coinName
+                coinName: req.body.coinName.toUpperCase()
             }
 
             const created = await Watchlist.create(watchlist);
@@ -81,22 +106,25 @@ export class WatchlistController {
     */
     async addManyToWatchlist(req: Request, res: Response, next: NextFunction) {
         try {
-            const arr = req.body.watchlists;
+            const arr = req.body.coins;
+            const watchlists = [];
 
             for (let i = 0; i < arr.length; i++) {
-                let watchlist = {
-                    _id: "",
+                const coin = await Watchlist.findOne({ userId: arr[i].uid, coinId: arr[i].cuuid });
+
+                if (coin) continue;
+
+                watchlists.push({
+                    _id: new Types.ObjectId(),
                     userId: arr[i].uid,
                     coinId: arr[i].cuuid,
-                    coinName: arr[i].name
-                }
-
-                const created = await Watchlist.create(watchlist);
-
-                if (!created) throw new Error("Create failed");
+                    coinName: arr[i].name.toUpperCase()
+                });
             }
 
+            const created = await Watchlist.create(watchlists);
 
+            if (!created) throw new Error("Create failed");
 
             res.status(201).json({
                 message: "Create successful",
