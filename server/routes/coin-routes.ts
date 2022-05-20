@@ -7,6 +7,7 @@ const routes = new CoinController();
 
 //router.get("/", CheckAuth, routes.getUsers);
 router.get("/trending", routes.getTrendingCoins);
+router.get("/popular", routes.getPopularCoins);
 router.get("/:id", routes.getCoinById);
 router.post("/history", routes.getHistoryByCoinId);
 router.post("/search", routes.searchCoins);

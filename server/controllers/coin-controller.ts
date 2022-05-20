@@ -29,6 +29,24 @@ export class CoinController {
     }
 
     /**
+     * Gets top performing coins top 10
+     * @param req 
+     * @param res 
+     * @param next 
+     */
+    async getPopularCoins(req: Request, res: Response, next: NextFunction) {
+        try {
+            const response = await coins_api.get("/coins?limit=5");
+
+            res.status(200).json(response.data)
+        }
+        catch (error) {
+            console.log(error)
+            res.status(500).json({ error: GET_TRENDING_COINS_EXCEPTION_MESSAGE })
+        }
+    }
+
+    /**
      * Gets specified coin by uuid
      * @param req 
      * @param res 

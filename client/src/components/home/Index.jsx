@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Container } from "@mui/material";
 import { useTheme } from "@mui/system";
 import HomeHero from "./components/hero/Index";
+import HomeMarket from "./components/market/Index";
 
 const HomeView = () => {
   const theme = useTheme();
@@ -57,9 +58,9 @@ const HomeView = () => {
         </Box>
       </Box>
 
-      {/**Currencies */}
-      <Box sx={{ mt: -8, pb: 1 }}>
-        <Container maxWidth="md"></Container>
+      {/**Market */}
+      <Box className="market">
+        <HomeMarket />
       </Box>
     </>
   );

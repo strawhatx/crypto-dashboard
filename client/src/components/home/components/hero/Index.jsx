@@ -23,7 +23,7 @@ const HomeHero = () => {
         <Grid item xs={12} sm={6} sx={{ zIndex: 1 }}>
           <Box>
             <Typography
-              variant="h1"
+              variant="h2"
               component="div"
               sx={{
                 textAlign: "left",
