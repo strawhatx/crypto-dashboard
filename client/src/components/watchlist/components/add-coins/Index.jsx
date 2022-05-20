@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, TextField, useTheme } from "@mui/material";
 import { useCurrenciesHook } from "../../../../hooks/currencies/currencies";
 import WatchlistAddCoinsList from "./components/List";
-import BasicDialog from "../../../dialog/Index";
+import BasicDialog from "../../../dialog/basic/Index";
 import { useWatchlistStore } from "../../../../stores/app-settings";
 
 const WatchlistAddCoin = () => {

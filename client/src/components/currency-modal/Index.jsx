@@ -3,7 +3,7 @@ import { useTheme } from "@mui/system";
 import { Box, TextField } from "@mui/material";
 import { useModalStore } from "../../stores/app-settings";
 import { useCurrencyReferencesHook } from "../../hooks/currency/currency-references";
-import BasicDialog from "../dialog/Index";
+import BasicDialog from "../dialog/basic/Index";
 import CurrencyMenuPopularGrid from "./components/PopularGrid";
 import CurrencyMenuAllGrid from "./components/AllGrid";
 import CurrencyMenuNoResults from "./components/NoResults";

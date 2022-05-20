@@ -4,7 +4,7 @@ import { useLanguageStore, useModalStore } from "../../stores/app-settings";
 import { Box, TextField } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useTranslation } from "react-i18next";
-import BasicDialog from "../dialog/Index";
+import BasicDialog from "../dialog/basic/Index";
 import LanguageMenuPopularGrid from "./components/PopularGrid";
 import LanguageMenuNoResults from "./components/NoResults";
 import LanguageMenuAllGrid from "./components/AllGrid";
