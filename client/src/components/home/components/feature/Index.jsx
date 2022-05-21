@@ -1,20 +1,17 @@
 import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 import { useTheme } from "@mui/system";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import HomeFeatureBlocks from "./components/Blocks";
 
-const HomeMarket = () => {
+const HomeFeature = () => {
   const theme = useTheme();
-  const { t } = useTranslation();
-  const navigate = useNavigate();
 
   return (
     <Container
-      maxWidth="md"
+      maxWidth="lg"
       sx={{
-        pt: theme.spacing(22),
-        pb: theme.spacing(15),
+        pt: theme.spacing(16),
+        pb: theme.spacing(4),
       }}
     >
       <Box>
@@ -23,16 +20,32 @@ const HomeMarket = () => {
           component="div"
           sx={{
             textAlign: "center",
-            pb: theme.spacing(1),
+            pb: theme.spacing(2),
           }}
         >
-          {t("Boost up with Our Great Features")}
+          Boost up with Our <br />
+          Great Features
+        </Typography>
+      </Box>
+      <Box>
+        <Typography
+          variant="p"
+          component="div"
+          sx={{
+            textAlign: "center",
+            pb: theme.spacing(8),
+            fontSize: 22,
+          }}
+        >
+          crypto came into being clear vision to become a global leader
         </Typography>
       </Box>
 
-      <Box sx={{ mb: 4 }}></Box>
+      <Box sx={{ mb: 4 }}>
+        <HomeFeatureBlocks />
+      </Box>
     </Container>
   );
 };
 
-export default HomeMarket;
+export default HomeFeature;

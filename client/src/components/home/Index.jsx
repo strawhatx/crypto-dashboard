@@ -3,6 +3,7 @@ import { Box, Container } from "@mui/material";
 import { useTheme } from "@mui/system";
 import HomeHero from "./components/hero/Index";
 import HomeMarket from "./components/market/Index";
+import HomeFeature from "./components/feature/Index";
 
 const HomeView = () => {
   const theme = useTheme();
@@ -61,6 +62,11 @@ const HomeView = () => {
       {/**Market */}
       <Box className="market">
         <HomeMarket />
+      </Box>
+
+      {/**Market */}
+      <Box className="feature">
+        <HomeFeature />
       </Box>
     </>
   );

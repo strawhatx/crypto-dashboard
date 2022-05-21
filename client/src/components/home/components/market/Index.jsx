@@ -15,8 +15,8 @@ const HomeMarket = () => {
     <Container
       maxWidth="md"
       sx={{
-        pt: theme.spacing(22),
-        pb: theme.spacing(15),
+        pt: theme.spacing(16),
+        pb: theme.spacing(4),
       }}
     >
       <Box>
@@ -62,13 +62,13 @@ const HomeMarket = () => {
           onClick={() => navigate("/currencies")}
           endIcon={<Forward30Outlined />}
           sx={{
-            backgroundColor: theme.palette.grey[300],
-            color: "black",
+            backgroundColor: theme.palette.primary.main,
+
             borderRadius: 5,
 
             boxShadow: "0 8px 13px #00000040",
             "&:hover": {
-              backgroundColor: theme.palette.grey[500],
+              backgroundColor: theme.palette.light,
             },
           }}
         >

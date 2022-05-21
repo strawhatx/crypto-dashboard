@@ -35,7 +35,7 @@ const HomeMarketCurrenciesTable = () => {
               height: 50,
 
               "& th": { border: 0, backgroundColor: theme.palette.grey[200] },
-              "& th:first-child": {
+              "& th:first-of-type": {
                 borderRadius: "10px 0 0 10px",
               },
 
