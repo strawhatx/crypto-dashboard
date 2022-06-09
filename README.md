@@ -8,9 +8,13 @@ Crypto Tracker Dashboard makes it easy for you to collect, store, analyze, visua
 > React
 >
 > Mongo DB
+> 
+> Coin Ranking Api
 
 ## Requirements
   > install `MONGODB`
+  >
+  > Coin Rainking Api Key
 
 ## App Start
 
