@@ -17,3 +17,5 @@ Crypto Tracker Dashboard makes it easy for you to collect, store, analyze, visua
   > Development: From the base of the app run `npm run dev`. 
   >
   > Production: From the base of the app run `npm run start`.
+
+## Status `75`
